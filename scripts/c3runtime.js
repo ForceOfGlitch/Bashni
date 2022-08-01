@@ -3171,8 +3171,8 @@ this._gpuTimeStartFrame;frameNumber<this._gpuTimeEndFrame;++frameNumber)this._we
 if(this._snapshotPromise)return this._snapshotPromise;this._snapshotPromise=new Promise(resolve=>{this._snapshotResolve=resolve});return this._snapshotPromise}_MaybeTakeSnapshot(){if(!this._snapshotFormat)return;let canvas=this._canvas;const snapArea=this._snapshotArea;const x=C3.clamp(Math.floor(snapArea.getLeft()),0,canvas.width);const y=C3.clamp(Math.floor(snapArea.getTop()),0,canvas.height);let w=snapArea.width();if(w===0)w=canvas.width-x;else w=C3.clamp(Math.floor(w),0,canvas.width-x);let h=
 snapArea.height();if(h===0)h=canvas.height-y;else h=C3.clamp(Math.floor(h),0,canvas.height-y);if((x!==0||y!==0||w!==canvas.width||h!==canvas.height)&&(w>0&&h>0)){canvas=C3.CreateCanvas(w,h);const ctx=canvas.getContext("2d");ctx.drawImage(this._canvas,x,y,w,h,0,0,w,h)}C3.CanvasToBlob(canvas,this._snapshotFormat,this._snapshotQuality).then(blob=>{this._snapshotUrl=URL.createObjectURL(blob);this._snapshotPromise=null;this._snapshotResolve(this._snapshotUrl)});this._snapshotFormat="";this._snapshotQuality=
 1}GetCanvasSnapshotUrl(){return this._snapshotUrl}SetIsPastingToDrawingCanvas(p){if(p)this._isPastingToDrawingCanvas++;else this._isPastingToDrawingCanvas--}IsPastingToDrawingCanvas(){return this._isPastingToDrawingCanvas>0}InitLoadingScreen(loaderStyle){if(!this._webglRenderer)return;if(loaderStyle===2){this._percentText=C3.New(C3.Gfx.RendererText,this.GetRenderer());this._percentText.SetIsAsync(false);this._percentText.SetFontName("Arial");this._percentText.SetFontSize(16);this._percentText.SetHorizontalAlignment("center");
-this._percentText.SetVerticalAlignment("center");this._percentText.SetSize(PERCENTTEXT_WIDTH,PERCENTTEXT_HEIGHT)}else if(loaderStyle===0){const loadingLogoAsset=this._runtime.GetLoadingLogoAsset();if(loadingLogoAsset)loadingLogoAsset.LoadStaticTexture(this._webglRenderer).catch(err=>console.warn(`[C3 runtime] Failed to create texture for loading logo: `,err))}else if(loaderStyle===4){this._LoadSvgSplashImage("data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4NCjwhLS0gR2VuZXJhdG9yOiBBZG9iZSBJbGx1c3RyYXRvciAxNi4wLjAsIFNWRyBFeHBvcnQgUGx1Zy1JbiAuIFNWRyBWZXJzaW9uOiA2LjAwIEJ1aWxkIDApICAtLT4NCjwhRE9DVFlQRSBzdmcgUFVCTElDICItLy9XM0MvL0RURCBTVkcgMS4xLy9FTiIgImh0dHA6Ly93d3cudzMub3JnL0dyYXBoaWNzL1NWRy8xLjEvRFREL3N2ZzExLmR0ZCI+DQo8c3ZnIHZlcnNpb249IjEuMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgeD0iMHB4IiB5PSIwcHgiDQoJIHdpZHRoPSIxNzAwLjc5MDA0cHgiIGhlaWdodD0iMTcwMC43OTAwNHB4IiB2aWV3Qm94PSIyODcgMzE3IDExMjUgMTEyNSINCgkgZW5hYmxlLWJhY2tncm91bmQ9Im5ldyAwIDAgMTcwMC43OTAwNCAxNzAwLjc5MDA0IiB4bWw6c3BhY2U9InByZXNlcnZlIj4NCjxnIGlkPSJsb2dvIj4NCgk8Zz4NCgkJPGc+DQoJCQk8cGF0aCBmaWxsLXJ1bGU9ImV2ZW5vZGQiIGNsaXAtcnVsZT0iZXZlbm9kZCIgZmlsbD0iI0ZGRkZGRiIgZD0iTTM1NC45Nzc1NCwxMTk1LjYyMzA1DQoJCQkJYzExLjM4NDc3LDAsMjIuMDEyNywzLjIzNzMsMzEuMDE3NTgsOC44Mzc4OWMxLjk0NjI5LDEuMjEwOTQsMi41ODQ5NiwzLjc0OTAyLDEuNDM4NDgsNS43MzQzOGwtNC45MzI2Miw4LjU0MTk5DQoJCQkJYy0zLjI3ODMyLDUuNjc5NjktMTAuMDMzMiw4LjM3Njk1LTE2LjMxNzM4LDYuNTAwOThjLTIuNzY0NjUtMC44MjUyLTUuNjkzMzYtMS4yNjg1NS04LjcyNjU2LTEuMjY4NTUNCgkJCQljLTE2LjgyOTEsMC0zMC40NzI2NiwxMy42NDM1NS0zMC40NzI2NiwzMC40NzI2NmMwLDE2LjgyODEzLDEzLjY0MzU1LDMwLjQ3MjY2LDMwLjQ3MjY2LDMwLjQ3MjY2DQoJCQkJYzMuMDMzMiwwLDUuOTYxOTEtMC40NDMzNiw4LjcyNjU2LTEuMjY4NTVjNi4yOTQ5Mi0xLjg3OTg4LDEzLjAzMzIsMC44MTE1MiwxNi4zMTczOCw2LjUwMDk4bDQuOTMxNjQsOC41NDE5OQ0KCQkJCWMxLjE0NzQ2LDEuOTg4MjgsMC41MTA3NCw0LjUyMzQ0LTEuNDM4NDgsNS43MzQzOGMtOS4wMDM5MSw1LjYwMTU2LTE5LjYzMTg0LDguODM3ODktMzEuMDE2Niw4LjgzNzg5DQoJCQkJYy0zMi40ODUzNSwwLTU4LjgxOTM0LTI2LjMzNDk2LTU4LjgxOTM0LTU4LjgxOTM0QzI5Ni4xNTgyLDEyMjEuOTU3MDMsMzIyLjQ5MjE5LDExOTUuNjIzMDUsMzU0Ljk3NzU0LDExOTUuNjIzMDUNCgkJCQlMMzU0Ljk3NzU0LDExOTUuNjIzMDV6IE03MDMuMjE0ODQsMTI1OS4xNzU3OGMtMTQuNTU5NTctOS44MTczOC0yMC4yMDMxMy0yMC4wMzIyMy0yMC4yMDMxMy0zMy4wODAwOA0KCQkJCWMwLTE4LjQ4OTI2LDE1LjcxNDg0LTI5Ljc2MzY3LDM4LjI2NjYtMjkuNzYzNjdjOS42NTcyMywwLDE4LjcyMTY4LDIuNTQyOTcsMjYuNTU5NTcsNi45OTQxNA0KCQkJCWMyLjA0OTgsMS4xNjQwNiwyLjc2MTcyLDMuNzgzMiwxLjU4MzAxLDUuODI0MjJsLTMuNDE3OTcsNS45MTk5MmMtMy4yNDcwNyw1LjYyNDAyLTkuOTA4Miw4LjMzMTA1LTE2LjE1MzMyLDYuNTQ4ODMNCgkJCQljLTIuNzIzNjMtMC43NzYzNy01LjU5ODYzLTEuMTkyMzgtOC41NzEyOS0xLjE5MjM4Yy0xMC40OTAyMywwLTExLjU5ODYzLDkuNTc2MTctNC44NTc0MiwxNC4xMjMwNWwyMy42ODY1MiwxNS45NzY1Ng0KCQkJCWM5Ljk5MDIzLDYuNzM4MjgsMTUuODk1NTEsMTcuMDY2NDEsMTUuODk1NTEsMjguNzE4NzVjMCwxOC43ODYxMy0xNS4wMDY4NCwzMy4zMDc2Mi0zOC4yNjc1OCwzMy4zMDc2Mg0KCQkJCWMtOS41MjI0NiwwLTE4LjU4Nzg5LTEuOTU3MDMtMjYuODE1NDMtNS40OTAyM2MtNy43ODEyNS0zLjMzOTg0LTEwLjkzMzU5LTEyLjc4MjIzLTYuNjk3MjctMjAuMTE4MTZsMy40ODczLTYuMDQxOTkNCgkJCQljMS4yMTM4Ny0yLjA5OTYxLDMuOTMxNjQtMi43NTk3Nyw1Ljk3NDYxLTEuNDU2MDVjNi44NTkzOCw0LjM4MjgxLDE2LjQ5MDIzLDcuNTk0NzMsMjQuNzU4NzksNy41OTQ3Mw0KCQkJCWMxMC41NDU5LDAsMTEuMzI4MTMtOS45NTg5OCwzLjc2NzU4LTE1LjA1NzYyTDcwMy4yMTQ4NCwxMjU5LjE3NTc4TDcwMy4yMTQ4NCwxMjU5LjE3NTc4eiBNOTg0LjYzMDg2LDEyMDIuMDAwOTgNCgkJCQljMC0yLjM0NzY2LDEuOTAzMzItNC4yNTE5NSw0LjI1MTk1LTQuMjUxOTVoOS45MjE4OGM3LjgyNzE1LDAsMTQuMTcyODUsNi4zNDU3LDE0LjE3Mjg1LDE0LjE3MzgzdjU3LjQwMTM3DQoJCQkJYzAsOC42MTAzNSw2Ljk4MDQ3LDE1LjU5MDgyLDE1LjU5MDgyLDE1LjU5MDgyczE1LjU5MDgyLTYuOTgwNDcsMTUuNTkwODItMTUuNTkwODJ2LTU3LjQwMTM3DQoJCQkJYzAtNy44MjgxMyw2LjM0NTctMTQuMTczODMsMTQuMTcyODUtMTQuMTczODNoOS45MjA5YzIuMzQ4NjMsMCw0LjI1MTk1LDEuOTA0Myw0LjI1MTk1LDQuMjUxOTV2NjcuMzIzMjQNCgkJCQljMCwyNC4yNjU2My0xOS42NzA5LDQzLjkzNzUtNDMuOTM2NTIsNDMuOTM3NXMtNDMuOTM3NS0xOS42NzE4OC00My45Mzc1LTQzLjkzNzVWMTIwMi4wMDA5OEw5ODQuNjMwODYsMTIwMi4wMDA5OHoNCgkJCQkgTTQ2Ni44NjkxNCwxMTk1LjYyMzA1YzMyLjQ4NDM4LDAsNTguODE4MzYsMjYuMzMzOTgsNTguODE4MzYsNTguODE5MzRjMCwzMi40ODQzOC0yNi4zMzM5OCw1OC44MTkzNC01OC44MTgzNiw1OC44MTkzNA0KCQkJCWMtMzIuNDg2MzMsMC01OC44MTkzNC0yNi4zMzQ5Ni01OC44MTkzNC01OC44MTkzNEM0MDguMDQ5OCwxMjIxLjk1NzAzLDQzNC4zODI4MSwxMTk1LjYyMzA1LDQ2Ni44NjkxNCwxMTk1LjYyMzA1DQoJCQkJTDQ2Ni44NjkxNCwxMTk1LjYyMzA1eiBNNDY2Ljg2OTE0LDEyMjUuMDMzMmMtMTYuMjQzMTYsMC0yOS40MTAxNiwxMy4xNjY5OS0yOS40MTAxNiwyOS40MDkxOA0KCQkJCXMxMy4xNjY5OSwyOS40MDgyLDI5LjQxMDE2LDI5LjQwODJjMTYuMjQxMjEsMCwyOS40MDgyLTEzLjE2NjAyLDI5LjQwODItMjkuNDA4MlM0ODMuMTEwMzUsMTIyNS4wMzMyLDQ2Ni44NjkxNCwxMjI1LjAzMzINCgkJCQlMNDY2Ljg2OTE0LDEyMjUuMDMzMnogTTU1Ni43MzI0MiwxMzExLjEzNDc3Yy0yLjM0NzY2LDAtNC4yNTE5NS0xLjkwMjM0LTQuMjUxOTUtNC4yNXYtOTQuOTYxOTENCgkJCQljMC03LjgyODEzLDYuMzQ1Ny0xNC4xNzM4MywxNC4xNzM4My0xNC4xNzM4M2gzLjk1ODk4YzQuNjI1LDAsOC45NTg5OCwyLjI1Njg0LDExLjYxMTMzLDYuMDQ1OWw0MS4xMjIwNyw1OC43NDcwN3YtNTAuNjE5MTQNCgkJCQljMC03LjgyODEzLDYuMzQ1Ny0xNC4xNzM4MywxNC4xNzI4NS0xNC4xNzM4M2g5LjkyMTg4YzIuMzQ3NjYsMCw0LjI1MTk1LDEuOTA0Myw0LjI1MTk1LDQuMjUxOTV2OTQuOTYwOTQNCgkJCQljMCw3LjgyOTEtNi4zNDU3LDE0LjE3Mjg1LTE0LjE3MzgzLDE0LjE3Mjg1aC0zLjk1ODk4Yy00LjYyNSwwLTguOTU4OTgtMi4yNTU4Ni0xMS42MTEzMy02LjA0NDkybC00MS4xMjIwNy01OC43NDYwOXY1MC42MTgxNg0KCQkJCWMwLDcuODI5MS02LjM0NTcsMTQuMTcyODUtMTQuMTcyODUsMTQuMTcyODVINTU2LjczMjQyTDU1Ni43MzI0MiwxMzExLjEzNDc3eiBNMTIxNS4wMjA1MSwxMjExLjkyMjg1DQoJCQkJYzAtNy44MjgxMyw2LjM0NTctMTQuMTczODMsMTQuMTcyODUtMTQuMTczODNoNTAuMzE1NDNjMi4zNDg2MywwLDQuMjUxOTUsMS45MDQzLDQuMjUxOTUsNC4yNTE5NXY1LjY2OTkyDQoJCQkJYzAsNy44MjcxNS02LjM0NTcsMTQuMTcyODUtMTQuMTcyODUsMTQuMTcyODVoLTYuMDI0NDF2NzUuMTE4MTZjMCw3LjgyOTEtNi4zNDU3LDE0LjE3Mjg1LTE0LjE3Mjg1LDE0LjE3Mjg1aC05LjkyMTg4DQoJCQkJYy0yLjM0ODYzLDAtNC4yNTE5NS0xLjkwMjM0LTQuMjUxOTUtNC4yNXYtODUuMDQxMDJoLTE1Ljk0NDM0Yy0yLjM0ODYzLDAtNC4yNTE5NS0xLjkwMzMyLTQuMjUxOTUtNC4yNTE5NVYxMjExLjkyMjg1DQoJCQkJTDEyMTUuMDIwNTEsMTIxMS45MjI4NXogTTc3Ni40NDkyMiwxMjExLjkyMjg1YzAtNy44MjgxMyw2LjM0NTctMTQuMTczODMsMTQuMTczODMtMTQuMTczODNoNTAuMzE0NDUNCgkJCQljMi4zNDk2MSwwLDQuMjUxOTUsMS45MDQzLDQuMjUxOTUsNC4yNTE5NXY1LjY2OTkyYzAsNy44MjcxNS02LjM0NTcsMTQuMTcyODUtMTQuMTcxODgsMTQuMTcyODVoLTYuMDI1Mzl2NzUuMTE4MTYNCgkJCQljMCw3LjgyOTEtNi4zNDU3LDE0LjE3Mjg1LTE0LjE3Mjg1LDE0LjE3Mjg1aC05LjkyMDljLTIuMzQ5NjEsMC00LjI1MTk1LTEuOTAyMzQtNC4yNTE5NS00LjI1di04NS4wNDEwMmgtMTUuOTQ1MzENCgkJCQljLTIuMzQ3NjYsMC00LjI1MTk1LTEuOTAzMzItNC4yNTE5NS00LjI1MTk1VjEyMTEuOTIyODVMNzc2LjQ0OTIyLDEyMTEuOTIyODV6IE05MjkuNjA0NDksMTI3Mi4wMjI0NmwyNi45NTgwMSwzMi4xMjc5Mw0KCQkJCWMyLjMxNDQ1LDIuNzU3ODEsMC4zNDM3NSw2Ljk4NDM4LTMuMjU2ODQsNi45ODQzOGgtMTkuNzA1MDhjLTQuMTg5NDUsMC04LjE2NTA0LTEuODUxNTYtMTAuODU3NDItNS4wNjA1NWwtMjIuNjgxNjQtMjcuMDMxMjUNCgkJCQl2MjcuODQxOGMwLDIuMzQ3NjYtMS45MDMzMiw0LjI1LTQuMjUxOTUsNC4yNWgtOS45MjA5Yy03LjgyNzE1LDAtMTQuMTcyODUtNi4zNDM3NS0xNC4xNzI4NS0xNC4xNzI4NXYtODUuMDM5MDYNCgkJCQljMC03LjgyODEzLDYuMzQ1Ny0xNC4xNzM4MywxNC4xNzI4NS0xNC4xNzM4M2gyOS43NjM2N2MyMi43MDAyLDAsNDEuMTAyNTQsMTcuMTMzNzksNDEuMTAyNTQsMzguMjY4NTUNCgkJCQlDOTU2Ljc1NDg4LDEyNTIuNTkwODIsOTQ1LjQzNjUyLDEyNjYuNzAyMTUsOTI5LjYwNDQ5LDEyNzIuMDIyNDZMOTI5LjYwNDQ5LDEyNzIuMDIyNDZ6IE05MDAuMDYxNTIsMTIyMS44NDM3NXYzMi41OTg2M2g4LjUwMzkxDQoJCQkJYzEwLjk1ODk4LDAsMTkuODQyNzctNy4yOTc4NSwxOS44NDI3Ny0xNi4yOTg4M2MwLTkuMDAxOTUtOC44ODM3OS0xNi4yOTk4LTE5Ljg0Mjc3LTE2LjI5OThIOTAwLjA2MTUyTDkwMC4wNjE1MiwxMjIxLjg0Mzc1eg0KCQkJCSBNMTE1OC4zNTkzOCwxMTk1LjYyMzA1YzExLjM4NDc3LDAsMjIuMDEyNywzLjIzNzMsMzEuMDE3NTgsOC44Mzc4OWMxLjk0NzI3LDEuMjEwOTQsMi41ODQ5NiwzLjc0OTAyLDEuNDM4NDgsNS43MzQzOA0KCQkJCWwtNC45MzI2Miw4LjU0MTk5Yy0zLjI3ODMyLDUuNjc5NjktMTAuMDMzMiw4LjM3Njk1LTE2LjMxNzM4LDYuNTAwOThjLTIuNzY0NjUtMC44MjUyLTUuNjkzMzYtMS4yNjg1NS04LjcyNTU5LTEuMjY4NTUNCgkJCQljLTE2LjgyOTEsMC0zMC40NzI2NiwxMy42NDM1NS0zMC40NzI2NiwzMC40NzI2NmMwLDE2LjgyODEzLDEzLjY0MzU1LDMwLjQ3MjY2LDMwLjQ3MjY2LDMwLjQ3MjY2DQoJCQkJYzMuMDMyMjMsMCw1Ljk2MDk0LTAuNDQzMzYsOC43MjU1OS0xLjI2ODU1YzYuMjk1OS0xLjg3OTg4LDEzLjAzMzIsMC44MTE1MiwxNi4zMTgzNiw2LjUwMDk4bDQuOTMwNjYsOC41NDE5OQ0KCQkJCWMxLjE0NzQ2LDEuOTg4MjgsMC41MTA3NCw0LjUyMzQ0LTEuNDM3NSw1LjczNDM4Yy05LjAwNDg4LDUuNjAxNTYtMTkuNjMyODEsOC44Mzc4OS0zMS4wMTc1OCw4LjgzNzg5DQoJCQkJYy0zMi40ODUzNSwwLTU4LjgxOTM0LTI2LjMzNDk2LTU4LjgxOTM0LTU4LjgxOTM0QzEwOTkuNTQwMDQsMTIyMS45NTcwMywxMTI1Ljg3NDAyLDExOTUuNjIzMDUsMTE1OC4zNTkzOCwxMTk1LjYyMzA1eiIvPg0KCQkJPHBhdGggZmlsbC1ydWxlPSJldmVub2RkIiBjbGlwLXJ1bGU9ImV2ZW5vZGQiIGZpbGw9IiMwMEZGREEiIGQ9Ik0xMzE4LjE5NzI3LDEyMDYuMDMyMjMNCgkJCQljMC03LjgyODEzLDYuMzQ1Ny0xNC4xNzM4MywxNC4xNzI4NS0xNC4xNzM4M2MyMC42NTYyNSwwLDQxLjMxMjUsMCw2MS45Njg3NSwwYzMuNDI5NjksMCw1LjQ1MDIsMy44ODA4NiwzLjQ4MzQsNi42OTA0Mw0KCQkJCWwtMTkuMjk2ODgsMjcuNTY3MzhjMTUuNTQyOTcsOC4zNzU5OCwyNi4xMDY0NSwyNC44MDA3OCwyNi4xMDY0NSw0My42OTUzMWMwLDI3LjM5NzQ2LTIyLjIwODk4LDQ5LjYwNjQ1LTQ5LjYwNjQ1LDQ5LjYwNjQ1DQoJCQkJYy0xNi42ODg0OCwwLTMxLjQ1MTE3LTguMjQwMjMtNDAuNDQzMzYtMjAuODc1OThjLTEuNDUwMi0yLjAzOTA2LTAuODMxMDUtNC44OTk0MSwxLjMzNTk0LTYuMTUyMzRsMTAuOTc3NTQtNi4zMzc4OQ0KCQkJCWM0Ljg4MTg0LTIuODE4MzYsMTAuOTc5NDktMi40NzU1OSwxNS41MTQ2NSwwLjg3MzA1YzMuNTI4MzIsMi42MDU0Nyw3Ljg5MTYsNC4xNDY0OCwxMi42MTUyMyw0LjE0NjQ4DQoJCQkJYzExLjc0MjE5LDAsMjEuMjU5NzctOS41MTg1NSwyMS4yNTk3Ny0yMS4yNTk3N3MtOS41MTc1OC0yMS4yNTk3Ny0yMS4yNTk3Ny0yMS4yNTk3N2gtMTUuMjE3NzcNCgkJCQljLTMuNDI5NjksMC01LjQ1MDItMy44ODA4Ni0zLjQ4NDM4LTYuNjkwNDNsMTguMTM1NzQtMjUuOTA4MmgtMzIuMDA5NzdjLTIuMzQ4NjMsMC00LjI1MTk1LTEuOTAzMzItNC4yNTE5NS00LjI1MTk1VjEyMDYuMDMyMjN6DQoJCQkJIi8+DQoJCTwvZz4NCgkJPGc+DQoJCQk8Zz4NCgkJCQk8cGF0aCBmaWxsLXJ1bGU9ImV2ZW5vZGQiIGNsaXAtcnVsZT0iZXZlbm9kZCIgZmlsbD0iI0RBRThGNyIgZD0iTTg1MC4zOTU1MSw4NTcuNTkxOA0KCQkJCQljLTUwLjM1NjQ1LDAtOTQuMzI1Mi0yNy4zNTY0NS0xMTcuODUyNTQtNjguMDIwNTFsLTgwLjAzMDI3LDQ2LjIwNDFjLTQuNjU1MjcsMi42ODk0NS02LjEzMTg0LDguNzE4NzUtMy4yNDkwMiwxMy4yNTU4Ng0KCQkJCQljNDIuMjM3Myw2Ni40ODYzMywxMTYuNTMzMiwxMTAuNjA3NDIsMjAxLjEzMTg0LDExMC42MDc0MmM4OC4xMjU5OCwwLDE2NS4wNzEyOS00Ny44NzUsMjA2LjI0MzE2LTExOS4wMzYxM2wtODAuNDg3My00Ni40Njk3Mw0KCQkJCQljLTQuMzEzNDgtMi40OTAyMy05LjgwMTc2LTEuMjA1MDgtMTIuNTcwMzEsMi45MzU1NUM5MzkuMTc1NzgsODMzLjU2MjUsODk3LjU5MTgsODU3LjU5MTgsODUwLjM5NTUxLDg1Ny41OTE4DQoJCQkJCUw4NTAuMzk1NTEsODU3LjU5MTh6IE0xMTM2LjcyMTY4LDU1Ni4yMTc3N2M0LjYxNDI2LTIuNjYzMDksNi4xMTAzNS04LjYxOTE0LDMuMzEyNS0xMy4xNTEzNw0KCQkJCQljLTU5LjkxNTA0LTk3LjAzMDI3LTE2Ny4yMjQ2MS0xNjEuNjk0MzQtMjg5LjYzODY3LTE2MS42OTQzNGMtMTI1Ljg5MzU1LDAtMjM1LjgxMzQ4LDY4LjM5MjU4LTI5NC42MzM3OSwxNzAuMDQ5OA0KCQkJCQlsODAuMzc2OTUsNDYuNDA2MjVjNC4zOTc0NiwyLjUzOTA2LDEwLjAwMTk1LDEuMTQ5NDEsMTIuNzEwOTQtMy4xNDU1MQ0KCQkJCQljNDIuMTY0MDYtNjYuODUxNTYsMTE2LjY2ODk1LTExMS4yNjM2NywyMDEuNTQ1OS0xMTEuMjYzNjdjODguMTI1OTgsMCwxNjUuMDcxMjksNDcuODc1OTgsMjA2LjI0MzE2LDExOS4wMzYxMw0KCQkJCQlMMTEzNi43MjE2OCw1NTYuMjE3Nzd6Ii8+DQoJCQkJPHBhdGggZmlsbC1ydWxlPSJldmVub2RkIiBjbGlwLXJ1bGU9ImV2ZW5vZGQiIGZpbGw9IiNBNUJBQzgiIGQ9Ik04NTAuMzk1NTEsOTU5LjYzODY3DQoJCQkJCWMtODQuNTk4NjMsMC0xNTguODk0NTMtNDQuMTIxMDktMjAxLjEzMTg0LTExMC42MDc0MmMtMi44NzY5NS00LjUzMDI3LTEuMzk5NDEtMTAuNTcwMzEsMy4yNDkwMi0xMy4yNTU4Nmw4MC4wMzAyNy00Ni4yMDQxDQoJCQkJCWMtMTEuNTgxMDUtMjAuMDE2Ni0xOC4yMDk5Ni00My4yNTQ4OC0xOC4yMDk5Ni02OC4wNDE5OWMwLTc0Ljc4NTE2LDYwLjU1NzYyLTEzNi4wNjI1LDEzNi4wNjI1LTEzNi4wNjI1DQoJCQkJCWM0Ny4xOTYyOSwwLDg4Ljc4MDI3LDI0LjAyOTMsMTEzLjE4NTU1LDYwLjUyMjQ2YzIuNzY0NjUsNC4xMzM3OSw4LjI2MzY3LDUuNDIxODgsMTIuNTcwMzEsMi45MzU1NWw4MC40ODczLTQ2LjQ2OTczDQoJCQkJCWMtNDEuMTcxODgtNzEuMTYwMTYtMTE4LjExNzE5LTExOS4wMzYxMy0yMDYuMjQzMTYtMTE5LjAzNjEzYy04NC44NzY5NSwwLTE1OS4zODE4NCw0NC40MTIxMS0yMDEuNTQ1OSwxMTEuMjYzNjcNCgkJCQkJYy0yLjcwNjA1LDQuMjkxMDItOC4zMTgzNiw1LjY4MTY0LTEyLjcxMDk0LDMuMTQ1NTFsLTgwLjM3Njk1LTQ2LjQwNjI1DQoJCQkJCWMtMjguOTUyMTUsNTAuMDQwMDQtNDUuNTIzNDQsMTA4LjEzOTY1LTQ1LjUyMzQ0LDE3MC4xMDc0MmMwLDE4Ni45NjM4NywxNTEuMzk0NTMsMzQwLjE1NzIzLDM0MC4xNTcyMywzNDAuMTU3MjMNCgkJCQkJYzEyMi40MTQwNiwwLDIyOS43MjM2My02NC42NjQwNiwyODkuNjM4NjctMTYxLjY5NTMxYzIuNzk0OTItNC41MjYzNywxLjI5NDkyLTEwLjQ5MDIzLTMuMzEyNS0xMy4xNTEzN2wtODAuMDgzMDEtNDYuMjM3Mw0KCQkJCQlDMTAxNS40NjY4LDkxMS43NjM2Nyw5MzguNTIxNDgsOTU5LjYzODY3LDg1MC4zOTU1MSw5NTkuNjM4Njd6Ii8+DQoJCQk8L2c+DQoJCQk8cGF0aCBmaWxsLXJ1bGU9ImV2ZW5vZGQiIGNsaXAtcnVsZT0iZXZlbm9kZCIgZmlsbD0iIzAwRkZEQSIgZD0iTTExMzcuMTg1NTUsNzU4LjExMzI4di03My4xNjc5N2wtNjMuMzY1MjMsMzYuNTgzOTgNCgkJCQlMMTEzNy4xODU1NSw3NTguMTEzMjhMMTEzNy4xODU1NSw3NTguMTEzMjh6IE0xMDI2LjU3NjE3LDcwNS4xNjQwNmwxMjAuMDU4NTktNjkuMzE2NDENCgkJCQljMTIuNTY4MzYtNy4yNTU4NiwyOC4zNDQ3MywxLjg1MjU0LDI4LjM0NTcsMTYuMzY2MjF2MTM4LjYzMDg2Yy0wLjAwMDk4LDE0LjUxMjctMTUuNzc3MzQsMjMuNjIyMDctMjguMzQ1NywxNi4zNjYyMQ0KCQkJCWwtMTIwLjA1ODU5LTY5LjMxNjQxQzEwMTQuMDI4MzIsNzMwLjY0OTQxLDEwMTQuMDI4MzIsNzEyLjQwOTE4LDEwMjYuNTc2MTcsNzA1LjE2NDA2eiIvPg0KCQk8L2c+DQoJPC9nPg0KPC9nPg0KPC9zdmc+DQo=").then(tex=>{if(this._splashState==="done")this._webglRenderer.DeleteTexture(tex);
-else this._splashTextures.logo=tex}).catch(err=>console.warn("Failed to load splash image: ",err));this._LoadBitmapSplashImage("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAgAAAABABAMAAACekdKMAAAAMFBMVEUAAAByfYZyfYZyfYZyfYZyfYZyfYZyfYZyfYZyfYZyfYZyfYZyfYZyfYZyfYZyfYYgo7vbAAAAD3RSTlMAESIzRFVmd4iZqrvM3e5GKvWZAAAFX0lEQVR42u2asW7bVhSGP0qWpUi2oM3tUFhbgAJJtBUdWvsNrLlD1AcoILZBlgaNXKBAR/sN5Ewd6fYF5HbJKAdB0FFKu5d1ZEeSJfPvcC8pyrWTDi5MgPwXCRQp6H4895z/HAoyZcqUKVOmTJkyJU8D7dt3d6QMQIK1LqPzRykHIL1KOwA9SzuAeS2dAC4A+MSXDtIMgJL0NtUA2IvepRTAutRINYCi5KYaQE7mN294Ch5ff4HzRPoprBfOU70B2Ojp/Gt7bKOnqXsJQKGj4FHSAWAAfBi5onWdA9Ay5SEvbYPTlaQpQFfHLek0umY/DCQpaC4ByPcl6RdomyvB13ESARzAim9MwQEUFdjs+NqsLAA+Mx//BnT1StIp5AfGR9QBepKk8RKAHUnSRYOq/cqVG91uN7oFdqwrmkHeZkVfZwBlnUPe8rmoQVd/GQCf22teAOXIV8UARJ+XpKatuY3EAShILjlf+obVnrQLvlwT+lOATb2F+9Jzch1pH7rS3AVyvuYud81pHek5zneXAIzrfCFNydvD65onLwdUpCYV6WdgVTqFrg7N3QpMKjgBT1MgN9Ab6Eq7JjS0D9yT6jh+mB/iAGY1oC1t09cQYEvj5AFoKYAde2vaurBLZk0mbvd0xIr1y/c1ha5NkjvmNedrn6I9obwE4FebHffpmO3UMcUjUQBWpTH07C8rS9ts6gzY0kC7QF8uZQW1KCF27bmeSZJ0NGRNQR3A8eMAtq01eM0DEyB9HSUNwN2+9AInvHE5aZeKJkBHDzUER2qwqQm2JDbo6m8Ax+4EtjRiK6xzVxihjs6oKDDf7iYHQKSgQcFmaXOPipoD/aCsERQUQEujsI67IYBCmNGrGtMyIX4lgC2NWZWaUJRqCQTwEkrRL9vTCXmphqNpQRMoaQIds2YYaDcEUAwXuK4JHZ1cC6CqqQ2ximYJHIiMgXKUEtsaQV9Nijpz/Dms6Qy6ipV5C2BR5zWla7L8lQDWNANPQ1tREwZg9tiUwrA+7+gU9rRLRUM8NdjU69DmLQOoLAM4vhZARTPMHmmHcZIsK0w8Nnd0Ci0N2dQBLbmmI4gBOLwCwAzvfQCqmoJ3o8On/xFAVSPaarKpI/bk/gcA742AkgIcP0y1iQNwKQeUNcZTjbLe0FcdvHj9tgDKcVv7rhywbhuMZsG6iQQCWK4CrOrc8c9hVWNHc2AvXF8MQMl2eLbWv7sKwED7d0KzkDwAqzEfcAyOgoLegqNZwZqi0b8AFOOd3ft8AHQ0rIYnJQ9AbskJQl+f6gTw9IFGl5sYCyAft3WhVbzOCcIDne3E4yhZAKJewBr4jp7qEOjoKw2BdWv14wAY6I/o2Jrd3lf3AkOgoume9c5JBNC2Ga1lDm/JzAQ21dOBCXeTBe+5CwAde03ud67pBl9E3SAUFQwskSQCWDPzgILMNq1KqttS1wScgRl8FfzzBYCPzISMhzrA8c0e8JYAzOtmHlA3vdONPoC4YQB2IuTZG1mSubtF2fKwJU22KfZ0EXWD5CX9AE+kl9C+eiLUMBMhy2aSXADxmaCJhLFteWdhmTD6cxEBtBftZKwzWAC4iM0MoaV4KUkcgNhU2Cx8ZJPjOKxz4YR3AaCwaCfBM51VLwZgZqfCdWsHkjMNuQIAHy/9WyK0fpEByJkFfh+rAuE1k1oUI0GzGwMwNc8FnkVbwk0ygOUnQx1bsR5EDzKcb6WJyxIANjzpx/B9X1OXJQBLT4ZWTDJMr/LJGYnfjkrJGYnfjqoJmobcito6TDeAvr5M9fqLSZqG3IIKXrpzoKTE/DXitgAEjZQDeJnqFNjVczJlypQpU6Yb0D8QEXpo1mjM/QAAAABJRU5ErkJggg==").then(tex=>{if(this._splashState==="done")this._webglRenderer.DeleteTexture(tex);else this._splashTextures.powered=tex}).catch(err=>console.warn("Failed to load splash image: ",err));this._LoadBitmapSplashImage("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAgAAAABABAMAAACekdKMAAAAMFBMVEUAAAByfYZyfYZyfYZyfYZyfYZyfYZyfYZyfYZyfYZyfYZyfYZyfYZyfYZyfYZyfYYgo7vbAAAAD3RSTlMAdxHdu4hmVZnuRMwzqiLYE4y2AAAFw0lEQVR42u2Yy+9LQRTHp6Xq0VIkXkFvwkYslAWJiGJj2a6sJJe/oF3YWGElEQmxkYi4ErFWNpatWFmIx9Lm1sJCLKgqraqv82h726l6hOuRzDf53TtnOr+ZOZ+ZOffca5ycnJycnJycnJycnJycnJz+pi7g2G9osxjvzX8qB8ABcAAcgH8XwDa85dspNOiaRDuAR4U0PnHtDuyy7IJRJS6gvVmL6TywVkp4ZxIhulUxFvlaXQTrgEHbnMDH5XRjlXCdb+uAnc2ojWgFFTYBZ8e9tzcaswAk6v/3K4sPfPNRFj87IXj+KXQUS9m2jXoH1lMuLq2DtEcAtNMBT9PjanFq7ySAhbABVEAaeDaAwkk2D7GRqctAMQJIq2sBauLnB/VxCfqKpWrbRhSC1W5SMQ9RTgBUwKpF1ccmAIQ2gCxE+20Au9nSESvDgeIDkJSBMpA9vgyXdsj0H0GORL3n2fbwPOKoSQS4Q2cBOGzSJbQYAHDbZEI+rEuBcyZRlF71fIP/x0wBuIBOw6xH3xu2GQFAP2cegmvSwHkeqBZjECzB46UXD3bg8UKJCT6QYzgDY9uiU7hC11doERq6MAZ2CPJ7ipEulOrteDcB4KOZBpBG7zrV1JGzATzmIdnrl/go3bRiBJBHlZc+6ItjuQQ+yFLz8Gka2LZFRVTFGdoQJQ0LPodHnXkS8AjlRWkBLwKQswAs0PDzGpcsAAMNuG+5WgdqxwjgEcp8qcBjN5oZdPhEvOfhU/hsbJuVloWV6WWgp2IBLxXQNEwLDfKqoMXrEQBjATiFA3qePlgAZJRl+EStdaAQjfgALOC1zfeX8ALV+7S69JdALWjxHGqztmxyMnTD6OOBWvAdGDkn60c6vrI5H4CPnOJsWQDe8G0hIU0MB8ojFx+AFAeqeitLy5FkL3w0yNNcSOx3oDxjjxaH9XxldZluY5NBfwrAQvQbRjQXAO8UqVq5dh6A7HCgWzgdFwBdgOX4lMZbTndkWWkDN07Bk+zItllLdHm1+FkLwBSADNDf8B0AnGOp5gFYgJEexwcgGQx4iyeD9ybFkWsbDZbv0+2Y8XvGtqMpWsUimpMAzA1AUrj5ALjm2wCoONKB+ACYsEeDlU04MMs4imeJQqljslSuD4xl/zgAsx6ku/8DgDwaO9AwFU56qhzOPiXpKCzCpSSdb8v+CQDmXshb99cARAPFCOA1chWaFXlP55yn2FqEgiFvOSzYtmiJzisKB7MxQPS8iO63YsD3AHDv8QPgjR92eKuf9vts1wdZjvZhN4XajD35FNDiR7ln0LYBaILY+OZT4DsA+BkTP4AUrgXkxSJcDFps+72X7EGlx6mBbU/lAbdQjvKA7hSAlSuHxdw0gORsHrAUnXkAUuj+AQAZdHGRp9bShX2ECz1JRSk4zNhRJqj5SZQJfpgCUNS2eRsAP/usTDAxPxFKA834AZgAOM1z6qGgxxpdmUDQNjP25LtAsojxu0AehSkAF6RLXWR/EkAdVYEevQtswVtpMwuAB1JGh2jbxQcgBKrig/qSxTD6o2Nm7fttSY6uUnErV+jb4CJyaArAI5luJkCDOy5HAPISSB5A3wYbhJERahvtPALAAw2EI9Vzsh2TTuk23qEceN9d4vVVv227hNroe0CRi/o9IKTZTQFIAc/M8jwGEiouG2/042u8u25uAuPvAavRH7XhzqcBpICdRpssRa+aNLFoh2JeyBzU08fih/ht20WZXghW34s+/ZQnAKhzojsSH4CC/sjARPKamLXacOfTAIwfNSkCbROLluG9Tm2gdl3PY178tu2SBIpFQ6fHH//2GAvAogCkjtGDEAFQYPsu6DdBqw11bgFIF8dNHsQGIEFRSDOe0RS9YYJk23JMrw+/Cr9bFX0VXmNsACbhA088qXhBrMYAlq8Gjhh//FX4YNSGO7cASO9n9B99AuHk5OTk5OTk5OTk5OTk5OTk5OT0VX0B7+fX+9cwWYYAAAAASUVORK5CYII=").then(tex=>{if(this._splashState==="done")this._webglRenderer.DeleteTexture(tex);else this._splashTextures.website=
+this._percentText.SetVerticalAlignment("center");this._percentText.SetSize(PERCENTTEXT_WIDTH,PERCENTTEXT_HEIGHT)}else if(loaderStyle===0){const loadingLogoAsset=this._runtime.GetLoadingLogoAsset();if(loadingLogoAsset)loadingLogoAsset.LoadStaticTexture(this._webglRenderer).catch(err=>console.warn(`[C3 runtime] Failed to create texture for loading logo: `,err))}else if(loaderStyle===4){this._LoadSvgSplashImage("splash-images/splash-logo.svg").then(tex=>{if(this._splashState==="done")this._webglRenderer.DeleteTexture(tex);
+else this._splashTextures.logo=tex}).catch(err=>console.warn("Failed to load splash image: ",err));this._LoadBitmapSplashImage("splash-images/splash-poweredby-512.png").then(tex=>{if(this._splashState==="done")this._webglRenderer.DeleteTexture(tex);else this._splashTextures.powered=tex}).catch(err=>console.warn("Failed to load splash image: ",err));this._LoadBitmapSplashImage("splash-images/splash-website-512.png").then(tex=>{if(this._splashState==="done")this._webglRenderer.DeleteTexture(tex);else this._splashTextures.website=
 tex}).catch(err=>console.warn("Failed to load splash image: ",err))}}async _LoadSvgSplashImage(url){url=(new URL(url,this._runtime.GetRuntimeBaseURL())).toString();const blob=await C3.FetchBlob(url);const drawable=await this._runtime.RasterSvgImage(blob,2048,2048);return await this._webglRenderer.CreateStaticTextureAsync(drawable,{mipMapQuality:"high"})}async _LoadBitmapSplashImage(url){url=(new URL(url,this._runtime.GetRuntimeBaseURL())).toString();const blob=await C3.FetchBlob(url);return await this._webglRenderer.CreateStaticTextureAsync(blob,
 {mipMapQuality:"high"})}HideCordovaSplashScreen(){this._runtime.PostComponentMessageToDOM("runtime","hide-cordova-splash")}StartLoadingScreen(){this._loaderStartTime=Date.now();this._runtime.Dispatcher().addEventListener("loadingprogress",this._loadingprogress_handler);this._rafId=requestAnimationFrame(()=>this._DrawLoadingScreen());const loaderStyle=this._runtime.GetLoaderStyle();if(loaderStyle!==3)this.HideCordovaSplashScreen()}async EndLoadingScreen(){if(!this._webglRenderer)return;this._loadingProgress=
 1;const loaderStyle=this._runtime.GetLoaderStyle();if(loaderStyle===4)await this._splashDonePromise;this._splashDoneResolve=null;this._splashDonePromise=null;if(this._rafId!==-1){cancelAnimationFrame(this._rafId);this._rafId=-1}this._runtime.Dispatcher().removeEventListener("loadingprogress",this._loadingprogress_handler);this._loadingprogress_handler=null;if(this._percentText){this._percentText.Release();this._percentText=null}this._runtime.ReleaseLoadingLogoAsset();this._webglRenderer.Start();if(this._splashTextures.logo){this._webglRenderer.DeleteTexture(this._splashTextures.logo);
@@ -3446,6 +3446,60 @@ this._imagesLoadingTotal},renderer(){if(this._runtime.GetWebGPURenderer())return
 }
 
 {
+'use strict';{const C3=self.C3;C3.Plugins.Arr=class ArrayPlugin extends C3.SDKPluginBase{constructor(opts){super(opts)}Release(){super.Release()}}}{const C3=self.C3;C3.Plugins.Arr.Type=class ArrayType extends C3.SDKTypeBase{constructor(objectClass){super(objectClass)}Release(){super.Release()}OnCreate(){}}}
+{const C3=self.C3;const C3X=self.C3X;const IInstance=self.IInstance;function ResizeArray(arr,len,data){if(len<arr.length)C3.truncateArray(arr,len);else if(len>arr.length)if(typeof data==="function")for(let i=arr.length;i<len;++i)arr.push(data());else for(let i=arr.length;i<len;++i)arr.push(data)}C3.Plugins.Arr.Instance=class ArrayInstance extends C3.SDKInstanceBase{constructor(inst,properties){super(inst);this._cx=10;this._cy=1;this._cz=1;this._arr=null;this._forX=[];this._forY=[];this._forZ=[];this._forDepth=
+-1;if(properties){this._cx=properties[0];this._cy=properties[1];this._cz=properties[2]}this._arr=C3.MakeFilledArray(this._cx,()=>C3.MakeFilledArray(this._cy,()=>C3.MakeFilledArray(this._cz,0)))}Release(){this._arr=null;super.Release()}At(x,y,z){x=Math.floor(x);y=Math.floor(y);z=Math.floor(z);if(x>=0&&x<this._cx&&y>=0&&y<this._cy&&z>=0&&z<this._cz)return this._arr[x][y][z];else return 0}Set(x,y,z,val){x=Math.floor(x);y=Math.floor(y);z=Math.floor(z);if(x>=0&&x<this._cx&&y>=0&&y<this._cy&&z>=0&&z<this._cz)this._arr[x][y][z]=
+val}SetSize(w,h,d){w=Math.floor(w);h=Math.floor(h);d=Math.floor(d);if(w<0)w=0;if(h<0)h=0;if(d<0)d=0;if(this._cx===w&&this._cy===h&&this._cz===d)return;this._cx=w;this._cy=h;this._cz=d;const arr=this._arr;ResizeArray(arr,w,()=>C3.MakeFilledArray(h,()=>C3.MakeFilledArray(d,0)));for(let x=0;x<w;++x){ResizeArray(arr[x],h,()=>C3.MakeFilledArray(d,0));for(let y=0;y<h;++y)ResizeArray(arr[x][y],d,0)}}GetWidth(){return this._cx}GetHeight(){return this._cy}GetDepth(){return this._cz}GetDebuggerProperties(){const prefix=
+"plugins.arr.debugger";const propsPrefix="plugins.arr.properties";const ret=[{title:prefix+".array-properties.title",properties:[{name:propsPrefix+".width.name",value:this._cx,onedit:v=>this.SetSize(v,this._cy,this._cz)},{name:propsPrefix+".height.name",value:this._cy,onedit:v=>this.SetSize(this._cx,v,this._cz)},{name:propsPrefix+".depth.name",value:this._cz,onedit:v=>this.SetSize(this._cx,this._cy,v)},{name:propsPrefix+".elements.name",value:this._cx*this._cy*this._cz}]}];const dataProps=[];if(this._cy===
+1&&this._cz===1)for(let x=0;x<this._cx;++x)dataProps.push({name:"$"+x,value:this._arr[x][0][0],onedit:v=>this._arr[x][0][0]=v});else for(let x=0;x<this._cx;++x)dataProps.push({name:"$"+x,value:this._arr[x].toString()});if(dataProps.length)ret.push({title:prefix+".array-data.title",properties:dataProps});return ret}GetAsJsonString(){return JSON.stringify({"c2array":true,"size":[this._cx,this._cy,this._cz],"data":this._arr})}SaveToJson(){return{"size":[this._cx,this._cy,this._cz],"data":this._arr}}LoadFromJson(o){const sz=
+o["size"];this._cx=sz[0];this._cy=sz[1];this._cz=sz[2];this._arr=o["data"]}_GetForX(){if(this._forDepth>=0&&this._forDepth<this._forX.length)return this._forX[this._forDepth];else return 0}_GetForY(){if(this._forDepth>=0&&this._forDepth<this._forY.length)return this._forY[this._forDepth];else return 0}_GetForZ(){if(this._forDepth>=0&&this._forDepth<this._forZ.length)return this._forZ[this._forDepth];else return 0}GetScriptInterfaceClass(){return self.IArrayInstance}};const map=new WeakMap;self.IArrayInstance=
+class IArrayInstance extends IInstance{constructor(){super();map.set(this,IInstance._GetInitInst().GetSdkInstance())}get width(){return map.get(this).GetWidth()}get height(){return map.get(this).GetHeight()}get depth(){return map.get(this).GetDepth()}setSize(w,h=1,d=1){C3X.RequireFiniteNumber(w);C3X.RequireFiniteNumber(h);C3X.RequireFiniteNumber(d);map.get(this).SetSize(w,h,d)}getAt(x,y=0,z=0){C3X.RequireFiniteNumber(x);C3X.RequireFiniteNumber(y);C3X.RequireFiniteNumber(z);return map.get(this).At(x,
+y,z)}setAt(val,x,y=0,z=0){C3X.RequireFiniteNumber(x);C3X.RequireFiniteNumber(y);C3X.RequireFiniteNumber(z);if(typeof val!=="number"&&typeof val!=="string")throw new TypeError("invalid type");map.get(this).Set(x,y,z,val)}}}
+{const C3=self.C3;function DoForEachTrigger(eventSheetManager,currentEvent,solModifiers,oldFrame,newFrame){eventSheetManager.PushCopySol(solModifiers);currentEvent.Retrigger(oldFrame,newFrame);eventSheetManager.PopSol(solModifiers)}C3.Plugins.Arr.Cnds={CompareX(x,cmp,val){return C3.compare(this.At(x,0,0),cmp,val)},CompareXY(x,y,cmp,val){return C3.compare(this.At(x,y,0),cmp,val)},CompareXYZ(x,y,z,cmp,val){return C3.compare(this.At(x,y,z),cmp,val)},ArrForEach(dims){const runtime=this._runtime;const eventSheetManager=
+runtime.GetEventSheetManager();const currentEvent=runtime.GetCurrentEvent();const solModifiers=currentEvent.GetSolModifiers();const eventStack=runtime.GetEventStack();const oldFrame=eventStack.GetCurrentStackFrame();const newFrame=eventStack.Push(currentEvent);const forDepth=++this._forDepth;const forX=this._forX;const forY=this._forY;const forZ=this._forZ;const cx=this._cx;const cy=this._cy;const cz=this._cz;if(forDepth===this._forX.length){forX.push(0);forY.push(0);forZ.push(0)}else{forX[forDepth]=
+0;forY[forDepth]=0;forZ[forDepth]=0}runtime.SetDebuggingEnabled(false);if(dims===0)for(let x=0;x<cx;++x)for(let y=0;y<cy;++y)for(let z=0;z<cz;++z){forX[forDepth]=x;forY[forDepth]=y;forZ[forDepth]=z;DoForEachTrigger(eventSheetManager,currentEvent,solModifiers,oldFrame,newFrame)}else if(dims===1)for(let x=0;x<cx;++x)for(let y=0;y<cy;++y){forX[forDepth]=x;forY[forDepth]=y;DoForEachTrigger(eventSheetManager,currentEvent,solModifiers,oldFrame,newFrame)}else for(let x=0;x<cx;++x){forX[forDepth]=x;DoForEachTrigger(eventSheetManager,
+currentEvent,solModifiers,oldFrame,newFrame)}runtime.SetDebuggingEnabled(true);this._forDepth--;eventStack.Pop();return false},CompareCurrent(cmp,val){return C3.compare(this.At(this._GetForX(),this._GetForY(),this._GetForZ()),cmp,val)},Contains(val){const cx=this._cx;const cy=this._cy;const cz=this._cz;const arr=this._arr;for(let x=0;x<cx;++x)for(let y=0;y<cy;++y)for(let z=0;z<cz;++z)if(arr[x][y][z]===val)return true;return false},IsEmpty(){return this._cx===0||this._cy===0||this._cz===0},CompareSize(axis,
+cmp,val){let s=0;switch(axis){case 0:s=this._cx;break;case 1:s=this._cy;break;case 2:s=this._cz;break}return C3.compare(s,cmp,val)}}}
+{const C3=self.C3;function CompareValues(va,vb){if(typeof va==="number"&&typeof vb==="number")return va-vb;else{const sa=va.toString();const sb=vb.toString();if(sa<sb)return-1;else if(sa>sb)return 1;else return 0}}C3.Plugins.Arr.Acts={Clear(v){const cx=this._cx;const cy=this._cy;const cz=this._cz;const arr=this._arr;for(let x=0;x<cx;++x)for(let y=0;y<cy;++y)for(let z=0;z<cz;++z)arr[x][y][z]=v},SetSize(w,h,d){this.SetSize(w,h,d)},SetX(x,val){this.Set(x,0,0,val)},SetXY(x,y,val){this.Set(x,y,0,val)},
+SetXYZ(x,y,z,val){this.Set(x,y,z,val)},Push(where,value,axis){const cx=this._cx;const cy=this._cy;const cz=this._cz;const arr=this._arr;if(axis===0){const add=C3.MakeFilledArray(cy,()=>C3.MakeFilledArray(cz,value));if(where===0)arr.push(add);else arr.unshift(add);this._cx++}else if(axis===1){for(let x=0;x<cx;++x){const add=C3.MakeFilledArray(cz,value);if(where===0)arr[x].push(add);else arr[x].unshift(add)}this._cy++}else{for(let x=0;x<cx;++x)for(let y=0;y<cy;++y)if(where===0)arr[x][y].push(value);
+else arr[x][y].unshift(value);this._cz++}},Pop(where,axis){const cx=this._cx;const cy=this._cy;const cz=this._cz;const arr=this._arr;if(axis===0){if(cx===0)return;if(where===0)arr.pop();else arr.shift();this._cx--}else if(axis===1){if(cy===0)return;for(let x=0;x<cx;++x)if(where===0)arr[x].pop();else arr[x].shift();this._cy--}else{if(cz===0)return;for(let x=0;x<cx;++x)for(let y=0;y<cy;++y)if(where===0)arr[x][y].pop();else arr[x][y].shift();this._cz--}},Reverse(axis){const cx=this._cx;const cy=this._cy;
+const cz=this._cz;const arr=this._arr;if(cx===0||cy===0||cz===0)return;if(axis===0)arr.reverse();else if(axis===1)for(let x=0;x<cx;++x)arr[x].reverse();else for(let x=0;x<cx;++x)for(let y=0;y<cy;++y)arr[x][y].reverse()},Sort(axis){const cx=this._cx;const cy=this._cy;const cz=this._cz;const arr=this._arr;if(cx===0||cy===0||cz===0)return;if(axis===0)arr.sort((a,b)=>CompareValues(a[0][0],b[0][0]));else if(axis===1)for(let x=0;x<cx;++x)arr[x].sort((a,b)=>CompareValues(a[0],b[0]));else for(let x=0;x<cx;++x)for(let y=
+0;y<cy;++y)arr[x][y].sort(CompareValues)},Delete(index,axis){index=Math.floor(index);if(index<0)return;const cx=this._cx;const cy=this._cy;const cz=this._cz;const arr=this._arr;if(axis===0){if(index>=cx)return;arr.splice(index,1);this._cx--}else if(axis===1){if(index>=cy)return;for(let x=0;x<cx;++x)arr[x].splice(index,1);this._cy--}else{if(index>=cz)return;for(let x=0;x<cx;++x)for(let y=0;y<cy;++y)arr[x][y].splice(index,1);this._cz--}},Insert(value,index,axis){index=Math.floor(index);if(index<0)return;
+const cx=this._cx;const cy=this._cy;const cz=this._cz;const arr=this._arr;if(axis===0){if(index>cx)return;arr.splice(index,0,C3.MakeFilledArray(cy,()=>C3.MakeFilledArray(cz,value)));this._cx++}else if(axis===1){if(index>cy)return;for(let x=0;x<cx;++x)arr[x].splice(index,0,C3.MakeFilledArray(cz,value));this._cy++}else{if(index>cz)return;for(let x=0;x<cx;++x)for(let y=0;y<cy;++y)arr[x][y].splice(index,0,value);this._cz++}},JSONLoad(json){let o=null;try{o=JSON.parse(json)}catch(err){console.error("[Construct] Failed to parse JSON: ",
+err);return}if(!o["c2array"])return;const sz=o["size"];this._cx=sz[0];this._cy=sz[1];this._cz=sz[2];this._arr=o["data"]},JSONDownload(filename){const url=URL.createObjectURL(new Blob([this.GetAsJsonString()],{type:"application/json"}));this._runtime.InvokeDownload(url,filename)}}}
+{const C3=self.C3;C3.Plugins.Arr.Exps={At(x,y,z){return this.At(x,y||0,z||0)},Width(){return this._cx},Height(){return this._cy},Depth(){return this._cz},CurX(){return this._GetForX()},CurY(){return this._GetForY()},CurZ(){return this._GetForZ()},CurValue(){return this.At(this._GetForX(),this._GetForY(),this._GetForZ())},Front(){return this.At(0,0,0)},Back(){return this.At(this._cx-1,0,0)},IndexOf(v){const arr=this._arr;for(let x=0,len=this._cx;x<len;++x)if(arr[x][0][0]===v)return x;return-1},LastIndexOf(v){const arr=
+this._arr;for(let x=this._cx-1;x>=0;--x)if(arr[x][0][0]===v)return x;return-1},AsJSON(){return this.GetAsJsonString()}}};
+
+}
+
+{
+'use strict';{const C3=self.C3;C3.Plugins.Json=class JSONPlugin extends C3.SDKPluginBase{constructor(opts){super(opts)}Release(){super.Release()}}}{const C3=self.C3;C3.Plugins.Json.Type=class JSONType extends C3.SDKTypeBase{constructor(objectClass){super(objectClass)}Release(){super.Release()}OnCreate(){}}}
+{const C3=self.C3;const C3X=self.C3X;const IInstance=self.IInstance;C3.Plugins.Json.Instance=class JSONInstance extends C3.SDKInstanceBase{constructor(inst,properties){super(inst);this._valueCache=[null,null];this._locationCache=[null,null];this._data={};this._path=[];this._currentKey="";this._currentValue=0}Release(){super.Release()}_InvalidateValueCache(){this._valueCache[0]=null;this._valueCache[1]=null}_HasValueCache(arr,isMutate){const cacheArr=this._valueCache[0];if(arr===null||cacheArr===null)return false;
+if(cacheArr===arr||C3.arraysEqual(cacheArr,arr))return true;if(isMutate&&cacheArr.length>0){for(let i=0,len=Math.min(arr.length,cacheArr.length);i<len;++i)if(arr[i]!==cacheArr[i])return false;return true}else return false}_GetValueCache(){return this._valueCache[1]}_UpdateValueCache(arr,value){this._valueCache[0]=arr;this._valueCache[1]=value}_InvalidateLocationCache(){this._locationCache[0]=null;this._locationCache[1]=null}_HasLocationCache(str){return this._locationCache[0]===str}_GetLocationCache(){return this._locationCache[1]}_UpdateLocationCache(str,
+value){this._locationCache[0]=str;this._locationCache[1]=value}_SetData(obj){this._data=obj;this._InvalidateValueCache()}_GetData(){return this._data}_SetPath(str){this._path=this._ParsePathUnsafe(str);this._InvalidateLocationCache()}_ParsePath(str){return C3.cloneArray(this._ParsePathUnsafe(str))}_ParsePathUnsafe(str){const buffer=[];let escaped=false;let parts;if(this._HasLocationCache(str))return this._GetLocationCache();if(str[0]==="."){parts=C3.cloneArray(this._path);str=str.slice(1)}else parts=
+[];for(const c of str)if(escaped){buffer.push(c);escaped=false}else if(c==="\\")escaped=true;else if(c==="."){parts.push(buffer.join(""));C3.clearArray(buffer)}else buffer.push(c);if(buffer.length!==0)parts.push(buffer.join(""));this._UpdateLocationCache(str,parts);return parts}_GetValueAtFullPath(path,lazyCreate){if(this._HasValueCache(path,false))return this._GetValueCache();let result=this._data;for(const part of path)if(Array.isArray(result)){const index=parseInt(part,10);if(index<0||index>=result.length||
+!isFinite(index)){result=null;break}result=result[index]}else if(typeof result==="object"&&result!==null)if(result.hasOwnProperty(part))result=result[part];else if(lazyCreate){const o={};result[part]=o;result=o}else{result=null;break}else{result=null;break}this._UpdateValueCache(path,result);return result}_GetValue(str){const path=this._ParsePath(str);if(!path.length)return this._data;const key=path.pop();const obj=this._GetValueAtFullPath(path,false);if(Array.isArray(obj)){const index=parseInt(key,
+10);return index>=0&&index<obj.length?obj[index]:null}else if(typeof obj==="object"&&obj!==null)return obj.hasOwnProperty(key)?obj[key]:null;else return null}_JSONTypeOf(val){if(val===null)return"null";else if(Array.isArray(val))return"array";else return typeof val}_GetTypeOf(str){const val=this._GetValue(str);return this._JSONTypeOf(val)}_ToSafeValue(value){const type=typeof value;if(type==="number"||type==="string")return value;else if(type==="boolean")return value?1:0;else return 0}_GetSafeValue(str){return this._ToSafeValue(this._GetValue(str))}_HasKey(str){const path=
+this._ParsePath(str);if(!path.length)return false;const key=path.pop();const obj=this._GetValueAtFullPath(path,false);if(Array.isArray(obj)){const index=parseInt(key,10);return index>=0&&index<obj.length}else if(typeof obj==="object"&&obj!==null)return obj.hasOwnProperty(key);else return false}_SetValue(str,value){const path=this._ParsePath(str);if(!path.length)return false;if(this._HasValueCache(path,true))this._InvalidateValueCache();const key=path.pop();const obj=this._GetValueAtFullPath(path,
+true);if(Array.isArray(obj)){const index=parseInt(key,10);if(!isFinite(index)||index<0||index>=obj.length)return false;obj[index]=value;return true}else if(typeof obj==="object"&&obj!==null){obj[key]=value;return true}return false}_DeleteKey(str){const path=this._ParsePath(str);if(!path.length)return false;if(this._HasValueCache(path,true))this._InvalidateValueCache();const key=path.pop();const obj=this._GetValueAtFullPath(path,false);if(Array.isArray(obj))return false;else if(typeof obj==="object"&&
+obj!==null){delete obj[key];return true}else return false}SaveToJson(){return{"path":this._path,"data":this._data}}LoadFromJson(o){this._InvalidateValueCache();this._InvalidateLocationCache();this._path=o["path"];this._data=o["data"]}_SanitizeValue(val){const type=typeof val;if(type==="number"){if(!isFinite(val))return 0;return val}if(typeof val=="object")return JSON.stringify(val);return val+""}GetDebuggerProperties(){const prefix="plugins.json.debugger";let topLevelData;try{topLevelData=this._SanitizeValue(this._data)}catch(e){topLevelData=
+'"invalid"'}return[{title:prefix+".title",properties:[{name:prefix+".data",value:topLevelData,onedit:v=>{try{const n=JSON.parse(v);this._SetData(n)}catch(e){}}},{name:prefix+".path",value:this._path.map(seg=>seg.replace(/\./g,"\\.")).join(".")}]}]}GetScriptInterfaceClass(){return self.IJSONInstance}};const map=new WeakMap;self.IJSONInstance=class IJSONInstance extends IInstance{constructor(){super();map.set(this,IInstance._GetInitInst().GetSdkInstance())}getJsonDataCopy(){const data=map.get(this)._GetData();
+return JSON.parse(JSON.stringify(data))}setJsonDataCopy(o){try{const o2=JSON.parse(JSON.stringify(o));map.get(this)._SetData(o2)}catch(err){console.error("[JSON plugin] setJsonData: object is not valid JSON: ",err);throw err;}}setJsonString(str){C3X.RequireString(str);try{const o=JSON.parse(str);map.get(this)._SetData(o)}catch(err){console.error("[JSON plugin] setJsonString: string is not valid JSON: ",err);throw err;}}toCompactString(){return JSON.stringify(map.get(this)._GetData())}toBeautifiedString(){return JSON.stringify(map.get(this)._GetData(),
+null,4)}}}
+{const C3=self.C3;const JSON_TYPES=["null","boolean","number","string","object","array"];C3.Plugins.Json.Cnds={HasKey(str){return this._HasKey(str)},CompareType(str,typeIndex){return this._GetTypeOf(str)===JSON_TYPES[typeIndex]},CompareValue(str,cmp,value){return C3.compare(this._GetSafeValue(str),cmp,value)},IsBooleanSet(str){return this._GetValue(str)===true},ForEach(str){const value=this._GetValue(str);if(typeof value!=="object"||value===null)return false;const runtime=this._runtime;const eventSheetManager=
+runtime.GetEventSheetManager();const currentEvent=runtime.GetCurrentEvent();const solModifiers=currentEvent.GetSolModifiers();const eventStack=runtime.GetEventStack();const oldFrame=eventStack.GetCurrentStackFrame();const newFrame=eventStack.Push(currentEvent);const oldPath=this._path;const oldKey=this._currentKey;const oldValue=this._currentValue;const subPath=this._ParsePathUnsafe(str);runtime.SetDebuggingEnabled(false);for(const [k,v]of Object.entries(value)){this._path=C3.cloneArray(subPath);
+this._path.push(k);this._currentKey=k;this._currentValue=v;eventSheetManager.PushCopySol(solModifiers);currentEvent.Retrigger(oldFrame,newFrame);eventSheetManager.PopSol(solModifiers)}runtime.SetDebuggingEnabled(true);this._path=oldPath;this._InvalidateLocationCache();this._currentKey=oldKey;this._currentValue=oldValue;eventStack.Pop();return false},OnParseError(){return true}}}
+{const C3=self.C3;C3.Plugins.Json.Acts={Parse(str){try{this._SetData(JSON.parse(str))}catch(err){console.warn("[JSON plugin] Failed to parse JSON data: ",err);this._SetData({});this.Trigger(C3.Plugins.Json.Cnds.OnParseError)}},SetPath(str){this._SetPath(str)},SetValue(str,value){this._SetValue(str,value)},SetArray(str,size){let value=this._GetValue(str);if(Array.isArray(value))C3.resizeArray(value,size,0);else{value=[];C3.extendArray(value,size,0);this._SetValue(str,value)}},SetObject(str){this._SetValue(str,
+{})},SetJSON(location,value){let obj=null;try{obj=JSON.parse(value)}catch(err){console.warn("[JSON plugin] Failed to parse JSON data: ",err);this.Trigger(C3.Plugins.Json.Cnds.OnParseError)}this._SetValue(location,obj)},SetNull(str){this._SetValue(str,null)},SetBoolean(str,value){this._SetValue(str,value!==0)},ToggleBoolean(str){const value=this._GetValue(str);if(typeof value==="boolean")this._SetValue(str,!value)},AddTo(str,inc){const value=this._GetValue(str);if(typeof value==="number")this._SetValue(str,
+value+inc)},SubtractFrom(str,dec){const value=this._GetValue(str);if(typeof value==="number")this._SetValue(str,value-dec)},DeleteKey(str){this._DeleteKey(str)},PushValue(side,str,value){const parent=this._GetValue(str);if(Array.isArray(parent))side===0?parent.push(value):parent.unshift(value)},PopValue(side,str){const parent=this._GetValue(str);if(Array.isArray(parent))side===0?parent.pop():parent.shift()},InsertValue(value,str,index){const parent=this._GetValue(str);if(Array.isArray(parent))parent.splice(index,
+0,value)},RemoveValues(count,str,index){const parent=this._GetValue(str);if(Array.isArray(parent))parent.splice(index,count)}}}
+{const C3=self.C3;C3.Plugins.Json.Exps={ToCompactString(){try{return JSON.stringify(this._data)}catch(err){return""}},ToBeautifiedString(){try{return JSON.stringify(this._data,null,4)}catch(err){return""}},Get(str){return this._GetSafeValue(str)},GetAsCompactString(str){const value=this._GetValue(str);return JSON.stringify(value)},GetAsBeautifiedString(str){const value=this._GetValue(str);return JSON.stringify(value,null,4)},Front(str){const parent=this._GetValue(str);if(Array.isArray(parent)){const value=
+parent[0];return this._ToSafeValue(value)}else return-1},Back(str){const parent=this._GetValue(str);if(Array.isArray(parent)){const value=parent.at(-1);return this._ToSafeValue(value)}else return-1},Type(str){return this._GetTypeOf(str)},ArraySize(str){const value=this._GetValue(str);if(Array.isArray(value))return value.length;else return-1},Path(){return this._path.map(seg=>seg.replace(/\./g,"\\.")).join(".")},CurrentKey(){return this._currentKey},CurrentValue(){return this._ToSafeValue(this._currentValue)},
+CurrentType(){return this._JSONTypeOf(this._currentValue)}}};
+
+}
+
+{
 'use strict';{const C3=self.C3;C3.Plugins.Text=class TextPlugin extends C3.SDKPluginBase{constructor(opts){super(opts)}Release(){super.Release()}}}{const C3=self.C3;C3.Plugins.Text.Type=class TextType extends C3.SDKTypeBase{constructor(objectClass){super(objectClass)}Release(){super.Release()}OnCreate(){}LoadTextures(renderer){}ReleaseTextures(){}}}
 {const C3=self.C3;const C3X=self.C3X;const TEMP_COLOR_ARRAY=[0,0,0];const TEXT=0;const ENABLE_BBCODE=1;const FONT=2;const SIZE=3;const LINE_HEIGHT=4;const BOLD=5;const ITALIC=6;const COLOR=7;const HORIZONTAL_ALIGNMENT=8;const VERTICAL_ALIGNMENT=9;const WRAPPING=10;const INITIALLY_VISIBLE=11;const ORIGIN=12;const HORIZONTAL_ALIGNMENTS=["left","center","right"];const VERTICAL_ALIGNMENTS=["top","center","bottom"];const WORD_WRAP=0;const CHARACTER_WRAP=1;const tempRect=new C3.Rect;const tempQuad=new C3.Quad;
 const tempColor=new C3.Color;C3.Plugins.Text.Instance=class TextInstance extends C3.SDKWorldInstanceBase{constructor(inst,properties){super(inst);this._text="";this._enableBBcode=true;this._faceName="Arial";this._ptSize=12;this._lineHeightOffset=0;this._isBold=false;this._isItalic=false;this._color=C3.New(C3.Color);this._horizontalAlign=0;this._verticalAlign=0;this._wrapByWord=true;this._typewriterStartTime=-1;this._typewriterEndTime=-1;this._typewriterLength=0;this._rendererText=C3.New(C3.Gfx.RendererText,
@@ -3576,33 +3630,6 @@ lastTapTime=-1E4;return"double-tap"}else{lastTapX=this._x;lastTapY=this._y;lastT
 }
 
 {
-'use strict';{const C3=self.C3;C3.Plugins.Arr=class ArrayPlugin extends C3.SDKPluginBase{constructor(opts){super(opts)}Release(){super.Release()}}}{const C3=self.C3;C3.Plugins.Arr.Type=class ArrayType extends C3.SDKTypeBase{constructor(objectClass){super(objectClass)}Release(){super.Release()}OnCreate(){}}}
-{const C3=self.C3;const C3X=self.C3X;const IInstance=self.IInstance;function ResizeArray(arr,len,data){if(len<arr.length)C3.truncateArray(arr,len);else if(len>arr.length)if(typeof data==="function")for(let i=arr.length;i<len;++i)arr.push(data());else for(let i=arr.length;i<len;++i)arr.push(data)}C3.Plugins.Arr.Instance=class ArrayInstance extends C3.SDKInstanceBase{constructor(inst,properties){super(inst);this._cx=10;this._cy=1;this._cz=1;this._arr=null;this._forX=[];this._forY=[];this._forZ=[];this._forDepth=
--1;if(properties){this._cx=properties[0];this._cy=properties[1];this._cz=properties[2]}this._arr=C3.MakeFilledArray(this._cx,()=>C3.MakeFilledArray(this._cy,()=>C3.MakeFilledArray(this._cz,0)))}Release(){this._arr=null;super.Release()}At(x,y,z){x=Math.floor(x);y=Math.floor(y);z=Math.floor(z);if(x>=0&&x<this._cx&&y>=0&&y<this._cy&&z>=0&&z<this._cz)return this._arr[x][y][z];else return 0}Set(x,y,z,val){x=Math.floor(x);y=Math.floor(y);z=Math.floor(z);if(x>=0&&x<this._cx&&y>=0&&y<this._cy&&z>=0&&z<this._cz)this._arr[x][y][z]=
-val}SetSize(w,h,d){w=Math.floor(w);h=Math.floor(h);d=Math.floor(d);if(w<0)w=0;if(h<0)h=0;if(d<0)d=0;if(this._cx===w&&this._cy===h&&this._cz===d)return;this._cx=w;this._cy=h;this._cz=d;const arr=this._arr;ResizeArray(arr,w,()=>C3.MakeFilledArray(h,()=>C3.MakeFilledArray(d,0)));for(let x=0;x<w;++x){ResizeArray(arr[x],h,()=>C3.MakeFilledArray(d,0));for(let y=0;y<h;++y)ResizeArray(arr[x][y],d,0)}}GetWidth(){return this._cx}GetHeight(){return this._cy}GetDepth(){return this._cz}GetDebuggerProperties(){const prefix=
-"plugins.arr.debugger";const propsPrefix="plugins.arr.properties";const ret=[{title:prefix+".array-properties.title",properties:[{name:propsPrefix+".width.name",value:this._cx,onedit:v=>this.SetSize(v,this._cy,this._cz)},{name:propsPrefix+".height.name",value:this._cy,onedit:v=>this.SetSize(this._cx,v,this._cz)},{name:propsPrefix+".depth.name",value:this._cz,onedit:v=>this.SetSize(this._cx,this._cy,v)},{name:propsPrefix+".elements.name",value:this._cx*this._cy*this._cz}]}];const dataProps=[];if(this._cy===
-1&&this._cz===1)for(let x=0;x<this._cx;++x)dataProps.push({name:"$"+x,value:this._arr[x][0][0],onedit:v=>this._arr[x][0][0]=v});else for(let x=0;x<this._cx;++x)dataProps.push({name:"$"+x,value:this._arr[x].toString()});if(dataProps.length)ret.push({title:prefix+".array-data.title",properties:dataProps});return ret}GetAsJsonString(){return JSON.stringify({"c2array":true,"size":[this._cx,this._cy,this._cz],"data":this._arr})}SaveToJson(){return{"size":[this._cx,this._cy,this._cz],"data":this._arr}}LoadFromJson(o){const sz=
-o["size"];this._cx=sz[0];this._cy=sz[1];this._cz=sz[2];this._arr=o["data"]}_GetForX(){if(this._forDepth>=0&&this._forDepth<this._forX.length)return this._forX[this._forDepth];else return 0}_GetForY(){if(this._forDepth>=0&&this._forDepth<this._forY.length)return this._forY[this._forDepth];else return 0}_GetForZ(){if(this._forDepth>=0&&this._forDepth<this._forZ.length)return this._forZ[this._forDepth];else return 0}GetScriptInterfaceClass(){return self.IArrayInstance}};const map=new WeakMap;self.IArrayInstance=
-class IArrayInstance extends IInstance{constructor(){super();map.set(this,IInstance._GetInitInst().GetSdkInstance())}get width(){return map.get(this).GetWidth()}get height(){return map.get(this).GetHeight()}get depth(){return map.get(this).GetDepth()}setSize(w,h=1,d=1){C3X.RequireFiniteNumber(w);C3X.RequireFiniteNumber(h);C3X.RequireFiniteNumber(d);map.get(this).SetSize(w,h,d)}getAt(x,y=0,z=0){C3X.RequireFiniteNumber(x);C3X.RequireFiniteNumber(y);C3X.RequireFiniteNumber(z);return map.get(this).At(x,
-y,z)}setAt(val,x,y=0,z=0){C3X.RequireFiniteNumber(x);C3X.RequireFiniteNumber(y);C3X.RequireFiniteNumber(z);if(typeof val!=="number"&&typeof val!=="string")throw new TypeError("invalid type");map.get(this).Set(x,y,z,val)}}}
-{const C3=self.C3;function DoForEachTrigger(eventSheetManager,currentEvent,solModifiers,oldFrame,newFrame){eventSheetManager.PushCopySol(solModifiers);currentEvent.Retrigger(oldFrame,newFrame);eventSheetManager.PopSol(solModifiers)}C3.Plugins.Arr.Cnds={CompareX(x,cmp,val){return C3.compare(this.At(x,0,0),cmp,val)},CompareXY(x,y,cmp,val){return C3.compare(this.At(x,y,0),cmp,val)},CompareXYZ(x,y,z,cmp,val){return C3.compare(this.At(x,y,z),cmp,val)},ArrForEach(dims){const runtime=this._runtime;const eventSheetManager=
-runtime.GetEventSheetManager();const currentEvent=runtime.GetCurrentEvent();const solModifiers=currentEvent.GetSolModifiers();const eventStack=runtime.GetEventStack();const oldFrame=eventStack.GetCurrentStackFrame();const newFrame=eventStack.Push(currentEvent);const forDepth=++this._forDepth;const forX=this._forX;const forY=this._forY;const forZ=this._forZ;const cx=this._cx;const cy=this._cy;const cz=this._cz;if(forDepth===this._forX.length){forX.push(0);forY.push(0);forZ.push(0)}else{forX[forDepth]=
-0;forY[forDepth]=0;forZ[forDepth]=0}runtime.SetDebuggingEnabled(false);if(dims===0)for(let x=0;x<cx;++x)for(let y=0;y<cy;++y)for(let z=0;z<cz;++z){forX[forDepth]=x;forY[forDepth]=y;forZ[forDepth]=z;DoForEachTrigger(eventSheetManager,currentEvent,solModifiers,oldFrame,newFrame)}else if(dims===1)for(let x=0;x<cx;++x)for(let y=0;y<cy;++y){forX[forDepth]=x;forY[forDepth]=y;DoForEachTrigger(eventSheetManager,currentEvent,solModifiers,oldFrame,newFrame)}else for(let x=0;x<cx;++x){forX[forDepth]=x;DoForEachTrigger(eventSheetManager,
-currentEvent,solModifiers,oldFrame,newFrame)}runtime.SetDebuggingEnabled(true);this._forDepth--;eventStack.Pop();return false},CompareCurrent(cmp,val){return C3.compare(this.At(this._GetForX(),this._GetForY(),this._GetForZ()),cmp,val)},Contains(val){const cx=this._cx;const cy=this._cy;const cz=this._cz;const arr=this._arr;for(let x=0;x<cx;++x)for(let y=0;y<cy;++y)for(let z=0;z<cz;++z)if(arr[x][y][z]===val)return true;return false},IsEmpty(){return this._cx===0||this._cy===0||this._cz===0},CompareSize(axis,
-cmp,val){let s=0;switch(axis){case 0:s=this._cx;break;case 1:s=this._cy;break;case 2:s=this._cz;break}return C3.compare(s,cmp,val)}}}
-{const C3=self.C3;function CompareValues(va,vb){if(typeof va==="number"&&typeof vb==="number")return va-vb;else{const sa=va.toString();const sb=vb.toString();if(sa<sb)return-1;else if(sa>sb)return 1;else return 0}}C3.Plugins.Arr.Acts={Clear(v){const cx=this._cx;const cy=this._cy;const cz=this._cz;const arr=this._arr;for(let x=0;x<cx;++x)for(let y=0;y<cy;++y)for(let z=0;z<cz;++z)arr[x][y][z]=v},SetSize(w,h,d){this.SetSize(w,h,d)},SetX(x,val){this.Set(x,0,0,val)},SetXY(x,y,val){this.Set(x,y,0,val)},
-SetXYZ(x,y,z,val){this.Set(x,y,z,val)},Push(where,value,axis){const cx=this._cx;const cy=this._cy;const cz=this._cz;const arr=this._arr;if(axis===0){const add=C3.MakeFilledArray(cy,()=>C3.MakeFilledArray(cz,value));if(where===0)arr.push(add);else arr.unshift(add);this._cx++}else if(axis===1){for(let x=0;x<cx;++x){const add=C3.MakeFilledArray(cz,value);if(where===0)arr[x].push(add);else arr[x].unshift(add)}this._cy++}else{for(let x=0;x<cx;++x)for(let y=0;y<cy;++y)if(where===0)arr[x][y].push(value);
-else arr[x][y].unshift(value);this._cz++}},Pop(where,axis){const cx=this._cx;const cy=this._cy;const cz=this._cz;const arr=this._arr;if(axis===0){if(cx===0)return;if(where===0)arr.pop();else arr.shift();this._cx--}else if(axis===1){if(cy===0)return;for(let x=0;x<cx;++x)if(where===0)arr[x].pop();else arr[x].shift();this._cy--}else{if(cz===0)return;for(let x=0;x<cx;++x)for(let y=0;y<cy;++y)if(where===0)arr[x][y].pop();else arr[x][y].shift();this._cz--}},Reverse(axis){const cx=this._cx;const cy=this._cy;
-const cz=this._cz;const arr=this._arr;if(cx===0||cy===0||cz===0)return;if(axis===0)arr.reverse();else if(axis===1)for(let x=0;x<cx;++x)arr[x].reverse();else for(let x=0;x<cx;++x)for(let y=0;y<cy;++y)arr[x][y].reverse()},Sort(axis){const cx=this._cx;const cy=this._cy;const cz=this._cz;const arr=this._arr;if(cx===0||cy===0||cz===0)return;if(axis===0)arr.sort((a,b)=>CompareValues(a[0][0],b[0][0]));else if(axis===1)for(let x=0;x<cx;++x)arr[x].sort((a,b)=>CompareValues(a[0],b[0]));else for(let x=0;x<cx;++x)for(let y=
-0;y<cy;++y)arr[x][y].sort(CompareValues)},Delete(index,axis){index=Math.floor(index);if(index<0)return;const cx=this._cx;const cy=this._cy;const cz=this._cz;const arr=this._arr;if(axis===0){if(index>=cx)return;arr.splice(index,1);this._cx--}else if(axis===1){if(index>=cy)return;for(let x=0;x<cx;++x)arr[x].splice(index,1);this._cy--}else{if(index>=cz)return;for(let x=0;x<cx;++x)for(let y=0;y<cy;++y)arr[x][y].splice(index,1);this._cz--}},Insert(value,index,axis){index=Math.floor(index);if(index<0)return;
-const cx=this._cx;const cy=this._cy;const cz=this._cz;const arr=this._arr;if(axis===0){if(index>cx)return;arr.splice(index,0,C3.MakeFilledArray(cy,()=>C3.MakeFilledArray(cz,value)));this._cx++}else if(axis===1){if(index>cy)return;for(let x=0;x<cx;++x)arr[x].splice(index,0,C3.MakeFilledArray(cz,value));this._cy++}else{if(index>cz)return;for(let x=0;x<cx;++x)for(let y=0;y<cy;++y)arr[x][y].splice(index,0,value);this._cz++}},JSONLoad(json){let o=null;try{o=JSON.parse(json)}catch(err){console.error("[Construct] Failed to parse JSON: ",
-err);return}if(!o["c2array"])return;const sz=o["size"];this._cx=sz[0];this._cy=sz[1];this._cz=sz[2];this._arr=o["data"]},JSONDownload(filename){const url=URL.createObjectURL(new Blob([this.GetAsJsonString()],{type:"application/json"}));this._runtime.InvokeDownload(url,filename)}}}
-{const C3=self.C3;C3.Plugins.Arr.Exps={At(x,y,z){return this.At(x,y||0,z||0)},Width(){return this._cx},Height(){return this._cy},Depth(){return this._cz},CurX(){return this._GetForX()},CurY(){return this._GetForY()},CurZ(){return this._GetForZ()},CurValue(){return this.At(this._GetForX(),this._GetForY(),this._GetForZ())},Front(){return this.At(0,0,0)},Back(){return this.At(this._cx-1,0,0)},IndexOf(v){const arr=this._arr;for(let x=0,len=this._cx;x<len;++x)if(arr[x][0][0]===v)return x;return-1},LastIndexOf(v){const arr=
-this._arr;for(let x=this._cx-1;x>=0;--x)if(arr[x][0][0]===v)return x;return-1},AsJSON(){return this.GetAsJsonString()}}};
-
-}
-
-{
 'use strict';{const C3=self.C3;C3.Plugins.Mouse=class MousePlugin extends C3.SDKPluginBase{constructor(opts){super(opts)}Release(){super.Release()}}}
 {const C3=self.C3;const C3X=self.C3X;C3.Plugins.Mouse.Type=class MouseType extends C3.SDKTypeBase{constructor(objectClass){super(objectClass)}Release(){super.Release()}OnCreate(){}GetScriptInterfaceClass(){return self.IMouseObjectType}};let mouseObjectType=null;function GetMouseSdkInstance(){return mouseObjectType.GetSingleGlobalInstance().GetSdkInstance()}self.IMouseObjectType=class IMouseObjectType extends self.IObjectClass{constructor(objectType){super(objectType);mouseObjectType=objectType;objectType.GetRuntime()._GetCommonScriptInterfaces().mouse=
 this}getMouseX(layerNameOrNumber){return GetMouseSdkInstance().GetMousePositionForLayer(layerNameOrNumber)[0]}getMouseY(layerNameOrNumber){return GetMouseSdkInstance().GetMousePositionForLayer(layerNameOrNumber)[1]}getMousePosition(layerNameOrNumber){return GetMouseSdkInstance().GetMousePositionForLayer(layerNameOrNumber)}isMouseButtonDown(button){return GetMouseSdkInstance().IsMouseButtonDown(button)}}}
@@ -3622,6 +3649,2669 @@ OnMovement(){return true}}}
 {const C3=self.C3;let lastSetCursor=null;const CURSOR_STYLES=["auto","pointer","text","crosshair","move","help","wait","none"];C3.Plugins.Mouse.Acts={SetCursor(c){const cursorStyle=CURSOR_STYLES[c];if(lastSetCursor===cursorStyle)return;lastSetCursor=cursorStyle;this.PostToDOM("cursor",cursorStyle)},SetCursorSprite(objectClass){if(C3.Platform.IsMobile||!objectClass)return;const inst=objectClass.GetFirstPicked();if(!inst)return;const wi=inst.GetWorldInfo();const imageInfo=inst.GetCurrentImageInfo();
 if(!wi||!imageInfo)return;if(lastSetCursor===imageInfo)return;lastSetCursor=imageInfo;imageInfo.ExtractImageToBlobURL().then(blobUrl=>{const cursorStyle=`url(${blobUrl}) ${Math.round(wi.GetOriginX()*imageInfo.GetWidth())} ${Math.round(wi.GetOriginY()*imageInfo.GetHeight())}, auto`;this.PostToDOM("cursor","");this.PostToDOM("cursor",cursorStyle)})},RequestPointerLock(){this._PostToDOMMaybeSync("request-pointer-lock")},ReleasePointerLock(){this.PostToDOM("release-pointer-lock")}}}
 {const C3=self.C3;C3.Plugins.Mouse.Exps={X(layerParam){return this.GetMousePositionForLayer(layerParam)[0]},Y(layerParam){return this.GetMousePositionForLayer(layerParam)[1]},AbsoluteX(){return this._mouseXcanvas},AbsoluteY(){return this._mouseYcanvas},MovementX(){return this._movementX},MovementY(){return this._movementY}}};
+
+}
+
+{
+'use strict';
+{
+    C3.Plugins.Eponesh_GameScore = class GameScorePlugin extends C3.SDKPluginBase {
+        constructor(opts) {
+            super(opts, 'Eponesh_GameScore');
+        }
+
+        Release() {
+            super.Release();
+        }
+    };
+}
+
+}
+
+{
+'use strict';
+{
+    C3.Plugins.Eponesh_GameScore.Type = class GameScoreType extends C3.SDKTypeBase {
+        constructor(objectClass) {
+            super(objectClass);
+        }
+
+        Release() {
+            super.Release();
+        }
+
+        OnCreate() {}
+    };
+}
+
+}
+
+{
+'use strict';
+{
+    const SERVER_HOST = 'https://gs.eponesh.com';
+    // const SERVER_HOST = 'https://gs.eponesh.com';
+
+    C3.Plugins.Eponesh_GameScore.Instance = class GameScoreInstance extends C3.SDKInstanceBase {
+        constructor(inst, properties) {
+            super(inst);
+
+            this.mappers = {
+                language: ['en', 'ru', 'fr', 'it', 'de', 'es', 'zh', 'pt', 'ko', 'ja'],
+                avatarGenerator: [
+                    'dicebear_retro',
+                    'dicebear_identicon',
+                    'dicebear_human',
+                    'dicebear_micah',
+                    'dicebear_bottts',
+                    'icotar',
+                    'robohash_robots',
+                    'robohash_cats'
+                ],
+                order: ['default', 'DESC', 'ASC'],
+                withMe: ['none', 'first', 'last'],
+                platform: ['YANDEX', 'VK', 'NONE', 'OK', 'GAME_MONETIZE', 'CRAZY_GAMES', 'GAME_DISTRIBUTION'],
+                documentTypes: ['PLAYER_PRIVACY_POLICY'],
+                documentFormat: ['HTML', 'TXT', 'RAW'],
+                compare: [
+                    (a, b) => a === b,
+                    (a, b) => a !== b,
+                    (a, b) => a < b,
+                    (a, b) => a <= b,
+                    (a, b) => a > b,
+                    (a, b) => a >= b
+                ]
+            };
+
+            this.conditions = C3.Plugins.Eponesh_GameScore.Cnds;
+            this.actions = C3.Plugins.Eponesh_GameScore.Acts;
+
+            this.awaiters = {
+                player: {},
+                gs: {}
+            };
+            this.awaiters.gs.ready = new Promise((res, rej) => {
+                this.awaiters.gs.done = res;
+                this.awaiters.gs.abort = rej;
+            });
+            this.awaiters.player.ready = new Promise((res, rej) => {
+                this.awaiters.player.done = res;
+                this.awaiters.player.abort = rej;
+            });
+
+            this.leaderboard = [];
+            this.leaderboardInfo = {};
+            this.leaderboardRecords = {};
+            this.currentLeaderboardIndex = 0;
+            this.currentLeaderboardPlayer = {};
+            this.lastLeaderboardTag = '';
+            this.lastLeaderboardVariant = '';
+            this.lastLeaderboardPlayerRatingTag = '';
+            this.leaderboardPlayerPosition = 0;
+
+            this.currentPlayerFieldKey = '';
+            this.currentPlayerFieldType = '';
+            this.currentPlayerFieldName = '';
+            this.currentPlayerFieldValue = '';
+
+            this.currentPlayerFieldVariantValue = '';
+            this.currentPlayerFieldVariantName = '';
+            this.currentPlayerFieldVariantIndex = 0;
+
+            this.achievements = [];
+            this.achievementsGroups = [];
+            this.playerAchievements = [];
+
+            this.currentAchievementIndex = 0;
+            this.currentAchievementId = 0;
+            this.currentAchievementTag = '';
+            this.currentAchievementName = '';
+            this.currentAchievementDescription = '';
+            this.currentAchievementIcon = '';
+            this.currentAchievementIconSmall = '';
+            this.currentAchievementRare = 'COMMON';
+            this.currentAchievementUnlocked = false;
+
+            this.currentAchievementsGroupIndex = 0;
+            this.currentAchievementsGroupId = 0;
+            this.currentAchievementsGroupTag = '';
+            this.currentAchievementsGroupName = '';
+            this.currentAchievementsGroupDescription = '';
+
+            this.currentPlayerAchievementIndex = 0;
+            this.currentPlayerAchievementId = 0;
+            this.currentPlayerAchievementUnlockDate = '';
+
+            this.isUnlockAchievementSuccess = false;
+            this.unlockAchievementError = '';
+
+            this.unlockedAchievementId = 0;
+            this.unlockedAchievementTag = '';
+            this.unlockedAchievementName = '';
+            this.unlockedAchievementDescription = '';
+            this.unlockedAchievementIcon = '';
+            this.unlockedAchievementIconSmall = '';
+            this.unlockedAchievementRare = 'COMMON';
+
+            this.products = [];
+            this.playerPurchases = [];
+
+            this.currentProductIndex = 0;
+            this.currentProductId = 0;
+            this.currentProductTag = '';
+            this.currentProductName = '';
+            this.currentProductDescription = '';
+            this.currentProductIcon = '';
+            this.currentProductIconSmall = '';
+            this.currentProductPrice = 0;
+            this.currentProductCurrency = '';
+            this.currentProductCurrencySymbol = '';
+            this.currentProductPurchases = 0;
+
+            this.isPurchaseProductSuccess = false;
+            this.purchaseProductError = '';
+            this.purchasedProductId = 0;
+            this.purchasedProductTag = '';
+
+            this.isConsumeProductSuccess = false;
+            this.consumeProductError = '';
+            this.consumedProductId = 0;
+            this.consumedProductTag = '';
+
+            this.isLastAdSuccess = false;
+            this.isLastShareSuccess = false;
+            this.isLastCommunityJoinSuccess = false;
+            this.isReady = false;
+            this.isPlayerReady = false;
+
+            this.gamesCollection = {
+                id: 0,
+                tag: '',
+                name: '',
+                description: '',
+                games: []
+            };
+
+            this.currentGameIndex = 0;
+            this.currentGameId = 0;
+            this.currentGameName = '';
+            this.currentGameDescription = '';
+            this.currentGameIcon = '';
+            this.currentGameUrl = '';
+            this.gamesCollectionFetchError = '';
+            this.lastGamesCollectionIdOrTag = '';
+
+            this.document = {
+                type: '',
+                content: ''
+            };
+
+            this.lastDocumentType = '';
+            this.documentFetchError = '';
+
+            this.projectId = Number(properties[0] || 0);
+            this.publicToken = properties[1];
+            this.showPreloaderOnStart = properties[2];
+            this.shouldWaitPlayerOnLoad = properties[3];
+
+            this._runtime.AddLoadPromise(this.awaiters.gs.ready);
+            if (this.shouldWaitPlayerOnLoad) {
+                this._runtime.AddLoadPromise(this.awaiters.player.ready);
+            }
+
+            this._runtime.Dispatcher().addEventListener('afterfirstlayoutstart', () => {
+                if (this.isReady) {
+                    this.Trigger(this.conditions.OnReady);
+                }
+
+                if (this.isPlayerReady) {
+                    this.Trigger(this.conditions.OnPlayerReady);
+                }
+            });
+
+            this.loadLib();
+        }
+
+        onError() {
+            const stub = () => Promise.resolve({});
+            this.awaiters.gs.done();
+            this.awaiters.player.done();
+            this.gs = {
+                on() {},
+                changeLanguage: stub,
+                changeAvatarGenerator: stub,
+                loadOverlay: stub,
+                isDev: false,
+                language: 'en',
+                avatarGenerator: 'dicebear_retro',
+                app: {
+                    title: '',
+                    description: '',
+                    image: '',
+                    url: ''
+                },
+                analytics: {
+                    on() {},
+                    hit() {},
+                    goal() {}
+                },
+                platform: {
+                    on() {},
+                    hasIntegratedAuth: false,
+                    type: 'NONE'
+                },
+                socials: {
+                    isSupportsNativeShare: false,
+                    isSupportsNativePosts: false,
+                    isSupportsNativeInvite: false,
+                    share: stub,
+                    post: stub,
+                    invite: stub
+                },
+                leaderboard: {
+                    on() {},
+                    open: stub,
+                    fetch: stub,
+                    fetchPlayerRating: stub
+                },
+                achievements: {
+                    on() {},
+                    has() {},
+                    open: stub,
+                    fetch: stub,
+                    unlock: stub
+                },
+                gamesCollections: {
+                    on() {},
+                    open: stub,
+                    fetch: stub
+                },
+                documents: {
+                    on() {},
+                    open: stub,
+                    fetch: stub
+                },
+                payments: {
+                    isAvailable: false,
+                    on() {},
+                    has() {},
+                    fetchProducts: stub,
+                    purchase: stub,
+                    consume: stub
+                },
+                fullscreen: {
+                    isEnabled: false,
+                    on() {},
+                    open() {},
+                    close() {},
+                    toggle() {}
+                },
+                ads: {
+                    isFullscreenAvailable: false,
+                    isRewardedAvailable: false,
+                    isPreloaderAvailable: false,
+                    isStickyAvailable: false,
+                    isAdblockEnabled: false,
+                    on() {},
+                    showFullscreen: stub,
+                    showRewardedVideo: stub,
+                    showPreloader: stub,
+                    showSticky: stub,
+                    closeSticky: stub,
+                    refreshSticky: stub
+                },
+                player: {
+                    isStub: true,
+                    isLoggedIn: false,
+                    id: 0,
+                    name: '',
+                    avatar: '',
+                    on() {},
+                    sync: stub,
+                    load: stub,
+                    login: stub,
+                    fetchFields: stub,
+                    getField: stub,
+                    getFieldName: stub,
+                    getFieldVariantName: stub,
+                    add: stub,
+                    has: stub,
+                    get: stub,
+                    set: stub,
+                    toggle: stub,
+                    reset: stub,
+                    remove: stub,
+                    fields: []
+                }
+            };
+            this.isReady = true;
+            this.Trigger(this.conditions.OnReady);
+            this.isPlayerReady = true;
+            this.Trigger(this.conditions.OnPlayerReady);
+        }
+
+        loadLib() {
+            try {
+                window.onGSInit = (gs) => gs.ready.then(() => this.init(gs)).catch(() => this.onError());
+                ((d) => {
+                    var t = d.getElementsByTagName('script')[0];
+                    var s = d.createElement('script');
+                    s.src = `${SERVER_HOST}/sdk/game-score.js?projectId=${this.projectId}&publicToken=${this.publicToken}&callback=onGSInit`;
+                    s.async = true;
+                    s.onerror = () => this.onError();
+                    t.parentNode.insertBefore(s, t);
+                })(document);
+            } catch (err) {
+                console.error(err);
+                this.onError();
+            }
+        }
+
+        init(gs) {
+            this.gs = gs;
+            this._runtime.GetIRuntime().GameScore = gs;
+
+            // player
+            this.gs.player.on('ready', () => {
+                this.isPlayerReady = true;
+                this.awaiters.player.done();
+                this.Trigger(this.conditions.OnPlayerReady);
+            });
+            this.gs.player.on('change', () => this.Trigger(this.conditions.OnPlayerChange));
+            this.gs.player.on('sync', (success) => {
+                this.Trigger(success ? this.conditions.OnPlayerSyncComplete : this.conditions.OnPlayerSyncError);
+            });
+            this.gs.player.on('load', (success) => {
+                this.Trigger(success ? this.conditions.OnPlayerLoadComplete : this.conditions.OnPlayerLoadError);
+            });
+            this.gs.player.on('login', (success) => {
+                this.Trigger(success ? this.conditions.OnPlayerLoginComplete : this.conditions.OnPlayerLoginError);
+            });
+            this.gs.player.on('fetchFields', (success) => {
+                this.Trigger(
+                    success ? this.conditions.OnPlayerFetchFieldsComplete : this.conditions.OnPlayerFetchFieldsError
+                );
+            });
+
+            // leaderboard
+            this.gs.leaderboard.on('open', () => this.Trigger(this.conditions.OnLeaderboardOpen));
+
+            // achievements
+            this.gs.achievements.on('open', () => this.Trigger(this.conditions.OnAchievementsOpen));
+            this.gs.achievements.on('close', () => this.Trigger(this.conditions.OnAchievementsClose));
+
+            // games collections
+            this.gs.gamesCollections.on('open', () => this.Trigger(this.conditions.OnGamesCollectionsOpen));
+            this.gs.gamesCollections.on('close', () => this.Trigger(this.conditions.OnGamesCollectionsClose));
+
+            this.gs.documents.on('open', () => this.Trigger(this.conditions.OnDocumentsOpen));
+            this.gs.documents.on('close', () => this.Trigger(this.conditions.OnDocumentsClose));
+
+            // fullscreen
+            this.gs.fullscreen.on('open', () => this.Trigger(this.conditions.OnFullscreenOpen));
+            this.gs.fullscreen.on('close', () => this.Trigger(this.conditions.OnFullscreenClose));
+            this.gs.fullscreen.on('change', () => this.Trigger(this.conditions.OnFullscreenChange));
+
+            // ads
+            this.gs.ads.on('start', () => this.Trigger(this.conditions.OnAdsStart));
+            this.gs.ads.on('close', (success) => {
+                this.isLastAdSuccess = success;
+                this.Trigger(this.conditions.OnAdsClose);
+            });
+
+            this.gs.ads.on('fullscreen:start', () => this.Trigger(this.conditions.OnAdsFullscreenStart));
+            this.gs.ads.on('fullscreen:close', () => this.Trigger(this.conditions.OnAdsFullscreenClose));
+
+            this.gs.ads.on('preloader:start', () => this.Trigger(this.conditions.OnAdsPreloaderStart));
+            this.gs.ads.on('preloader:close', () => this.Trigger(this.conditions.OnAdsPreloaderClose));
+
+            this.gs.ads.on('rewarded:start', () => this.Trigger(this.conditions.OnAdsRewardedStart));
+            this.gs.ads.on('rewarded:close', () => this.Trigger(this.conditions.OnAdsRewardedClose));
+            this.gs.ads.on('rewarded:reward', () => this.Trigger(this.conditions.OnAdsRewardedReward));
+
+            this.gs.ads.on('sticky:start', () => this.Trigger(this.conditions.OnAdsStickyStart));
+            this.gs.ads.on('sticky:close', () => this.Trigger(this.conditions.OnAdsStickyClose));
+            this.gs.ads.on('sticky:refresh', () => this.Trigger(this.conditions.OnAdsStickyRefresh));
+            this.gs.ads.on('sticky:render', () => this.Trigger(this.conditions.OnAdsStickyRender));
+
+            // socials
+            this.gs.socials.on('share', (success) => {
+                this.isLastShareSuccess = success;
+                this.Trigger(this.conditions.OnSocialsShare);
+            });
+            this.gs.socials.on('post', (success) => {
+                this.isLastShareSuccess = success;
+                this.Trigger(this.conditions.OnSocialsPost);
+            });
+            this.gs.socials.on('invite', (success) => {
+                this.isLastShareSuccess = success;
+                this.Trigger(this.conditions.OnSocialsInvite);
+            });
+            this.gs.socials.on('joinCommunity', (success) => {
+                this.isLastCommunityJoinSuccess = success;
+                this.Trigger(this.conditions.OnSocialsJoinCommunity);
+            });
+
+            // gs
+            this.gs.on('change:language', () => this.Trigger(this.conditions.OnChangeLanguage));
+            this.gs.on('change:avatarGenerator', () => this.Trigger(this.conditions.OnChangeAvatarGenerator));
+            this.gs.on('overlay:ready', () => this.Trigger(this.conditions.OnOverlayReady));
+
+            // ready
+            this.isReady = true;
+            this.Trigger(this.conditions.OnReady);
+            this.awaiters.gs.done();
+
+            if (this.showPreloaderOnStart) {
+                this.gs.ads.showPreloader();
+            }
+        }
+
+        Release() {
+            super.Release();
+        }
+
+        SaveToJson() {
+            return {
+                leaderboard: this.leaderboard,
+                leaderboardInfo: this.leaderboardInfo,
+                leaderboardRecords: this.leaderboardRecords,
+
+                currentLeaderboardIndex: this.currentLeaderboardIndex,
+                currentLeaderboardPlayer: this.currentLeaderboardPlayer,
+                lastLeaderboardTag: this.lastLeaderboardTag,
+                lastLeaderboardVariant: this.lastLeaderboardVariant,
+                lastLeaderboardPlayerRatingTag: this.lastLeaderboardPlayerRatingTag,
+                leaderboardPlayerPosition: this.leaderboardPlayerPosition,
+
+                currentPlayerFieldKey: this.currentPlayerFieldKey,
+                currentPlayerFieldType: this.currentPlayerFieldType,
+                currentPlayerFieldName: this.currentPlayerFieldName,
+                currentPlayerFieldValue: this.currentPlayerFieldValue,
+
+                currentPlayerFieldVariantValue: this.currentPlayerFieldVariantValue,
+                currentPlayerFieldVariantName: this.currentPlayerFieldVariantName,
+                currentPlayerFieldVariantIndex: this.currentPlayerFieldVariantIndex,
+
+                isLastAdSuccess: this.isLastAdSuccess,
+                isLastShareSuccess: this.isLastShareSuccess,
+                isLastCommunityJoinSuccess: this.isLastCommunityJoinSuccess,
+                isReady: this.isReady,
+                isPlayerReady: this.isPlayerReady,
+
+                achievements: this.achievements,
+                achievementsGroups: this.achievementsGroups,
+                playerAchievements: this.playerAchievements,
+
+                currentAchievementIndex: this.currentAchievementIndex,
+                currentAchievementId: this.currentAchievementId,
+                currentAchievementTag: this.currentAchievementTag,
+                currentAchievementName: this.currentAchievementName,
+                currentAchievementDescription: this.currentAchievementDescription,
+                currentAchievementIcon: this.currentAchievementIcon,
+                currentAchievementIconSmall: this.currentAchievementIconSmall,
+                currentAchievementRare: this.currentAchievementRare,
+                currentAchievementUnlocked: this.currentAchievementUnlocked,
+
+                currentAchievementsGroupIndex: this.currentAchievementsGroupIndex,
+                currentAchievementsGroupId: this.currentAchievementsGroupId,
+                currentAchievementsGroupTag: this.currentAchievementsGroupTag,
+                currentAchievementsGroupName: this.currentAchievementsGroupName,
+                currentAchievementsGroupDescription: this.currentAchievementsGroupDescription,
+
+                currentPlayerAchievementIndex: this.currentPlayerAchievementIndex,
+                currentPlayerAchievementId: this.currentPlayerAchievementId,
+                currentPlayerAchievementUnlockDate: this.currentPlayerAchievementUnlockDate,
+
+                isUnlockAchievementSuccess: this.isUnlockAchievementSuccess,
+                unlockAchievementError: this.unlockAchievementError,
+
+                unlockedAchievementId: this.unlockedAchievementId,
+                unlockedAchievementTag: this.unlockedAchievementTag,
+                unlockedAchievementName: this.unlockedAchievementName,
+                unlockedAchievementDescription: this.unlockedAchievementDescription,
+                unlockedAchievementIcon: this.unlockedAchievementIcon,
+                unlockedAchievementIconSmall: this.unlockedAchievementIconSmall,
+                unlockedAchievementRare: this.unlockedAchievementRare,
+
+                products: this.products,
+                playerPurchases: this.playerPurchases,
+
+                currentProductIndex: this.currentProductIndex,
+                currentProductId: this.currentProductId,
+                currentProductTag: this.currentProductTag,
+                currentProductName: this.currentProductName,
+                currentProductDescription: this.currentProductDescription,
+                currentProductIcon: this.currentProductIcon,
+                currentProductIconSmall: this.currentProductIconSmall,
+                currentProductPrice: this.currentProductPrice,
+                currentProductCurrency: this.currentProductCurrency,
+                currentProductCurrencySymbol: this.currentProductCurrencySymbol,
+                currentProductPurchases: this.currentProductPurchases,
+
+                isPurchaseProductSuccess: this.isPurchaseProductSuccess,
+                purchaseProductError: this.purchaseProductError,
+                purchasedProductId: this.purchasedProductId,
+                purchasedProductTag: this.purchasedProductTag,
+
+                isConsumeProductSuccess: this.isConsumeProductSuccess,
+                consumeProductError: this.consumeProductError,
+                consumedProductId: this.consumedProductId,
+                consumedProductTag: this.consumedProductTag,
+
+                gamesCollection: this.gamesCollection,
+
+                currentGameIndex: this.currentGameIndex,
+                currentGameId: this.currentGameId,
+                currentGameName: this.currentGameName,
+                currentGameDescription: this.currentGameDescription,
+                currentGameIcon: this.currentGameIcon,
+                currentGameUrl: this.currentGameUrl,
+
+                gamesCollectionFetchError: this.gamesCollectionFetchError,
+                lastGamesCollectionIdOrTag: this.lastGamesCollectionIdOrTag,
+
+                document: this.document,
+                lastDocumentType: this.lastDocumentType,
+                documentFetchError: this.documentFetchError
+            };
+        }
+
+        LoadFromJson(o) {
+            this.leaderboard = o.leaderboard;
+            this.leaderboardInfo = o.leaderboardInfo || {};
+            this.leaderboardRecords = o.leaderboardRecords || {};
+
+            this.currentLeaderboardIndex = o.currentLeaderboardIndex;
+            this.currentLeaderboardPlayer = o.currentLeaderboardPlayer;
+            this.lastLeaderboardTag = o.lastLeaderboardTag;
+            this.lastLeaderboardVariant = o.lastLeaderboardVariant;
+            this.lastLeaderboardPlayerRatingTag = o.lastLeaderboardPlayerRatingTag;
+            this.leaderboardPlayerPosition = o.leaderboardPlayerPosition || 0;
+
+            this.currentPlayerFieldKey = o.currentPlayerFieldKey;
+            this.currentPlayerFieldType = o.currentPlayerFieldType;
+            this.currentPlayerFieldName = o.currentPlayerFieldName;
+            this.currentPlayerFieldValue = o.currentPlayerFieldValue;
+
+            this.currentPlayerFieldVariantValue = o.currentPlayerFieldVariantValue;
+            this.currentPlayerFieldVariantName = o.currentPlayerFieldVariantName;
+            this.currentPlayerFieldVariantIndex = o.currentPlayerFieldVariantIndex;
+
+            this.isLastAdSuccess = o.isLastAdSuccess;
+            this.isLastShareSuccess = o.isLastShareSuccess;
+            this.isLastCommunityJoinSuccess = o.isLastCommunityJoinSuccess;
+            this.isReady = o.isReady;
+            this.isPlayerReady = o.isPlayerReady;
+
+            this.achievements = o.achievements || [];
+            this.achievementsGroups = o.achievementsGroups || [];
+            this.playerAchievements = o.playerAchievements || [];
+
+            this.currentAchievementIndex = o.currentAchievementIndex || 0;
+            this.currentAchievementId = o.currentAchievementId || 0;
+            this.currentAchievementTag = o.currentAchievementTag || '';
+            this.currentAchievementName = o.currentAchievementName || '';
+            this.currentAchievementDescription = o.currentAchievementDescription || '';
+            this.currentAchievementIcon = o.currentAchievementIcon || '';
+            this.currentAchievementIconSmall = o.currentAchievementIconSmall || '';
+            this.currentAchievementRare = o.currentAchievementRare || 'COMMON';
+            this.currentAchievementUnlocked = o.currentAchievementUnlocked || false;
+
+            this.currentAchievementsGroupIndex = o.currentAchievementsGroupIndex || 0;
+            this.currentAchievementsGroupId = o.currentAchievementsGroupId || 0;
+            this.currentAchievementsGroupTag = o.currentAchievementsGroupTag || '';
+            this.currentAchievementsGroupName = o.currentAchievementsGroupName || '';
+            this.currentAchievementsGroupDescription = o.currentAchievementsGroupDescription || '';
+
+            this.currentPlayerAchievementIndex = o.currentPlayerAchievementIndex || 0;
+            this.currentPlayerAchievementId = o.currentPlayerAchievementId || 0;
+            this.currentPlayerAchievementUnlockDate = o.currentPlayerAchievementUnlockDate || '';
+
+            this.isUnlockAchievementSuccess = o.isUnlockAchievementSuccess || false;
+            this.unlockAchievementError = o.unlockAchievementError || '';
+
+            this.unlockedAchievementId = o.unlockedAchievementId || 0;
+            this.unlockedAchievementTag = o.unlockedAchievementTag || '';
+            this.unlockedAchievementName = o.unlockedAchievementName || '';
+            this.unlockedAchievementDescription = o.unlockedAchievementDescription || '';
+            this.unlockedAchievementIcon = o.unlockedAchievementIcon || '';
+            this.unlockedAchievementIconSmall = o.unlockedAchievementIconSmall || '';
+            this.unlockedAchievementRare = o.unlockedAchievementRare || 'COMMON';
+
+            this.products = o.products || [];
+            this.playerPurchases = o.playerPurchases || [];
+
+            this.currentProductIndex = o.currentProductIndex || 0;
+            this.currentProductId = o.currentProductId || 0;
+            this.currentProductTag = o.currentProductTag || '';
+            this.currentProductName = o.currentProductName || '';
+            this.currentProductDescription = o.currentProductDescription || '';
+            this.currentProductIcon = o.currentProductIcon || '';
+            this.currentProductIconSmall = o.currentProductIconSmall || '';
+            this.currentProductPrice = o.currentProductPrice || 0;
+            this.currentProductCurrency = o.currentProductCurrency || '';
+            this.currentProductCurrencySymbol = o.currentProductCurrencySymbol || '';
+            this.currentProductPurchases = o.currentProductPurchases || 0;
+
+            this.isPurchaseProductSuccess = o.isPurchaseProductSuccess || false;
+            this.purchaseProductError = o.purchaseProductError || '';
+            this.purchasedProductId = o.purchasedProductId || 0;
+            this.purchasedProductTag = o.purchasedProductTag || '';
+
+            this.isConsumeProductSuccess = o.isConsumeProductSuccess || false;
+            this.consumeProductError = o.consumeProductError || '';
+            this.consumedProductId = o.consumedProductId || 0;
+            this.consumedProductTag = o.consumedProductTag || '';
+
+            this.gamesCollection = o.gamesCollection || {
+                id: 0,
+                tag: '',
+                name: '',
+                description: '',
+                games: []
+            };
+
+            this.currentGameIndex = o.currentGameIndex || 0;
+            this.currentGameId = o.currentGameId || 0;
+            this.currentGameName = o.currentGameName || '';
+            this.currentGameDescription = o.currentGameDescription || '';
+            this.currentGameIcon = o.currentGameIcon || '';
+            this.currentGameUrl = o.currentGameUrl || '';
+
+            this.gamesCollectionFetchError = o.gamesCollectionFetchError || '';
+            this.lastGamesCollectionIdOrTag = o.lastGamesCollectionIdOrTag || '';
+
+            this.document = o.document || {
+                type: '',
+                content: ''
+            };
+
+            this.lastDocumentType = o.lastDocumentType || '';
+            this.documentFetchError = o.documentFetchError || '';
+        }
+
+        GetDebuggerProperties() {
+            if (!this.isPlayerReady) {
+                return [];
+            }
+            return [
+                {
+                    title: 'GS - Base',
+                    properties: [
+                        {
+                            name: 'Language',
+                            value: this.gs.language
+                        },
+                        {
+                            name: 'Avatar Generator',
+                            value: this.gs.avatarGenerator
+                        },
+                        {
+                            name: 'Platform',
+                            value: this.gs.platform.type
+                        }
+                    ]
+                },
+                {
+                    title: 'GS - Ads',
+                    properties: [
+                        {
+                            name: 'Last Ad Success',
+                            value: this.isLastAdSuccess
+                        },
+                        {
+                            name: 'Adblock Enabled',
+                            value: this.gs.ads.isAdblockEnabled
+                        }
+                    ]
+                },
+                {
+                    title: 'GS - Leaderboards',
+                    properties: [
+                        {
+                            name: 'Player Position',
+                            value: this.leaderboardPlayerPosition
+                        }
+                    ]
+                },
+                {
+                    title: 'GS - Player',
+                    properties: [
+                        {
+                            name: 'ID',
+                            value: this.gs.player.id
+                        },
+                        {
+                            name: 'Logged In By Platform',
+                            value: this.gs.player.isLoggedInByPlatform
+                        },
+                        {
+                            name: 'Is Stub',
+                            value: this.gs.player.isStub
+                        },
+                        ...this.gs.player.fields.map((f) => ({
+                            name: this.gs.player.getFieldName(f.key),
+                            value: this.gs.player.get(f.key),
+                            onedit: (v) => this.CallAction(this.actions.PlayerSet, f.key, v)
+                        }))
+                    ]
+                },
+                {
+                    title: 'GS - Achievements Loop',
+                    properties: [
+                        {
+                            name: 'Current Achievement Index',
+                            value: this.currentAchievementIndex
+                        },
+                        {
+                            name: 'Current Achievement ID',
+                            value: this.currentAchievementId
+                        },
+                        {
+                            name: 'Current Achievement Tag',
+                            value: this.currentAchievementTag
+                        },
+                        {
+                            name: 'Current Achievement Name',
+                            value: this.currentAchievementName
+                        },
+                        {
+                            name: 'Current Achievement Description',
+                            value: this.currentAchievementDescription
+                        },
+                        {
+                            name: 'Current Achievement Icon',
+                            value: this.currentAchievementIcon
+                        },
+                        {
+                            name: 'Current Achievement Icon Small',
+                            value: this.currentAchievementIconSmall
+                        },
+                        {
+                            name: 'Current Achievement Icon',
+                            value: this.currentAchievementIcon
+                        },
+                        {
+                            name: 'Current Achievement Rare',
+                            value: this.currentAchievementRare
+                        },
+                        {
+                            name: 'Current Achievement Unlocked',
+                            value: this.currentAchievementUnlocked
+                        }
+                    ]
+                },
+                {
+                    title: 'GS - Achievements Groups Loop',
+                    properties: [
+                        {
+                            name: 'Current Achievements Group Index',
+                            value: this.currentAchievementsGroupIndex
+                        },
+                        {
+                            name: 'Current Achievements Group ID',
+                            value: this.currentAchievementsGroupId
+                        },
+                        {
+                            name: 'Current Achievements Group Tag',
+                            value: this.currentAchievementsGroupTag
+                        },
+                        {
+                            name: 'Current Achievements Group Name',
+                            value: this.currentAchievementsGroupName
+                        },
+                        {
+                            name: 'Current Achievements Group Description',
+                            value: this.currentAchievementsGroupDescription
+                        }
+                    ]
+                },
+                {
+                    title: 'GS - Player Achievements Loop',
+                    properties: [
+                        {
+                            name: 'Current Player Achievement Index',
+                            value: this.currentPlayerAchievementIndex
+                        },
+                        {
+                            name: 'Current Player Achievement ID',
+                            value: this.currentPlayerAchievementId
+                        },
+                        {
+                            name: 'Current Player Achievement Unlock Date',
+                            value: this.currentPlayerAchievementUnlockDate
+                        }
+                    ]
+                },
+                {
+                    title: 'GS - Unlocked Achievement',
+                    properties: [
+                        {
+                            name: 'Is unlock successful',
+                            value: this.isUnlockAchievementSuccess
+                        },
+                        {
+                            name: 'Unlock error',
+                            value: this.unlockAchievementError
+                        },
+                        {
+                            name: 'Unlocked Achievement ID',
+                            value: this.unlockedAchievementId
+                        },
+                        {
+                            name: 'Unlocked Achievement Tag',
+                            value: this.unlockedAchievementTag
+                        },
+                        {
+                            name: 'Unlocked Achievement Name',
+                            value: this.unlockedAchievementName
+                        },
+                        {
+                            name: 'Unlocked Achievement Description',
+                            value: this.unlockedAchievementDescription
+                        },
+                        {
+                            name: 'Unlocked Achievement Icon',
+                            value: this.unlockedAchievementIcon
+                        },
+                        {
+                            name: 'Unlocked Achievement Icon Small',
+                            value: this.unlockedAchievementIconSmall
+                        },
+                        {
+                            name: 'Unlocked Achievement Icon',
+                            value: this.unlockedAchievementIcon
+                        },
+                        {
+                            name: 'Unlocked Achievement Rare',
+                            value: this.unlockedAchievementRare
+                        }
+                    ]
+                },
+                {
+                    title: 'GS - Products Loop',
+                    properties: [
+                        {
+                            name: 'Current Product Index',
+                            value: this.currentProductIndex
+                        },
+                        {
+                            name: 'Current Product ID',
+                            value: this.currentProductId
+                        },
+                        {
+                            name: 'Current Product Tag',
+                            value: this.currentProductTag
+                        },
+                        {
+                            name: 'Current Product Name',
+                            value: this.currentProductName
+                        },
+                        {
+                            name: 'Current Product Description',
+                            value: this.currentProductDescription
+                        },
+                        {
+                            name: 'Current Product Icon',
+                            value: this.currentProductIcon
+                        },
+                        {
+                            name: 'Current Product Icon Small',
+                            value: this.currentProductIconSmall
+                        },
+                        {
+                            name: 'Current Product Icon',
+                            value: this.currentProductIcon
+                        },
+                        {
+                            name: 'Current Product Price',
+                            value: this.currentProductPrice
+                        },
+                        {
+                            name: 'Current Product Currency',
+                            value: this.currentProductCurrency
+                        },
+                        {
+                            name: 'Current Product CurrencySymbol',
+                            value: this.currentProductCurrencySymbol
+                        },
+                        {
+                            name: 'Current Product Purchases',
+                            value: this.currentProductPurchases
+                        }
+                    ]
+                },
+                {
+                    title: 'GS - Purchased Product',
+                    properties: [
+                        {
+                            name: 'Is purchase successful',
+                            value: this.isPurchaseProductSuccess
+                        },
+                        {
+                            name: 'Purchase error',
+                            value: this.purchaseProductError
+                        },
+                        {
+                            name: 'Purchased Product ID',
+                            value: this.purchasedProductId
+                        },
+                        {
+                            name: 'Purchased Product Tag',
+                            value: this.purchasedProductTag
+                        }
+                    ]
+                },
+                {
+                    title: 'GS - Consumed Product',
+                    properties: [
+                        {
+                            name: 'Is consume successful',
+                            value: this.isConsumeProductSuccess
+                        },
+                        {
+                            name: 'Consume error',
+                            value: this.consumeProductError
+                        },
+                        {
+                            name: 'Consumed Product ID',
+                            value: this.consumedProductId
+                        },
+                        {
+                            name: 'Consumed Product Tag',
+                            value: this.consumedProductTag
+                        }
+                    ]
+                },
+                {
+                    title: 'GS - Last Games Collection',
+                    properties: [
+                        {
+                            name: 'Collection ID',
+                            value: this.gamesCollection.id
+                        },
+                        {
+                            name: 'Collection Tag',
+                            value: this.gamesCollection.tag
+                        },
+                        {
+                            name: 'Collection Name',
+                            value: this.gamesCollection.name
+                        },
+                        {
+                            name: 'Collection Description',
+                            value: this.gamesCollection.description
+                        },
+                        {
+                            name: 'Fetch Error',
+                            value: this.gamesCollectionFetchError
+                        }
+                    ]
+                },
+                {
+                    title: 'GS - Games in Collection',
+                    properties: [
+                        {
+                            name: 'Current Game Index',
+                            value: this.currentGameIndex
+                        },
+                        {
+                            name: 'Current Game ID',
+                            value: this.currentGameId
+                        },
+                        {
+                            name: 'Current Game Name',
+                            value: this.currentGameName
+                        },
+                        {
+                            name: 'Current Game Description',
+                            value: this.currentGameDescription
+                        },
+                        {
+                            name: 'Current Game Icon',
+                            value: this.currentGameIcon
+                        },
+                        {
+                            name: 'Current Game Url',
+                            value: this.currentGameUrl
+                        }
+                    ]
+                },
+                {
+                    title: 'GS - Documents',
+                    properties: [
+                        {
+                            name: 'Document Type',
+                            value: this.document.type
+                        },
+                        {
+                            name: 'Document Content',
+                            value: this.document.content
+                        },
+                        {
+                            name: 'Fetch Error',
+                            value: this.documentFetchError
+                        }
+                    ]
+                }
+            ];
+        }
+    };
+}
+
+}
+
+{
+'use strict';
+{
+    function each(runtime, array, cb) {
+        const eventSheetManager = runtime.GetEventSheetManager();
+        const currentEvent = runtime.GetCurrentEvent();
+        const solModifiers = currentEvent.GetSolModifiers();
+        const eventStack = runtime.GetEventStack();
+        const oldFrame = eventStack.GetCurrentStackFrame();
+        const newFrame = eventStack.Push(currentEvent);
+
+        array.forEach((item, index) => {
+            cb(item, index);
+
+            eventSheetManager.PushCopySol(solModifiers);
+            currentEvent.Retrigger(oldFrame, newFrame);
+            eventSheetManager.PopSol(solModifiers);
+        });
+
+        eventStack.Pop();
+    }
+
+    C3.Plugins.Eponesh_GameScore.Cnds = {
+        OnPlayerChange() {
+            return true;
+        },
+
+        OnPlayerSyncComplete() {
+            return true;
+        },
+
+        OnPlayerSyncError() {
+            return true;
+        },
+
+        OnPlayerLoadComplete() {
+            return true;
+        },
+
+        OnPlayerLoadError() {
+            return true;
+        },
+
+        OnPlayerLoginComplete() {
+            return true;
+        },
+
+        OnPlayerLoginError() {
+            return true;
+        },
+
+        OnPlayerFetchFieldsComplete() {
+            return true;
+        },
+
+        OnPlayerFetchFieldsError() {
+            return true;
+        },
+
+        OnPlayerReady() {
+            return true;
+        },
+
+        IsPlayerReady() {
+            return this.isPlayerReady;
+        },
+
+        IsPlayerStub() {
+            return this.gs.player.isStub;
+        },
+
+        IsPlayerLoggedIn() {
+            return this.gs.player.isLoggedIn;
+        },
+
+        PlayerHasKey(key) {
+            return this.gs.player.has(key);
+        },
+
+        PlayerFieldIsEnum(key) {
+            return this.gs.player.getField(key).variants.length;
+        },
+
+        PlayerCompareScore(comparison, value) {
+            return this.mappers.compare[comparison](this.gs.player.score, value);
+        },
+
+        PlayerCompare(key, comparison, value) {
+            return this.mappers.compare[comparison](this.gs.player.get(key), value);
+        },
+
+        PlayerEachField() {
+            each(this._runtime, this.gs.player.fields, (field) => {
+                this.currentPlayerFieldKey = field.key;
+                this.currentPlayerFieldType = field.type;
+                this.currentPlayerFieldName = field.name;
+                this.currentPlayerFieldValue = this.gs.player.get(field.key);
+            });
+
+            return false;
+        },
+
+        PlayerEachFieldVariant(key) {
+            each(this._runtime, this.gs.player.getField(key).variants, (variant, index) => {
+                this.currentPlayerFieldVariantValue = variant.value;
+                this.currentPlayerFieldVariantName = variant.name;
+                this.currentPlayerFieldVariantIndex = index;
+            });
+
+            return false;
+        },
+
+        OnLeaderboardOpen() {
+            return true;
+        },
+
+        OnLeaderboardFetch(tag) {
+            return this.lastLeaderboardTag === tag;
+        },
+
+        OnLeaderboardAnyFetch() {
+            return true;
+        },
+
+        OnLeaderboardFetchError(tag) {
+            return this.lastLeaderboardTag === tag;
+        },
+
+        OnLeaderboardAnyFetchError() {
+            return true;
+        },
+
+        OnLeaderboardFetchPlayer(tag) {
+            return this.lastLeaderboardPlayerRatingTag === tag;
+        },
+
+        OnLeaderboardAnyFetchPlayer() {
+            return true;
+        },
+
+        OnLeaderboardFetchPlayerError(tag) {
+            return this.lastLeaderboardPlayerRatingTag === tag;
+        },
+
+        OnLeaderboardAnyFetchPlayerError() {
+            return true;
+        },
+
+        OnLeaderboardPublishRecord() {
+            return true;
+        },
+
+        OnLeaderboardPublishRecordError() {
+            return true;
+        },
+
+        LeaderboardEachPlayer() {
+            each(this._runtime, this.leaderboard, (player, index) => {
+                this.currentLeaderboardIndex = index;
+                this.currentLeaderboardPlayer = player;
+            });
+
+            return false;
+        },
+
+        OnAchievementsOpen() {
+            return true;
+        },
+
+        OnAchievementsClose() {
+            return true;
+        },
+
+        OnAchievementsFetch() {
+            return true;
+        },
+
+        OnAchievementsFetchError() {
+            return true;
+        },
+
+        OnAchievementsUnlock(idOrTag) {
+            const id = parseInt(idOrTag, 10) || 0;
+            return this.unlockedAchievementTag === idOrTag || this.unlockedAchievementId === id;
+        },
+
+        OnAchievementsAnyUnlock() {
+            return true;
+        },
+
+        OnAchievementsAnyUnlockError() {
+            return true;
+        },
+
+        AchievementsEachAchievement() {
+            each(this._runtime, this.achievements, (achievement, index) => {
+                this.currentAchievementIndex = index;
+                this.currentAchievementId = achievement.id;
+                this.currentAchievementTag = achievement.tag;
+                this.currentAchievementName = achievement.name;
+                this.currentAchievementDescription = achievement.description;
+                this.currentAchievementIcon = achievement.icon;
+                this.currentAchievementIconSmall = achievement.iconSmall;
+                this.currentAchievementRare = achievement.rare;
+                this.currentAchievementUnlocked = this.playerAchievements.some(
+                    (a) => a.achievementId === achievement.id
+                );
+            });
+
+            return false;
+        },
+
+        AchievementsEachAchievementInGroup(idOrTag) {
+            const id = parseInt(idOrTag, 10) || 0;
+            const group = this.achievementsGroups.find((ag) => ag.tag === idOrTag || ag.id === id);
+            const achievements = group
+                ? group.achievements.reduce((list, aId) => {
+                      const achievement = this.achievements.find((a) => a.id === aId);
+                      if (achievement) {
+                          list.push(achievement);
+                      }
+                      return list;
+                  }, [])
+                : [];
+
+            each(this._runtime, achievements, (achievement, index) => {
+                this.currentAchievementIndex = index;
+                this.currentAchievementId = achievement.id;
+                this.currentAchievementTag = achievement.tag;
+                this.currentAchievementName = achievement.name;
+                this.currentAchievementDescription = achievement.description;
+                this.currentAchievementIcon = achievement.icon;
+                this.currentAchievementIconSmall = achievement.iconSmall;
+                this.currentAchievementRare = achievement.rare;
+                this.currentAchievementUnlocked = this.playerAchievements.some(
+                    (a) => a.achievementId === achievement.id
+                );
+            });
+
+            return false;
+        },
+
+        AchievementsEachAchievementsGroup() {
+            each(this._runtime, this.achievementsGroups, (achievementsGroup, index) => {
+                this.currentAchievementsGroupIndex = index;
+                this.currentAchievementsGroupId = achievementsGroup.id;
+                this.currentAchievementsGroupTag = achievementsGroup.tag;
+                this.currentAchievementsGroupName = achievementsGroup.name;
+                this.currentAchievementsGroupDescription = achievementsGroup.description;
+            });
+
+            return false;
+        },
+
+        AchievementsEachPlayerAchievements() {
+            each(this._runtime, this.playerAchievements, (playerAchievement, index) => {
+                this.currentPlayerAchievementIndex = index;
+                this.currentPlayerAchievementId = playerAchievement.achievementId;
+                this.currentPlayerAchievementUnlockDate = playerAchievement.createdAt;
+            });
+
+            return false;
+        },
+
+        IsAchievementsCurAchievementUnlocked() {
+            return this.currentAchievementUnlocked;
+        },
+
+        IsAchievementsUnlockSuccessful() {
+            return this.isUnlockAchievementSuccess;
+        },
+
+        AchievementsIsUnlocked(idOrTag) {
+            return this.gs.achievements.has(idOrTag);
+        },
+
+        // payments
+        OnPaymentsFetchProducts() {
+            return true;
+        },
+
+        OnPaymentsFetchProductsError() {
+            return true;
+        },
+
+        OnPaymentsPurchase(idOrTag) {
+            const id = parseInt(idOrTag, 10) || 0;
+            return this.purchasedProductTag === idOrTag || this.purchasedProductId === id;
+        },
+
+        OnPaymentsPurchaseError(idOrTag) {
+            const id = parseInt(idOrTag, 10) || 0;
+            return this.purchasedProductTag === idOrTag || this.purchasedProductId === id;
+        },
+
+        OnPaymentsAnyPurchase() {
+            return true;
+        },
+
+        OnPaymentsAnyPurchaseError() {
+            return true;
+        },
+
+        OnPaymentsConsume(idOrTag) {
+            const id = parseInt(idOrTag, 10) || 0;
+            return this.consumedProductTag === idOrTag || this.consumedProductId === id;
+        },
+
+        OnPaymentsConsumeError(idOrTag) {
+            const id = parseInt(idOrTag, 10) || 0;
+            return this.consumedProductTag === idOrTag || this.consumedProductId === id;
+        },
+
+        OnPaymentsAnyConsume() {
+            return true;
+        },
+
+        OnPaymentsAnyConsumeError() {
+            return true;
+        },
+
+        PaymentsEachProduct() {
+            each(this._runtime, this.products, (product, index) => {
+                this.currentProductIndex = index;
+                this.currentProductId = product.id;
+                this.currentProductTag = product.tag;
+                this.currentProductName = product.name;
+                this.currentProductDescription = product.description;
+                this.currentProductIcon = product.icon;
+                this.currentProductIconSmall = product.iconSmall;
+                this.currentProductPrice = product.price;
+                this.currentProductCurrency = product.currency;
+                this.currentProductCurrencySymbol = product.currencySymbol;
+                this.currentProductPurchases = this.playerPurchases.filter((a) => a.productId === product.id).length;
+            });
+
+            return false;
+        },
+
+        IsPaymentsCurProductPurchased() {
+            return this.currentProductPurchases > 0;
+        },
+
+        IsPaymentsPurchaseSuccessful() {
+            return this.isPurchaseProductSuccess;
+        },
+
+        IsPaymentsConsumeSuccessful() {
+            return this.isConsumeProductSuccess;
+        },
+
+        PaymentsIsPurchased(idOrTag) {
+            return this.gs.payments.has(idOrTag);
+        },
+
+        IsPaymentsAvailable() {
+            return this.gs.payments.isAvailable;
+        },
+
+        OnFullscreenOpen() {
+            return true;
+        },
+
+        OnFullscreenClose() {
+            return true;
+        },
+
+        OnFullscreenChange() {
+            return true;
+        },
+
+        IsFullscreenMode() {
+            return this.gs.fullscreen.isEnabled;
+        },
+
+        OnAdsStart() {
+            return true;
+        },
+
+        OnAdsClose() {
+            return true;
+        },
+
+        OnAdsFullscreenStart() {
+            return true;
+        },
+
+        OnAdsFullscreenClose() {
+            return true;
+        },
+
+        OnAdsPreloaderStart() {
+            return true;
+        },
+
+        OnAdsPreloaderClose() {
+            return true;
+        },
+
+        OnAdsRewardedStart() {
+            return true;
+        },
+
+        OnAdsRewardedClose() {
+            return true;
+        },
+
+        OnAdsRewardedReward() {
+            return true;
+        },
+
+        OnAdsStickyStart() {
+            return true;
+        },
+
+        OnAdsStickyClose() {
+            return true;
+        },
+
+        OnAdsStickyRefresh() {
+            return true;
+        },
+
+        OnAdsStickyRender() {
+            return true;
+        },
+
+        IsAdsFullscreenAvailable() {
+            return this.gs.ads.isFullscreenAvailable;
+        },
+
+        IsAdsRewardedAvailable() {
+            return this.gs.ads.isRewardedAvailable;
+        },
+
+        IsAdsPreloaderAvailable() {
+            return this.gs.ads.isPreloaderAvailable;
+        },
+
+        IsAdsStickyAvailable() {
+            return this.gs.ads.isStickyAvailable;
+        },
+
+        IsAdsFullscreenPlaying() {
+            return this.gs.ads.isFullscreenPlaying;
+        },
+
+        IsAdsRewardedPlaying() {
+            return this.gs.ads.isRewardedPlaying;
+        },
+
+        IsAdsPreloaderPlaying() {
+            return this.gs.ads.isPreloaderPlaying;
+        },
+
+        IsAdsStickyPlaying() {
+            return this.gs.ads.isStickyPlaying;
+        },
+
+        IsAdsAdblockEnabled() {
+            return this.gs.ads.isAdblockEnabled;
+        },
+
+        IsAdsLastAdSuccess() {
+            return Boolean(this.isLastAdSuccess);
+        },
+
+        // gs
+        OnChangeLanguage() {
+            return true;
+        },
+
+        OnChangeAvatarGenerator() {
+            return true;
+        },
+
+        OnOverlayReady() {
+            return true;
+        },
+
+        IsDev() {
+            return this.gs.isDev;
+        },
+
+        Language(language) {
+            return this.gs.language === this.mappers.language[language];
+        },
+
+        // platform
+        HasPlatformIntegratedAuth() {
+            return this.gs.platform.hasIntegratedAuth;
+        },
+
+        PlatformType(type) {
+            return this.gs.platform.type === this.mappers.platform[type];
+        },
+
+        IsExternalLinksAllowedOnPlatform() {
+            return this.gs.platform.isExternalLinksAllowed;
+        },
+
+        // socials
+        OnSocialsShare() {
+            return true;
+        },
+
+        OnSocialsPost() {
+            return true;
+        },
+
+        OnSocialsInvite() {
+            return true;
+        },
+
+        OnSocialsJoinCommunity() {
+            return true;
+        },
+
+        IsSocialsLastShareSuccess() {
+            return this.isLastShareSuccess;
+        },
+
+        IsSocialsLastCommunityJoinSuccess() {
+            return this.isLastCommunityJoinSuccess;
+        },
+
+        IsSocialsSupportsNativeShare() {
+            return this.gs.socials.isSupportsNativeShare;
+        },
+
+        IsSocialsSupportsNativePosts() {
+            return this.gs.socials.isSupportsNativePosts;
+        },
+
+        IsSocialsSupportsNativeInvite() {
+            return this.gs.socials.isSupportsNativeInvite;
+        },
+
+        IsSocialsSupportsNativeCommunityJoin() {
+            return this.gs.socials.isSupportsNativeCommunityJoin;
+        },
+
+        SocialsCanJoinCommunity() {
+            return this.gs.socials.canJoinCommunity;
+        },
+
+        // games collections
+        OnGamesCollectionsOpen() {
+            return true;
+        },
+
+        OnGamesCollectionsClose() {
+            return true;
+        },
+
+        OnGamesCollectionsFetchAny() {
+            return true;
+        },
+
+        OnGamesCollectionsFetchAnyError() {
+            return true;
+        },
+
+        OnGamesCollectionsFetch(idOrTag) {
+            return this.lastGamesCollectionIdOrTag === idOrTag;
+        },
+
+        OnGamesCollectionsFetchError(idOrTag) {
+            return this.lastGamesCollectionIdOrTag === idOrTag;
+        },
+
+        GamesCollectionsEachGame() {
+            each(this._runtime, this.gamesCollection.games, (game, index) => {
+                this.currentGameIndex = index;
+                this.currentGameId = game.id;
+                this.currentGameName = game.name;
+                this.currentGameDescription = game.description;
+                this.currentGameIcon = game.icon;
+                this.currentGameUrl = game.url;
+            });
+
+            return false;
+        },
+
+        IsGamesCollectionsAvailable() {
+            return this.gs.gamesCollections.isAvailable;
+        },
+
+        // documents
+        OnDocumentsOpen() {
+            return true;
+        },
+
+        OnDocumentsClose() {
+            return true;
+        },
+
+        OnDocumentsFetchAny() {
+            return true;
+        },
+
+        OnDocumentsFetchAnyError() {
+            return true;
+        },
+
+        OnDocumentsFetch(type) {
+            return this.lastDocumentType === this.mappers.documentTypes[type];
+        },
+
+        OnDocumentsFetchError(type) {
+            return this.lastDocumentType === this.mappers.documentTypes[type];
+        },
+
+        OnLoadJsonError() {
+            return true;
+        }
+    };
+}
+
+}
+
+{
+'use strict';
+{
+    C3.Plugins.Eponesh_GameScore.Acts = {
+        PlayerSetName(name) {
+            this.gs.player.name = name;
+        },
+
+        PlayerSetAvatar(src) {
+            this.gs.player.avatar = src;
+        },
+
+        PlayerSetScore(score) {
+            this.gs.player.score = score;
+        },
+
+        PlayerAddScore(score) {
+            this.gs.player.score += score;
+        },
+
+        PlayerSet(key, value) {
+            this.gs.player.set(key, value);
+        },
+
+        PlayerSetFlag(key, value) {
+            this.gs.player.set(key, !value);
+        },
+
+        PlayerAdd(key, value) {
+            this.gs.player.add(key, value);
+        },
+
+        PlayerToggle(key) {
+            this.gs.player.toggle(key);
+        },
+
+        PlayerReset() {
+            this.gs.player.reset();
+        },
+
+        PlayerRemove() {
+            this.gs.player.remove();
+        },
+
+        PlayerSync(override = false) {
+            return this.gs.player.sync({ override });
+        },
+
+        PlayerLoad() {
+            return this.gs.player.load();
+        },
+
+        PlayerLogin() {
+            return this.gs.player.login();
+        },
+
+        PlayerFetchFields() {
+            return this.gs.player.fetchFields();
+        },
+
+        PlayerWaitForReady() {
+            return this.awaiters.player.ready;
+        },
+
+        LeaderboardOpen(orderBy, order, limit, withMe, includeFields, displayFields) {
+            return this.gs.leaderboard
+                .open({
+                    id: this.gs.player.id,
+                    orderBy: orderBy
+                        .split(',')
+                        .map((o) => o.trim())
+                        .filter((f) => f),
+                    order: order === 0 ? 'DESC' : 'ASC',
+                    limit,
+                    withMe: this.mappers.withMe[withMe],
+                    includeFields: includeFields
+                        .split(',')
+                        .map((o) => o.trim())
+                        .filter((f) => f),
+                    displayFields: displayFields
+                        .split(',')
+                        .map((o) => o.trim())
+                        .filter((f) => f)
+                })
+                .catch(console.warn);
+        },
+
+        LeaderboardFetch(tag, orderBy, order, limit, withMe, includeFields) {
+            return this.gs.leaderboard
+                .fetch({
+                    id: this.gs.player.id,
+                    orderBy: orderBy
+                        .split(',')
+                        .map((o) => o.trim())
+                        .filter((f) => f),
+                    order: order === 0 ? 'DESC' : 'ASC',
+                    limit,
+                    withMe: this.mappers.withMe[withMe],
+                    includeFields: includeFields
+                        .split(',')
+                        .map((o) => o.trim())
+                        .filter((f) => f)
+                })
+                .then((leaderboardInfo) => {
+                    this.lastLeaderboardTag = tag;
+                    this.lastLeaderboardVariant = 'default';
+                    this.leaderboardInfo = leaderboardInfo.leaderboard;
+                    this.leaderboard = leaderboardInfo.players;
+                    this.Trigger(this.conditions.OnLeaderboardFetch);
+                    this.Trigger(this.conditions.OnLeaderboardAnyFetch);
+                })
+                .catch((err) => {
+                    console.warn(err);
+                    this.lastLeaderboardTag = tag;
+                    this.lastLeaderboardVariant = 'default';
+                    this.Trigger(this.conditions.OnLeaderboardFetchError);
+                    this.Trigger(this.conditions.OnLeaderboardAnyFetchError);
+                });
+        },
+
+        LeaderboardFetchPlayerRating(tag, orderBy, order) {
+            return this.gs.leaderboard
+                .fetchPlayerRating({
+                    id: this.gs.player.id,
+                    orderBy: orderBy
+                        .split(',')
+                        .map((o) => o.trim())
+                        .filter((f) => f),
+                    order: order === 0 ? 'DESC' : 'ASC'
+                })
+                .then((result) => {
+                    this.lastLeaderboardTag = tag;
+                    this.lastLeaderboardVariant = 'default';
+                    this.lastLeaderboardPlayerRatingTag = tag;
+                    this.currentLeaderboardPlayer = Object.assign(this.gs.player.toJSON(), result.player);
+                    this.leaderboardPlayerPosition = result.player.position;
+                    this.Trigger(this.conditions.OnLeaderboardFetchPlayer);
+                    this.Trigger(this.conditions.OnLeaderboardAnyFetchPlayer);
+                })
+                .catch((err) => {
+                    console.warn(err);
+                    this.lastLeaderboardTag = tag;
+                    this.lastLeaderboardVariant = 'default';
+                    this.lastLeaderboardPlayerRatingTag = tag;
+                    this.Trigger(this.conditions.OnLeaderboardFetchPlayerError);
+                    this.Trigger(this.conditions.OnLeaderboardAnyFetchPlayerError);
+                });
+        },
+
+        LeaderboardOpenScoped(idOrTag, variant, order, limit, withMe, includeFields, displayFields) {
+            const id = parseInt(idOrTag, 10) || 0;
+            const query = {
+                id,
+                tag: idOrTag,
+                variant,
+                limit,
+                order: this.mappers.order[order],
+                withMe: this.mappers.withMe[withMe],
+                includeFields: includeFields
+                    .split(',')
+                    .map((o) => o.trim())
+                    .filter((f) => f),
+                displayFields: displayFields
+                    .split(',')
+                    .map((o) => o.trim())
+                    .filter((f) => f)
+            };
+
+            return this.gs.leaderboard.openScoped(query).catch(console.warn);
+        },
+
+        LeaderboardFetchScoped(idOrTag, variant, order, limit, withMe, includeFields) {
+            const id = parseInt(idOrTag, 10) || 0;
+            const query = {
+                id,
+                tag: idOrTag,
+                variant,
+                limit,
+                order: this.mappers.order[order],
+                withMe: this.mappers.withMe[withMe],
+                includeFields: includeFields
+                    .split(',')
+                    .map((o) => o.trim())
+                    .filter((f) => f)
+            };
+
+            return this.gs.leaderboard
+                .fetchScoped(query)
+                .then((leaderboardInfo) => {
+                    this.lastLeaderboardTag = idOrTag;
+                    this.lastLeaderboardVariant = variant;
+                    this.leaderboardInfo = leaderboardInfo.leaderboard;
+                    this.leaderboard = leaderboardInfo.players;
+                    this.Trigger(this.conditions.OnLeaderboardFetch);
+                    this.Trigger(this.conditions.OnLeaderboardAnyFetch);
+                })
+                .catch((err) => {
+                    console.warn(err);
+                    this.lastLeaderboardTag = idOrTag;
+                    this.lastLeaderboardVariant = variant;
+                    this.Trigger(this.conditions.OnLeaderboardFetchError);
+                    this.Trigger(this.conditions.OnLeaderboardAnyFetchError);
+                });
+        },
+
+        LeaderboardFetchPlayerRatingScoped(idOrTag, variant, order) {
+            const id = parseInt(idOrTag, 10) || 0;
+            const query = {
+                id,
+                tag: idOrTag,
+                variant,
+                order: this.mappers.order[order]
+            };
+
+            return this.gs.leaderboard
+                .fetchPlayerRatingScoped(query)
+                .then((result) => {
+                    this.lastLeaderboardPlayerRatingTag = idOrTag;
+                    this.lastLeaderboardTag = idOrTag;
+                    this.lastLeaderboardVariant = variant;
+                    this.currentLeaderboardPlayer = Object.assign(this.gs.player.toJSON(), result.player);
+                    this.leaderboardPlayerPosition = result.player.position;
+                    this.Trigger(this.conditions.OnLeaderboardFetchPlayer);
+                    this.Trigger(this.conditions.OnLeaderboardAnyFetchPlayer);
+                })
+                .catch((err) => {
+                    console.warn(err);
+                    this.lastLeaderboardPlayerRatingTag = idOrTag;
+                    this.lastLeaderboardTag = idOrTag;
+                    this.lastLeaderboardVariant = variant;
+                    this.Trigger(this.conditions.OnLeaderboardFetchPlayerError);
+                    this.Trigger(this.conditions.OnLeaderboardAnyFetchPlayerError);
+                });
+        },
+
+        LeaderboardPublishRecord(idOrTag, variant, override) {
+            const recordsTable = this.leaderboardRecords[idOrTag];
+            const record = recordsTable ? recordsTable[variant] : null;
+
+            const id = parseInt(idOrTag, 10) || 0;
+            const query = {
+                id,
+                tag: idOrTag,
+                variant,
+                override,
+                record
+            };
+
+            return this.gs.leaderboard
+                .publishRecord(query)
+                .then((result) => {
+                    this.lastLeaderboardTag = idOrTag;
+                    this.lastLeaderboardVariant = variant;
+                    this.lastLeaderboardPlayerRatingTag = idOrTag;
+                    this.leaderboardPlayerPosition = result.player.position;
+                    this.currentLeaderboardPlayer = Object.assign(this.gs.player.toJSON(), result.player);
+
+                    this.Trigger(this.conditions.OnLeaderboardPublishRecord);
+                })
+                .catch((err) => {
+                    console.warn(err);
+                    this.lastLeaderboardTag = idOrTag;
+                    this.lastLeaderboardVariant = variant;
+                    this.lastLeaderboardPlayerRatingTag = idOrTag;
+                    this.Trigger(this.conditions.OnLeaderboardPublishRecordError);
+                });
+        },
+
+        LeaderboardSetRecord(idOrTag, variant, field, value) {
+            if (!this.leaderboardRecords[idOrTag]) {
+                this.leaderboardRecords[idOrTag] = {};
+            }
+
+            if (!this.leaderboardRecords[idOrTag][variant]) {
+                this.leaderboardRecords[idOrTag][variant] = {};
+            }
+
+            this.leaderboardRecords[idOrTag][variant][field] = value;
+        },
+
+        AchievementsOpen() {
+            return this.gs.achievements.open().catch(console.warn);
+        },
+
+        AchievementsFetch() {
+            return this.gs.achievements
+                .fetch()
+                .then((result) => {
+                    this.achievements = result.achievements;
+                    this.achievementsGroups = result.achievementsGroups;
+                    this.playerAchievements = result.playerAchievements;
+                    this.Trigger(this.conditions.OnAchievementsFetch);
+                })
+                .catch((err) => {
+                    console.warn(err);
+                    this.Trigger(this.conditions.OnAchievementsFetchError);
+                });
+        },
+
+        AchievementsUnlock(idOrTag) {
+            const id = parseInt(idOrTag, 10) || 0;
+            const query = id > 0 ? { id } : { tag: idOrTag };
+            return this.gs.achievements
+                .unlock(query)
+                .then((result) => {
+                    this.isUnlockAchievementSuccess = result.success;
+                    this.unlockAchievementError = result.error || '';
+
+                    const achievement = result.achievement || {};
+                    this.unlockedAchievementId = achievement.id || 0;
+                    this.unlockedAchievementTag = achievement.tag || '';
+                    this.unlockedAchievementName = achievement.name || '';
+                    this.unlockedAchievementDescription = achievement.description || '';
+                    this.unlockedAchievementIcon = achievement.icon || '';
+                    this.unlockedAchievementIconSmall = achievement.iconSmall || '';
+                    this.unlockedAchievementRare = achievement.rare || 'COMMON';
+
+                    if (result.success) {
+                        this.Trigger(this.conditions.OnAchievementsUnlock);
+                        this.Trigger(this.conditions.OnAchievementsAnyUnlock);
+                        return;
+                    }
+
+                    this.Trigger(this.conditions.OnAchievementsAnyUnlockError);
+                })
+                .catch((err) => {
+                    console.warn(err);
+                    this.Trigger(this.conditions.OnAchievementsAnyUnlockError);
+                });
+        },
+
+        PaymentsFetchProducts() {
+            return this.gs.payments
+                .fetchProducts()
+                .then((result) => {
+                    this.products = result.products;
+                    this.playerPurchases = result.playerPurchases;
+                    this.Trigger(this.conditions.OnPaymentsFetchProducts);
+                })
+                .catch((err) => {
+                    console.warn(err);
+                    this.Trigger(this.conditions.OnPaymentsFetchProductsError);
+                });
+        },
+
+        PaymentsPurchase(idOrTag) {
+            const id = parseInt(idOrTag, 10) || 0;
+            const query = id > 0 ? { id } : { tag: idOrTag };
+            return this.gs.payments
+                .purchase(query)
+                .then((result) => {
+                    this.isPurchaseProductSuccess = result.success;
+                    this.purchaseProductError = result.error || '';
+
+                    const product = result.product || {};
+                    this.purchasedProductId = product.id || 0;
+                    this.purchasedProductTag = product.tag || '';
+
+                    if (result.success) {
+                        this.Trigger(this.conditions.OnPaymentsPurchase);
+                        this.Trigger(this.conditions.OnPaymentsAnyPurchase);
+                        return;
+                    }
+
+                    this.Trigger(this.conditions.OnPaymentsPurchaseError);
+                    this.Trigger(this.conditions.OnPaymentsAnyPurchaseError);
+                })
+                .catch((err) => {
+                    console.warn(err);
+                    this.Trigger(this.conditions.OnPaymentsPurchaseError);
+                    this.Trigger(this.conditions.OnPaymentsAnyPurchaseError);
+                });
+        },
+
+        PaymentsConsume(idOrTag) {
+            const id = parseInt(idOrTag, 10) || 0;
+            const query = id > 0 ? { id } : { tag: idOrTag };
+            return this.gs.payments
+                .consume(query)
+                .then((result) => {
+                    this.isConsumeProductSuccess = result.success;
+                    this.consumeProductError = result.error || '';
+
+                    const product = result.product || {};
+                    this.consumedProductId = product.id || 0;
+                    this.consumedProductTag = product.tag || '';
+
+                    if (result.success) {
+                        this.Trigger(this.conditions.OnPaymentsConsume);
+                        this.Trigger(this.conditions.OnPaymentsAnyConsume);
+                        return;
+                    }
+
+                    this.Trigger(this.conditions.OnPaymentsConsumeError);
+                    this.Trigger(this.conditions.OnPaymentsAnyConsumeError);
+                })
+                .catch((err) => {
+                    console.warn(err);
+                    this.Trigger(this.conditions.OnPaymentsConsumeError);
+                    this.Trigger(this.conditions.OnPaymentsAnyConsumeError);
+                });
+        },
+
+        FullscreenOpen() {
+            return this.gs.fullscreen.open();
+        },
+
+        FullscreenClose() {
+            return this.gs.fullscreen.close();
+        },
+
+        FullscreenToggle() {
+            return this.gs.fullscreen.toggle();
+        },
+
+        AdsShowFullscreen() {
+            return this.gs.ads.showFullscreen();
+        },
+
+        AdsShowRewarded() {
+            return this.gs.ads.showRewardedVideo();
+        },
+
+        AdsShowPreloader() {
+            return this.gs.ads.showPreloader();
+        },
+
+        AdsShowSticky() {
+            return this.gs.ads.showSticky();
+        },
+
+        AdsCloseSticky() {
+            return this.gs.ads.closeSticky();
+        },
+
+        AdsRefreshSticky() {
+            return this.gs.ads.refreshSticky();
+        },
+
+        AnalyticsHit(url) {
+            return this.gs.analytics.hit(url);
+        },
+
+        AnalyticsGoal(event, value) {
+            return this.gs.analytics.goal(event, value);
+        },
+
+        SocialsShare(text, url, image) {
+            return this.gs.socials.share({ text, url, image });
+        },
+
+        SocialsPost(text, url, image) {
+            return this.gs.socials.post({ text, url, image });
+        },
+
+        SocialsInvite(text, url, image) {
+            return this.gs.socials.invite({ text, url, image });
+        },
+
+        SocialsJoinCommunity() {
+            return this.gs.socials.joinCommunity();
+        },
+
+        // games collections
+        GamesCollectionsOpen(idOrTag) {
+            const id = parseInt(idOrTag, 10) || 0;
+            const query = id > 0 ? { id } : { tag: idOrTag || 'ANY' };
+            return this.gs.gamesCollections.open(query);
+        },
+
+        GamesCollectionsFetch(idOrTag) {
+            const id = parseInt(idOrTag, 10) || 0;
+            const query = id > 0 ? { id } : { tag: idOrTag };
+            return this.gs.gamesCollections
+                .fetch(query)
+                .then((result) => {
+                    this.lastGamesCollectionIdOrTag = idOrTag;
+                    this.gamesCollection = result;
+                    this.Trigger(this.conditions.OnGamesCollectionsFetch);
+                    this.Trigger(this.conditions.OnGamesCollectionsFetchAny);
+                })
+                .catch((err) => {
+                    console.warn(err);
+                    this.lastGamesCollectionIdOrTag = idOrTag;
+                    this.gamesCollectionFetchError = (err && err.message) || '';
+                    this.Trigger(this.conditions.OnGamesCollectionsFetchError);
+                    this.Trigger(this.conditions.OnGamesCollectionsFetchAnyError);
+                });
+        },
+
+        // documents
+        DocumentsOpen(docType) {
+            const type = this.mappers.documentTypes[docType];
+            return this.gs.documents.open({ type });
+        },
+
+        DocumentsFetch(docType, docFormat) {
+            const type = this.mappers.documentTypes[docType];
+            const format = this.mappers.documentFormat[docFormat];
+            return this.gs.documents
+                .fetch({ type, format })
+                .then((result) => {
+                    this.lastDocumentType = type;
+                    this.document = result;
+                    this.Trigger(this.conditions.OnDocumentsFetch);
+                    this.Trigger(this.conditions.OnDocumentsFetchAny);
+                })
+                .catch((err) => {
+                    console.warn(err);
+                    this.lastDocumentType = type;
+                    this.documentFetchError = (err && err.message) || '';
+                    this.Trigger(this.conditions.OnDocumentsFetchError);
+                    this.Trigger(this.conditions.OnDocumentsFetchAnyError);
+                });
+        },
+
+        ChangeLanguage(language) {
+            return this.gs.changeLanguage(this.mappers.language[language]);
+        },
+
+        ChangeLanguageByCode(language = '') {
+            return this.gs.changeLanguage(language.toLowerCase());
+        },
+
+        ChangeAvatarGenerator(generator) {
+            return this.gs.changeAvatarGenerator(this.mappers.avatarGenerator[generator]);
+        },
+
+        LoadOverlay() {
+            return this.gs.loadOverlay();
+        },
+
+        LoadFromJSON(data) {
+            try {
+                const parsed = JSON.parse(data);
+                if (!('isReady' in parsed)) {
+                    throw new Error('Data was corrupted');
+                }
+
+                this.LoadFromJson(parsed);
+            } catch (error) {
+                this.Trigger(this.conditions.OnLoadJsonError);
+            }
+        }
+    };
+}
+
+}
+
+{
+'use strict';
+{
+    C3.Plugins.Eponesh_GameScore.Exps = {
+        PlayerID() {
+            return this.gs.player.id;
+        },
+
+        PlayerScore() {
+            return this.gs.player.score;
+        },
+
+        PlayerName() {
+            return this.gs.player.name;
+        },
+
+        PlayerAvatar() {
+            return this.gs.player.avatar;
+        },
+
+        PlayerGet(key) {
+            return this.gs.player.get(key);
+        },
+
+        PlayerHas(key) {
+            return this.gs.player.is(key);
+        },
+
+        PlayerFieldName(key) {
+            return this.gs.player.getFieldName(key);
+        },
+
+        PlayerFieldVariantName(key, value) {
+            return this.gs.player.getFieldVariantName(key, value);
+        },
+
+        PlayerGetFieldVariantAt(key, index) {
+            const variant = this.gs.player.getField(key).variants[index];
+            return variant ? variant.value : '';
+        },
+
+        PlayerGetFieldVariantIndex(key, value) {
+            return this.gs.player.getField(key).variants.findIndex((v) => v.value === value);
+        },
+
+        PlayerCurFieldKey() {
+            return this.currentPlayerFieldKey || '';
+        },
+
+        PlayerCurFieldType() {
+            return this.currentPlayerFieldType || '';
+        },
+
+        PlayerCurFieldName() {
+            return this.currentPlayerFieldName || '';
+        },
+
+        PlayerCurFieldValue() {
+            return typeof this.currentPlayerFieldValue === 'string'
+                ? this.currentPlayerFieldValue
+                : Number(this.currentPlayerFieldValue || 0);
+        },
+
+        PlayerCurFieldVariantValue() {
+            return typeof this.currentPlayerFieldVariantValue === 'string'
+                ? this.currentPlayerFieldVariantValue
+                : Number(this.currentPlayerFieldVariantValue || 0);
+        },
+
+        PlayerCurFieldVariantName() {
+            return this.currentPlayerFieldVariantName || '';
+        },
+
+        PlayerCurFieldVariantIndex() {
+            return this.currentPlayerFieldVariantIndex || 0;
+        },
+
+        LeaderboardCurPlayerName() {
+            return this.currentLeaderboardPlayer.name || '';
+        },
+
+        LeaderboardCurPlayerAvatar() {
+            return this.currentLeaderboardPlayer.avatar || '';
+        },
+
+        LeaderboardCurPlayerID() {
+            return this.currentLeaderboardPlayer.id || 0;
+        },
+
+        LeaderboardCurPlayerScore() {
+            return this.currentLeaderboardPlayer.score || 0;
+        },
+
+        LeaderboardCurPlayerPosition() {
+            return this.currentLeaderboardPlayer.position || 0;
+        },
+
+        LeaderboardCurPlayerIndex() {
+            return this.currentLeaderboardIndex || 0;
+        },
+
+        LeaderboardCurPlayerField(key) {
+            return key in this.currentLeaderboardPlayer ? this.currentLeaderboardPlayer[key] : 0;
+        },
+
+        LeaderboardPlayerFieldAt(index, key) {
+            const player = this.leaderboard[index];
+            return player && key in player ? player[key] : 0;
+        },
+
+        LeaderboardPlayerPosition() {
+            return this.leaderboardPlayerPosition || 0;
+        },
+
+        LastLeaderboardTag() {
+            return this.lastLeaderboardTag;
+        },
+
+        LastLeaderboardVariant() {
+            return this.lastLeaderboardVariant;
+        },
+
+        IsFullscreenMode() {
+            return Number(this.gs.fullscreen.isEnabled);
+        },
+
+        Language() {
+            return this.gs.language;
+        },
+
+        AvatarGenerator() {
+            return this.gs.avatarGenerator;
+        },
+
+        ServerTime() {
+            return this.gs.serverTime;
+        },
+
+        PlatformType() {
+            return this.gs.platform.type;
+        },
+
+        AppTitle() {
+            return this.gs.app.title;
+        },
+
+        AppDescription() {
+            return this.gs.app.description;
+        },
+
+        AppImage() {
+            return this.gs.app.image;
+        },
+
+        AppUrl() {
+            return this.gs.app.url;
+        },
+
+        AchievementsTotalAchievements() {
+            return this.achievements.length;
+        },
+
+        AchievementsTotalAchievementsGroups() {
+            return this.achievementsGroups.length;
+        },
+
+        AchievementsTotalPlayerAchievements() {
+            return this.playerAchievements.length;
+        },
+
+        AchievementsCurAchievementIndex() {
+            return this.currentAchievementIndex;
+        },
+
+        AchievementsCurAchievementID() {
+            return this.currentAchievementId;
+        },
+
+        AchievementsCurAchievementTag() {
+            return this.currentAchievementTag;
+        },
+
+        AchievementsCurAchievementName() {
+            return this.currentAchievementName;
+        },
+
+        AchievementsCurAchievementDescription() {
+            return this.currentAchievementDescription;
+        },
+
+        AchievementsCurAchievementIcon() {
+            return this.currentAchievementIcon;
+        },
+
+        AchievementsCurAchievementIconSmall() {
+            return this.currentAchievementIconSmall;
+        },
+
+        AchievementsCurAchievementRare() {
+            return this.currentAchievementRare;
+        },
+
+        AchievementsCurAchievementUnlocked() {
+            return this.currentAchievementUnlocked;
+        },
+
+        AchievementsCurAchievementsGroupIndex() {
+            return this.currentAchievementsGroupIndex;
+        },
+
+        AchievementsCurAchievementsGroupID() {
+            return this.currentAchievementsGroupID;
+        },
+
+        AchievementsCurAchievementsGroupTag() {
+            return this.currentAchievementsGroupTag;
+        },
+
+        AchievementsCurAchievementsGroupName() {
+            return this.currentAchievementsGroupName;
+        },
+
+        AchievementsCurAchievementsGroupDescription() {
+            return this.currentAchievementsGroupDescription;
+        },
+
+        AchievementsCurPlayerAchievementIndex() {
+            return this.currentPlayerAchievementIndex;
+        },
+
+        AchievementsCurPlayerAchievementID() {
+            return this.currentPlayerAchievementId;
+        },
+
+        AchievementsCurPlayerAchievementUnlockDate() {
+            return this.currentPlayerAchievementUnlockDate;
+        },
+
+        AchievementsUnlockedAchievementSuccess() {
+            return this.isUnlockAchievementSuccess;
+        },
+
+        AchievementsUnlockedAchievementError() {
+            return this.unlockAchievementError;
+        },
+
+        AchievementsUnlockedAchievementID() {
+            return this.unlockedAchievementID;
+        },
+
+        AchievementsUnlockedAchievementTag() {
+            return this.unlockedAchievementTag;
+        },
+
+        AchievementsUnlockedAchievementName() {
+            return this.unlockedAchievementName;
+        },
+
+        AchievementsUnlockedAchievementDescription() {
+            return this.unlockedAchievementDescription;
+        },
+
+        AchievementsUnlockedAchievementIcon() {
+            return this.unlockedAchievementIcon;
+        },
+
+        AchievementsUnlockedAchievementIconSmall() {
+            return this.unlockedAchievementIconSmall;
+        },
+
+        AchievementsUnlockedAchievementRare() {
+            return this.unlockedAchievementRare;
+        },
+
+        // socials
+        SocialsCommunityLink() {
+            return this.gs.socials.communityLink;
+        },
+
+        // payments
+        PaymentsCurProductIndex() {
+            return this.currentProductIndex;
+        },
+
+        PaymentsCurProductID() {
+            return this.currentProductId;
+        },
+
+        PaymentsCurProductTag() {
+            return this.currentProductTag;
+        },
+
+        PaymentsCurProductName() {
+            return this.currentProductName;
+        },
+
+        PaymentsCurProductDescription() {
+            return this.currentProductDescription;
+        },
+
+        PaymentsCurProductIcon() {
+            return this.currentProductIcon;
+        },
+
+        PaymentsCurProductIconSmall() {
+            return this.currentProductIconSmall;
+        },
+
+        PaymentsCurProductPrice() {
+            return this.currentProductPrice;
+        },
+
+        PaymentsCurProductCurrency() {
+            return this.currentProductCurrency;
+        },
+
+        PaymentsCurProductCurrencySymbol() {
+            return this.currentProductCurrencySymbol;
+        },
+
+        PaymentsCurProductPurchases() {
+            return this.currentProductPurchases;
+        },
+
+        PaymentsPurchasedProductSuccess() {
+            return this.isPurchaseProductSuccess;
+        },
+
+        PaymentsPurchasedProductError() {
+            return this.purchaseProductError;
+        },
+
+        PaymentsPurchasedProductID() {
+            return this.purchasedProductID;
+        },
+
+        PaymentsPurchasedProductTag() {
+            return this.purchasedProductTag;
+        },
+
+        PaymentsConsumedProductSuccess() {
+            return this.isConsumeProductSuccess;
+        },
+
+        PaymentsConsumedProductError() {
+            return this.consumeProductError;
+        },
+
+        PaymentsConsumedProductID() {
+            return this.consumedProductID;
+        },
+
+        PaymentsConsumedProductTag() {
+            return this.consumedProductTag;
+        },
+
+        // games collections
+        GamesCollectionsCollectionID() {
+            return this.gamesCollection.id;
+        },
+
+        GamesCollectionsCollectionTag() {
+            return this.gamesCollection.tag;
+        },
+
+        GamesCollectionsCollectionName() {
+            return this.gamesCollection.name;
+        },
+
+        GamesCollectionsCollectionDescription() {
+            return this.gamesCollection.description;
+        },
+
+        GamesCollectionsCurGameIndex() {
+            return this.currentGameIndex;
+        },
+
+        GamesCollectionsCurGameID() {
+            return this.currentGameId;
+        },
+
+        GamesCollectionsCurGameTag() {
+            return this.currentGameTag;
+        },
+
+        GamesCollectionsCurGameName() {
+            return this.currentGameName;
+        },
+
+        GamesCollectionsCurGameDescription() {
+            return this.currentGameDescription;
+        },
+
+        GamesCollectionsCurGameIcon() {
+            return this.currentGameIcon;
+        },
+
+        GamesCollectionsCurGameUrl() {
+            return this.currentGameUrl;
+        },
+
+        GamesCollectionsFetchError() {
+            return this.gamesCollectionFetchError;
+        },
+
+        // documents
+        DocumentsDocumentType() {
+            return this.document.type;
+        },
+
+        DocumentsDocumentContent() {
+            return this.document.content;
+        },
+
+        DocumentsFetchError() {
+            return this.documentFetchError;
+        },
+
+        AsJSON() {
+            return JSON.stringify(this.SaveToJson());
+        }
+    };
+}
+
+}
+
+{
+'use strict';{const C3=self.C3;C3.Plugins.AJAX=class AJAXPlugin extends C3.SDKPluginBase{constructor(opts){super(opts)}Release(){super.Release()}}}{const C3=self.C3;C3.Plugins.AJAX.Type=class AJAXType extends C3.SDKTypeBase{constructor(objectClass){super(objectClass)}Release(){super.Release()}OnCreate(){}}}
+{const C3=self.C3;C3.Plugins.AJAX.Instance=class AJAXInstance extends C3.SDKInstanceBase{constructor(inst,properties){super(inst);this._lastData="";this._curTag="";this._progress=0;this._timeout=-1;this._nextRequestHeaders=new Map;this._nextReponseBinaryData=null;this._nextRequestOverrideMimeType="";this._nwjsFs=null;this._nwjsPath=null;this._nwjsAppFolder=null;this._isNWjs=this._runtime.GetExportType()==="nwjs";if(this._isNWjs){this._nwjsFs=require("fs");this._nwjsPath=require("path");const process=
+self["process"]||nw["process"];this._nwjsAppFolder=this._nwjsPath["dirname"](process["execPath"])+"\\"}}Release(){super.Release()}async _TriggerError(tag,url,err){console.error(`[Construct] AJAX request to '${url}' (tag '${tag}') failed: `,err);this._curTag=tag;await this.TriggerAsync(C3.Plugins.AJAX.Cnds.OnAnyError);await this.TriggerAsync(C3.Plugins.AJAX.Cnds.OnError)}async _TriggerComplete(tag){this._curTag=tag;await this.TriggerAsync(C3.Plugins.AJAX.Cnds.OnAnyComplete);await this.TriggerAsync(C3.Plugins.AJAX.Cnds.OnComplete)}async _OnProgress(tag,
+e){if(!e["lengthComputable"])return;this._progress=e["loaded"]/e["total"];this._curTag=tag;await this.TriggerAsync(C3.Plugins.AJAX.Cnds.OnProgress)}_OnError(tag,url,err){if(!this._isNWjs){this._TriggerError(tag,url,err);return}const fs=this._nwjsFs;const filePath=this._nwjsAppFolder+url;if(fs["existsSync"](filePath))fs["readFile"](filePath,{"encoding":"utf8"},(err2,data)=>{if(err2)this._TriggerError(tag,url,err2);else{this._lastData=data.replace(/\r\n/g,"\n");this._TriggerComplete(tag)}});else this._TriggerError(tag,
+url,err)}async _DoCordovaRequest(tag,file){const assetManager=this._runtime.GetAssetManager();const binaryData=this._nextReponseBinaryData;this._nextReponseBinaryData=null;try{if(binaryData){const buffer=await assetManager.CordovaFetchLocalFileAsArrayBuffer(file);binaryData.SetArrayBufferTransfer(buffer);this._lastData="";this._TriggerComplete(tag)}else{const data=await assetManager.CordovaFetchLocalFileAsText(file);this._lastData=data.replace(/\r\n/g,"\n");this._TriggerComplete(tag)}}catch(err){this._TriggerError(tag,
+file,err)}}_DoRequest(tag,url,method,data){return new Promise(resolve=>{const errorFunc=err=>{this._OnError(tag,url,err);resolve()};const binaryData=this._nextReponseBinaryData;this._nextReponseBinaryData=null;try{const request=new XMLHttpRequest;request.onreadystatechange=()=>{if(request.readyState===4){if(binaryData)this._lastData="";else this._lastData=(request.responseText||"").replace(/\r\n/g,"\n");if(request.status>=400)this._TriggerError(tag,url,request.status+request.statusText);else{const hasData=
+this._lastData.length||binaryData&&request.response instanceof ArrayBuffer;if((!this._isNWjs||hasData)&&!(!this._isNWjs&&request.status===0&&!hasData)){if(binaryData)binaryData.SetArrayBufferTransfer(request.response);this._TriggerComplete(tag)}}resolve()}};request.onerror=errorFunc;request.ontimeout=errorFunc;request.onabort=errorFunc;request["onprogress"]=e=>this._OnProgress(tag,e);request.open(method,url);if(this._timeout>=0&&typeof request["timeout"]!=="undefined")request["timeout"]=this._timeout;
+request.responseType=binaryData?"arraybuffer":"text";if(data&&!this._nextRequestHeaders.has("Content-Type"))if(typeof data!=="string")request["setRequestHeader"]("Content-Type","application/octet-stream");else request["setRequestHeader"]("Content-Type","application/x-www-form-urlencoded");for(const [header,value]of this._nextRequestHeaders)try{request["setRequestHeader"](header,value)}catch(err){console.error(`[Construct] AJAX: Failed to set header '${header}: ${value}': `,err)}this._nextRequestHeaders.clear();
+if(this._nextRequestOverrideMimeType){try{request["overrideMimeType"](this._nextRequestOverrideMimeType)}catch(err){console.error(`[Construct] AJAX: failed to override MIME type: `,err)}this._nextRequestOverrideMimeType=""}if(data)request.send(data);else request.send()}catch(err){errorFunc(err)}})}GetDebuggerProperties(){const prefix="plugins.ajax.debugger";return[{title:prefix+".title",properties:[{name:prefix+".last-data",value:this._lastData}]}]}SaveToJson(){return{"lastData":this._lastData}}LoadFromJson(o){this._lastData=
+o["lastData"];this._curTag="";this._progress=0}}}{const C3=self.C3;C3.Plugins.AJAX.Cnds={OnComplete(tag){return C3.equalsNoCase(this._curTag,tag)},OnAnyComplete(){return true},OnError(tag){return C3.equalsNoCase(this._curTag,tag)},OnAnyError(){return true},OnProgress(tag){return C3.equalsNoCase(this._curTag,tag)}}}
+{const C3=self.C3;C3.Plugins.AJAX.Acts={async Request(tag,url){if(this._runtime.IsCordova()&&C3.IsRelativeURL(url)&&this._runtime.GetAssetManager().IsFileProtocol())await this._DoCordovaRequest(tag,url);else if(this._runtime.IsPreview()&&C3.IsRelativeURL(url)){const localurl=this._runtime.GetAssetManager().GetLocalUrlAsBlobUrl(url.toLowerCase());await this._DoRequest(tag,localurl,"GET",null)}else await this._DoRequest(tag,url,"GET",null)},async RequestFile(tag,file){if(this._runtime.IsCordova()&&
+this._runtime.GetAssetManager().IsFileProtocol())await this._DoCordovaRequest(tag,file);else await this._DoRequest(tag,this._runtime.GetAssetManager().GetLocalUrlAsBlobUrl(file),"GET",null)},async Post(tag,url,data,method){await this._DoRequest(tag,url,method,data)},async PostBinary(tag,url,objectClass,method){if(!objectClass)return;const target=objectClass.GetFirstPicked(this._inst);if(!target)return;const sdkInst=target.GetSdkInstance();const buffer=sdkInst.GetArrayBufferReadOnly();await this._DoRequest(tag,
+url,method,buffer)},SetTimeout(t){this._timeout=t*1E3},SetHeader(n,v){this._nextRequestHeaders.set(n,v)},SetResponseBinary(objectClass){if(!objectClass)return;const inst=objectClass.GetFirstPicked(this._inst);if(!inst)return;this._nextReponseBinaryData=inst.GetSdkInstance()},OverrideMIMEType(m){this._nextRequestOverrideMimeType=m}}}{const C3=self.C3;C3.Plugins.AJAX.Exps={LastData(){return this._lastData},Progress(){return this._progress},Tag(){return this._curTag}}};
 
 }
 
@@ -3659,27 +6349,16 @@ if(!timeline)return;C3.Behaviors.MoveTo.Acts.MoveAlongTimeline.call(this,timelin
 const C3 = self.C3;
 self.C3_GetObjectRefTable = function () {
 	return [
+		C3.Plugins.Arr,
+		C3.Plugins.Json,
 		C3.Plugins.Text,
 		C3.Behaviors.MoveTo,
 		C3.Plugins.Sprite,
 		C3.Plugins.Touch,
-		C3.Plugins.Arr,
 		C3.Plugins.Mouse,
+		C3.Plugins.Eponesh_GameScore,
+		C3.Plugins.AJAX,
 		C3.Plugins.System.Cnds.OnLayoutStart,
-		C3.Plugins.System.Cnds.For,
-		C3.Plugins.System.Acts.CreateObject,
-		C3.Plugins.System.Exps.loopindex,
-		C3.Plugins.Arr.Acts.SetXY,
-		C3.Plugins.System.Cnds.PickLastCreated,
-		C3.Plugins.Text.Acts.SetSize,
-		C3.Plugins.Text.Acts.SetFontSize,
-		C3.Plugins.Text.Acts.SetInstanceVar,
-		C3.Plugins.System.Cnds.Compare,
-		C3.Plugins.System.Exps.random,
-		C3.Plugins.Text.Acts.SetText,
-		C3.Plugins.System.Cnds.Else,
-		C3.Plugins.Sprite.Acts.SetInstanceVar,
-		C3.Plugins.Sprite.Acts.SetSize,
 		C3.Plugins.Touch.Cnds.OnTouchEnd,
 		C3.Plugins.System.Acts.SetBoolVar,
 		C3.Plugins.Arr.Acts.Clear,
@@ -3688,6 +6367,10 @@ self.C3_GetObjectRefTable = function () {
 		C3.Plugins.System.Cnds.ForEach,
 		C3.Plugins.Sprite.Acts.Destroy,
 		C3.Plugins.Text.Acts.Destroy,
+		C3.Plugins.Arr.Acts.SetXY,
+		C3.Plugins.System.Cnds.Compare,
+		C3.Plugins.System.Cnds.For,
+		C3.Plugins.System.Exps.loopindex,
 		C3.Plugins.Touch.Cnds.IsTouchingObject,
 		C3.Plugins.System.Cnds.CompareBoolVar,
 		C3.Plugins.Sprite.Cnds.IsBoolInstanceVarSet,
@@ -3697,18 +6380,57 @@ self.C3_GetObjectRefTable = function () {
 		C3.Plugins.Arr.Acts.SetX,
 		C3.Plugins.System.Exps.len,
 		C3.Plugins.Text.Exps.Text,
+		C3.Plugins.Text.Acts.SetInstanceVar,
 		C3.Plugins.System.Acts.AddVar,
+		C3.Plugins.System.Cnds.Else,
 		C3.Behaviors.MoveTo.Acts.MoveToPosition,
 		C3.Plugins.Text.Exps.X,
 		C3.Plugins.Text.Exps.Y,
 		C3.Plugins.Sprite.Exps.X,
 		C3.Plugins.Sprite.Exps.Y,
+		C3.Plugins.Sprite.Acts.SetInstanceVar,
 		C3.Plugins.System.Acts.StopLoop,
+		C3.Plugins.System.Acts.CreateObject,
+		C3.Plugins.System.Cnds.PickLastCreated,
+		C3.Plugins.Text.Acts.SetSize,
+		C3.Plugins.Text.Acts.SetFontSize,
+		C3.Plugins.System.Exps.random,
+		C3.Plugins.Text.Acts.SetText,
+		C3.Plugins.Arr.Exps.Width,
+		C3.Plugins.Sprite.Acts.SetSize,
 		C3.Plugins.System.Acts.Wait,
-		C3.Plugins.System.Cnds.EveryTick
+		C3.Plugins.System.Cnds.EveryTick,
+		C3.Plugins.System.Cnds.IsGroupActive,
+		C3.Plugins.AJAX.Acts.RequestFile,
+		C3.Plugins.AJAX.Cnds.OnComplete,
+		C3.Plugins.Json.Acts.Parse,
+		C3.Plugins.AJAX.Exps.LastData,
+		C3.Plugins.Json.Exps.Get,
+		C3.Plugins.System.Exps.mid,
+		C3.Plugins.System.Acts.SetFunctionReturnValue,
+		C3.Plugins.Sprite.Acts.LoadURL,
+		C3.Plugins.Eponesh_GameScore.Exps.PlayerAvatar,
+		C3.Plugins.Eponesh_GameScore.Acts.PlayerSync,
+		C3.Plugins.System.Acts.WaitForPreviousActions,
+		C3.Plugins.Eponesh_GameScore.Acts.LeaderboardFetchPlayerRatingScoped,
+		C3.Plugins.Eponesh_GameScore.Exps.LeaderboardCurPlayerPosition,
+		C3.Plugins.Eponesh_GameScore.Acts.LeaderboardFetchScoped,
+		C3.Plugins.Touch.Cnds.OnTapGestureObject,
+		C3.Plugins.System.Acts.GoToLayout,
+		C3.Plugins.Eponesh_GameScore.Cnds.OnLeaderboardFetch,
+		C3.Plugins.Eponesh_GameScore.Exps.PlayerID,
+		C3.Plugins.Eponesh_GameScore.Exps.LeaderboardPlayerFieldAt
 	];
 };
 self.C3_JsPropNameTable = [
+	{НепопулярныеГласные: 0},
+	{НепопулярныеГласныеJSON: 0},
+	{НепопулярныеСогласные: 0},
+	{НепопулярныеСогласныеJSON: 0},
+	{ПопулярныеГласные: 0},
+	{ПопулярныеГласныеJSON: 0},
+	{ПопулярныеСогласные: 0},
+	{ПопулярныеСогласныеJSON: 0},
 	{Строка: 0},
 	{Столбец: 0},
 	{НомерВнутриСлова: 0},
@@ -3716,6 +6438,7 @@ self.C3_JsPropNameTable = [
 	{БукваНаПоле: 0},
 	{Выбран: 0},
 	{ФонБуквы: 0},
+	{tag: 0},
 	{Кнопка: 0},
 	{Touch: 0},
 	{СостояниеИгровойМатрицы: 0},
@@ -3723,8 +6446,14 @@ self.C3_JsPropNameTable = [
 	{МатрицаРазрешённыхВыборов: 0},
 	{ХитБоксБуквы: 0},
 	{ТекущееСлово: 0},
-	{tag: 0},
-	{Text: 0},
+	{decorationText: 0},
+	{АватарИгрока: 0},
+	{GameScore: 0},
+	{decoration: 0},
+	{place: 0},
+	{leaderboardText: 0},
+	{AJAX: 0},
+	{Слова: 0},
 	{ОтступМеждуБуквами: 0},
 	{РазмерСтороныБуквы: 0},
 	{true: 0},
@@ -3734,10 +6463,18 @@ self.C3_JsPropNameTable = [
 	{НачалоСеткиY: 0},
 	{ТекущееСловоГлобал: 0},
 	{РазрешениеНаСборСлова: 0},
+	{СчётчикВыгрузкиМассивовБукв: 0},
 	{ТекущаяСтрока: 0},
 	{ТекущийСтолбец: 0},
 	{ЕстьЛиЕщёЭлементыСтолбца: 0},
-	{ТребуемоеКоличествоБуквДляСтолбца: 0}
+	{ТребуемоеКоличествоБуквДляСтолбца: 0},
+	{ИндексВероятности: 0},
+	{ТакогоСловаНет: 0},
+	{ReturnФункции: 0},
+	{СловоДляСравнения: 0},
+	{ЕстьЛиРасхождение: 0},
+	{МестоИгрока: 0},
+	{МестоОтображаемогоИгрокаВТаблице: 0}
 ];
 }
 
@@ -3838,20 +6575,16 @@ function or(l, r)
 }
 
 self.C3_ExpressionFuncs = [
-		() => "i",
 		() => 0,
-		() => 4,
-		() => "j",
+		() => "",
 		() => 1,
 		p => {
-			const f0 = p._GetNode(0).GetBoundMethod();
-			return () => (300 + ((100 + 5) * f0("j")));
+			const n0 = p._GetNode(0);
+			return () => n0.ExpInstVar();
 		},
-		p => {
-			const f0 = p._GetNode(0).GetBoundMethod();
-			return () => (700 + ((100 + 5) * f0("i")));
-		},
-		() => "",
+		() => "i",
+		() => 4,
+		() => "j",
 		p => {
 			const f0 = p._GetNode(0).GetBoundMethod();
 			return () => f0("j");
@@ -3860,26 +6593,13 @@ self.C3_ExpressionFuncs = [
 			const f0 = p._GetNode(0).GetBoundMethod();
 			return () => f0("i");
 		},
-		() => 100,
-		() => 64,
-		p => {
-			const f0 = p._GetNode(0).GetBoundMethod();
-			return () => f0(1, 3);
-		},
-		() => 2,
-		() => "A",
-		() => "B",
-		() => 50,
-		p => {
-			const n0 = p._GetNode(0);
-			return () => n0.ExpInstVar();
-		},
 		p => {
 			const n0 = p._GetNode(0);
 			const n1 = p._GetNode(1);
 			const n2 = p._GetNode(2);
 			return () => n0.ExpObject(n1.ExpInstVar(), n2.ExpInstVar());
 		},
+		() => 2,
 		p => {
 			const f0 = p._GetNode(0).GetBoundMethod();
 			const v1 = p._GetNode(1).GetVar();
@@ -3939,7 +6659,7 @@ self.C3_ExpressionFuncs = [
 			const n0 = p._GetNode(0);
 			const f1 = p._GetNode(1).GetBoundMethod();
 			const f2 = p._GetNode(2).GetBoundMethod();
-			return () => (n0.ExpObject() + ((100 + 5) * (f1("j") - f2("h"))));
+			return () => (n0.ExpObject() + ((160 + 15) * (f1("j") - f2("h"))));
 		},
 		p => {
 			const n0 = p._GetNode(0);
@@ -3953,12 +6673,14 @@ self.C3_ExpressionFuncs = [
 		},
 		p => {
 			const f0 = p._GetNode(0).GetBoundMethod();
-			return () => (300 + ((100 + 5) * f0("i")));
+			return () => (180 + ((160 + 15) * f0("i")));
 		},
 		p => {
 			const f0 = p._GetNode(0).GetBoundMethod();
-			return () => (700 - ((f0("j") + 1) * (100 + 5)));
+			return () => (1020 - ((f0("j") + 1) * (160 + 15)));
 		},
+		() => 160,
+		() => 90,
 		p => {
 			const v0 = p._GetNode(0).GetVar();
 			const f1 = p._GetNode(1).GetBoundMethod();
@@ -3967,9 +6689,125 @@ self.C3_ExpressionFuncs = [
 		p => {
 			const n0 = p._GetNode(0);
 			const v1 = p._GetNode(1).GetVar();
-			return () => (n0.ExpObject() + (v1.GetValue() * (100 + 5)));
+			return () => (n0.ExpObject() + (v1.GetValue() * (160 + 15)));
 		},
-		() => "word"
+		p => {
+			const f0 = p._GetNode(0).GetBoundMethod();
+			return () => f0(0, 100);
+		},
+		() => 85,
+		() => "*",
+		() => 5,
+		p => {
+			const f0 = p._GetNode(0).GetBoundMethod();
+			return () => f0(0, 3);
+		},
+		() => 1.5,
+		p => {
+			const n0 = p._GetNode(0);
+			const f1 = p._GetNode(1).GetBoundMethod();
+			const n2 = p._GetNode(2);
+			return () => n0.ExpObject(f1(0, n2.ExpObject()));
+		},
+		() => 110,
+		() => "word",
+		() => "AJAX",
+		() => "words",
+		() => "noPopularSogl",
+		() => "noPopularGlas",
+		() => "popularSogl",
+		() => "popularGlas",
+		p => {
+			const f0 = p._GetNode(0).GetBoundMethod();
+			return () => f0();
+		},
+		() => 6,
+		p => {
+			const n0 = p._GetNode(0);
+			const f1 = p._GetNode(1).GetBoundMethod();
+			return () => n0.ExpObject((and("", f1()) + ".data"));
+		},
+		() => 17,
+		p => {
+			const f0 = p._GetNode(0).GetBoundMethod();
+			return () => (180 + ((160 + 15) * f0("j")));
+		},
+		p => {
+			const f0 = p._GetNode(0).GetBoundMethod();
+			return () => (1020 + ((160 + 15) * f0("i")));
+		},
+		() => 30194,
+		p => {
+			const f0 = p._GetNode(0).GetBoundMethod();
+			const n1 = p._GetNode(1);
+			const f2 = p._GetNode(2).GetBoundMethod();
+			return () => f0(n1.ExpObject((and("", f2()) + ".data")));
+		},
+		p => {
+			const f0 = p._GetNode(0).GetBoundMethod();
+			const v1 = p._GetNode(1).GetVar();
+			const f2 = p._GetNode(2).GetBoundMethod();
+			return () => f0(v1.GetValue(), f2(), 1);
+		},
+		p => {
+			const f0 = p._GetNode(0).GetBoundMethod();
+			const v1 = p._GetNode(1).GetVar();
+			return () => (Math.round(((1.1631 * Math.pow(f0(v1.GetValue()), 2.8407)) / 10)) * 10);
+		},
+		() => "main",
+		() => "default",
+		() => 99,
+		() => "settings",
+		() => "play",
+		() => "Настроек пока нет",
+		p => {
+			const f0 = p._GetNode(0).GetBoundMethod();
+			return () => f0(0, "id");
+		},
+		p => {
+			const f0 = p._GetNode(0).GetBoundMethod();
+			return () => f0(1, "id");
+		},
+		p => {
+			const f0 = p._GetNode(0).GetBoundMethod();
+			return () => f0(2, "id");
+		},
+		p => {
+			const f0 = p._GetNode(0).GetBoundMethod();
+			return () => f0(3, "id");
+		},
+		p => {
+			const v0 = p._GetNode(0).GetVar();
+			const f1 = p._GetNode(1).GetBoundMethod();
+			return () => ((v0.GetValue() - 4) + f1("i"));
+		},
+		() => "name",
+		p => {
+			const f0 = p._GetNode(0).GetBoundMethod();
+			const v1 = p._GetNode(1).GetVar();
+			return () => f0(v1.GetValue(), "name");
+		},
+		() => "score",
+		p => {
+			const f0 = p._GetNode(0).GetBoundMethod();
+			const v1 = p._GetNode(1).GetVar();
+			return () => f0(v1.GetValue(), "score");
+		},
+		() => "place",
+		p => {
+			const f0 = p._GetNode(0).GetBoundMethod();
+			const f1 = p._GetNode(1).GetBoundMethod();
+			return () => f0(f1("i"), "name");
+		},
+		p => {
+			const f0 = p._GetNode(0).GetBoundMethod();
+			const f1 = p._GetNode(1).GetBoundMethod();
+			return () => f0(f1("i"), "score");
+		},
+		p => {
+			const f0 = p._GetNode(0).GetBoundMethod();
+			return () => (f0("i") + 1);
+		}
 ];
 
 
