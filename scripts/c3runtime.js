@@ -6370,18 +6370,18 @@ self.C3_GetObjectRefTable = function () {
 		C3.Plugins.Text.Acts.Destroy,
 		C3.Plugins.Arr.Acts.SetXY,
 		C3.Plugins.System.Cnds.Else,
+		C3.Plugins.Sprite.Acts.SetBoolInstanceVar,
+		C3.Plugins.Text.Acts.SetInstanceVar,
+		C3.Plugins.Sprite.Acts.SetAnimFrame,
 		C3.Plugins.System.Cnds.For,
 		C3.Plugins.System.Exps.loopindex,
 		C3.Plugins.Touch.Cnds.IsTouchingObject,
 		C3.Plugins.System.Cnds.CompareBoolVar,
 		C3.Plugins.Sprite.Cnds.IsBoolInstanceVarSet,
 		C3.Plugins.Arr.Exps.At,
-		C3.Plugins.Sprite.Acts.SetBoolInstanceVar,
-		C3.Plugins.Sprite.Acts.SetAnimFrame,
 		C3.Plugins.Arr.Acts.SetX,
 		C3.Plugins.System.Exps.len,
 		C3.Plugins.Text.Exps.Text,
-		C3.Plugins.Text.Acts.SetInstanceVar,
 		C3.Plugins.System.Acts.AddVar,
 		C3.Behaviors.MoveTo.Acts.MoveToPosition,
 		C3.Plugins.Text.Exps.X,
@@ -6454,6 +6454,8 @@ self.C3_JsPropNameTable = [
 	{leaderboardText: 0},
 	{AJAX: 0},
 	{Слова: 0},
+	{БашняИгрока: 0},
+	{БашняПротивника: 0},
 	{ОтступМеждуБуквами: 0},
 	{РазмерСтороныБуквы: 0},
 	{true: 0},
@@ -6591,6 +6593,7 @@ self.C3_ExpressionFuncs = [
 			return () => n0.ExpInstVar();
 		},
 		() => "",
+		() => 26,
 		() => "i",
 		() => 4,
 		() => "j",
@@ -6634,7 +6637,6 @@ self.C3_ExpressionFuncs = [
 			const v1 = p._GetNode(1).GetVar();
 			return () => (f0(v1.GetValue()) - 1);
 		},
-		() => 26,
 		p => {
 			const v0 = p._GetNode(0).GetVar();
 			return () => (v0.GetValue() + 1);
