@@ -6384,32 +6384,38 @@ self.C3_GetObjectRefTable = function () {
 		C3.Plugins.Text.Exps.Text,
 		C3.Plugins.System.Acts.AddVar,
 		C3.Plugins.System.Cnds.PickLastCreated,
+		C3.Plugins.System.Cnds.IsGroupActive,
+		C3.Plugins.System.Acts.StopLoop,
+		C3.Plugins.System.Acts.CreateObject,
+		C3.Plugins.Sprite.Acts.SetSize,
+		C3.Plugins.Sprite.Acts.SetInstanceVar,
 		C3.Behaviors.MoveTo.Acts.MoveToPosition,
 		C3.Plugins.Text.Exps.X,
 		C3.Plugins.Text.Exps.Y,
-		C3.Plugins.Sprite.Exps.X,
-		C3.Plugins.Sprite.Exps.Y,
-		C3.Plugins.Sprite.Acts.SetInstanceVar,
-		C3.Plugins.System.Acts.StopLoop,
-		C3.Plugins.System.Acts.CreateObject,
+		C3.Plugins.Text.Acts.MoveToTop,
 		C3.Plugins.Text.Acts.SetSize,
 		C3.Plugins.Text.Acts.SetFontSize,
 		C3.Plugins.System.Exps.random,
 		C3.Plugins.Text.Acts.SetText,
 		C3.Plugins.Arr.Exps.Width,
-		C3.Plugins.Sprite.Acts.SetSize,
+		C3.Plugins.Sprite.Exps.X,
+		C3.Plugins.Sprite.Exps.Y,
+		C3.Plugins.Text.Acts.SetFontColor,
+		C3.Plugins.Sprite.Acts.RotateTowardPosition,
+		C3.Plugins.Sprite.Acts.MoveForward,
 		C3.Plugins.System.Acts.Wait,
-		C3.Plugins.System.Cnds.EveryTick,
-		C3.Plugins.System.Cnds.IsGroupActive,
+		C3.Plugins.Json.Exps.Get,
+		C3.Plugins.System.Exps.mid,
+		C3.Plugins.System.Acts.SetFunctionReturnValue,
 		C3.Plugins.AJAX.Acts.RequestFile,
 		C3.Plugins.AJAX.Cnds.OnComplete,
 		C3.Plugins.Json.Acts.Parse,
 		C3.Plugins.AJAX.Exps.LastData,
-		C3.Plugins.Json.Exps.Get,
-		C3.Plugins.System.Exps.mid,
-		C3.Plugins.System.Acts.SetFunctionReturnValue,
-		C3.Plugins.Sprite.Acts.RotateTowardPosition,
-		C3.Plugins.Sprite.Acts.MoveForward,
+		C3.Plugins.Sprite.Acts.SetMirrored,
+		C3.Plugins.Sprite.Acts.MoveToTop,
+		C3.Plugins.Sprite.Acts.SetX,
+		C3.Plugins.Sprite.Acts.SetY,
+		C3.Plugins.Sprite.Acts.SetTowardPosition,
 		C3.Plugins.Sprite.Acts.LoadURL,
 		C3.Plugins.Eponesh_GameScore.Exps.PlayerAvatar,
 		C3.Plugins.Eponesh_GameScore.Acts.PlayerSync,
@@ -6448,7 +6454,7 @@ self.C3_JsPropNameTable = [
 	{МатрицаРазрешённыхВыборов: 0},
 	{ХитБоксБуквы: 0},
 	{ТекущееСлово: 0},
-	{decorationText: 0},
+	{Text: 0},
 	{АватарИгрока: 0},
 	{GameScore: 0},
 	{decoration: 0},
@@ -6460,6 +6466,13 @@ self.C3_JsPropNameTable = [
 	{БашняПротивника: 0},
 	{НомерСтрелкиВСлове: 0},
 	{Стрелка: 0},
+	{Тип: 0},
+	{Бустер: 0},
+	{ОснованиеПушки: 0},
+	{СтволПушки: 0},
+	{Ядро: 0},
+	{СчётИгрока: 0},
+	{СчётБота: 0},
 	{ОтступМеждуБуквами: 0},
 	{РазмерСтороныБуквы: 0},
 	{true: 0},
@@ -6471,16 +6484,21 @@ self.C3_JsPropNameTable = [
 	{РазрешениеНаСборСлова: 0},
 	{СчётчикВыгрузкиМассивовБукв: 0},
 	{Score: 0},
-	{ТекущаяСтрока: 0},
-	{ТекущийСтолбец: 0},
-	{ЕстьЛиЕщёЭлементыСтолбца: 0},
 	{ТребуемоеКоличествоБуквДляСтолбца: 0},
 	{ИндексВероятности: 0},
+	{ЕстьЛиЕщёЭлементыСтолбца: 0},
+	{ВыпалБустер: 0},
+	{СтрелкаСуществует: 0},
+	{ТекущаяСтрока: 0},
+	{ТекущийСтолбец: 0},
 	{ТакогоСловаНет: 0},
 	{ReturnФункции: 0},
 	{СловоДляСравнения: 0},
 	{ЕстьЛиРасхождение: 0},
-	{СтрелкаСуществует: 0},
+	{РостБашни: 0},
+	{ИгрокЦель: 0},
+	{ВыстрелИгрока: 0},
+	{СилаВыстрела: 0},
 	{МестоИгрока: 0},
 	{МестоОтображаемогоИгрокаВТаблице: 0}
 ];
@@ -6642,19 +6660,50 @@ self.C3_ExpressionFuncs = [
 			const v1 = p._GetNode(1).GetVar();
 			return () => (f0(v1.GetValue()) - 1);
 		},
-		p => {
-			const v0 = p._GetNode(0).GetVar();
-			return () => (v0.GetValue() + 1);
-		},
-		p => {
-			const v0 = p._GetNode(0).GetVar();
-			return () => (v0.GetValue() - 1);
-		},
+		() => "МеханикаПоля",
 		p => {
 			const n0 = p._GetNode(0);
 			const f1 = p._GetNode(1).GetBoundMethod();
 			const f2 = p._GetNode(2).GetBoundMethod();
 			return () => n0.ExpObject(f1("j"), f2("i"));
+		},
+		p => {
+			const f0 = p._GetNode(0).GetBoundMethod();
+			return () => (222 + ((140 + 18) * f0("i")));
+		},
+		p => {
+			const f0 = p._GetNode(0).GetBoundMethod();
+			return () => (1105 - ((f0("j") + 1) * (140 + 18)));
+		},
+		() => 140,
+		p => {
+			const v0 = p._GetNode(0).GetVar();
+			const f1 = p._GetNode(1).GetBoundMethod();
+			return () => ((v0.GetValue() - f1("j")) - 1);
+		},
+		p => {
+			const n0 = p._GetNode(0);
+			const v1 = p._GetNode(1).GetVar();
+			return () => (n0.ExpObject() + (v1.GetValue() * (140 + 18)));
+		},
+		() => 90,
+		p => {
+			const f0 = p._GetNode(0).GetBoundMethod();
+			return () => f0(0, 100);
+		},
+		() => 85,
+		() => "*",
+		() => 5,
+		p => {
+			const f0 = p._GetNode(0).GetBoundMethod();
+			return () => f0(0, 3);
+		},
+		() => 1.5,
+		p => {
+			const n0 = p._GetNode(0);
+			const f1 = p._GetNode(1).GetBoundMethod();
+			const n2 = p._GetNode(2);
+			return () => n0.ExpObject(f1(0, n2.ExpObject()));
 		},
 		() => "h",
 		p => {
@@ -6685,63 +6734,28 @@ self.C3_ExpressionFuncs = [
 		},
 		p => {
 			const f0 = p._GetNode(0).GetBoundMethod();
-			return () => (222 + ((140 + 18) * f0("i")));
-		},
-		p => {
-			const f0 = p._GetNode(0).GetBoundMethod();
-			return () => (1105 - ((f0("j") + 1) * (140 + 18)));
-		},
-		() => 140,
-		() => 90,
-		p => {
-			const v0 = p._GetNode(0).GetVar();
-			const f1 = p._GetNode(1).GetBoundMethod();
-			return () => ((v0.GetValue() - f1("j")) - 1);
-		},
-		p => {
-			const n0 = p._GetNode(0);
-			const v1 = p._GetNode(1).GetVar();
-			return () => (n0.ExpObject() + (v1.GetValue() * (140 + 18)));
-		},
-		p => {
-			const f0 = p._GetNode(0).GetBoundMethod();
-			return () => f0(0, 100);
-		},
-		() => 85,
-		() => "*",
-		() => 5,
-		p => {
-			const f0 = p._GetNode(0).GetBoundMethod();
-			return () => f0(0, 3);
-		},
-		() => 1.5,
-		p => {
-			const n0 = p._GetNode(0);
-			const f1 = p._GetNode(1).GetBoundMethod();
-			const n2 = p._GetNode(2);
-			return () => n0.ExpObject(f1(0, n2.ExpObject()));
-		},
-		() => "word",
-		() => "AJAX",
-		() => "words",
-		() => "noPopularSogl",
-		() => "noPopularGlas",
-		() => "popularSogl",
-		() => "popularGlas",
-		() => 6,
-		p => {
-			const n0 = p._GetNode(0);
-			const f1 = p._GetNode(1).GetBoundMethod();
-			return () => n0.ExpObject((and("", f1()) + ".data"));
-		},
-		() => 17,
-		p => {
-			const f0 = p._GetNode(0).GetBoundMethod();
 			return () => (222 + ((140 + 18) * f0("j")));
 		},
 		p => {
 			const f0 = p._GetNode(0).GetBoundMethod();
 			return () => (1105 + ((140 + 18) * f0("i")));
+		},
+		p => {
+			const f0 = p._GetNode(0).GetBoundMethod();
+			return () => f0(0, 10);
+		},
+		() => 7,
+		() => -717750023016447,
+		() => 360,
+		() => 50,
+		() => 80,
+		p => {
+			const v0 = p._GetNode(0).GetVar();
+			return () => (v0.GetValue() + 1);
+		},
+		p => {
+			const v0 = p._GetNode(0).GetVar();
+			return () => (v0.GetValue() - 1);
 		},
 		() => 30194,
 		p => {
@@ -6749,6 +6763,11 @@ self.C3_ExpressionFuncs = [
 			const n1 = p._GetNode(1);
 			const f2 = p._GetNode(2).GetBoundMethod();
 			return () => f0(n1.ExpObject((and("", f2()) + ".data")));
+		},
+		p => {
+			const n0 = p._GetNode(0);
+			const f1 = p._GetNode(1).GetBoundMethod();
+			return () => n0.ExpObject((and("", f1()) + ".data"));
 		},
 		p => {
 			const f0 = p._GetNode(0).GetBoundMethod();
@@ -6766,9 +6785,39 @@ self.C3_ExpressionFuncs = [
 			const v1 = p._GetNode(1).GetVar();
 			return () => (Math.round(((1.1631 * Math.pow(f0(v1.GetValue()), 2.8407)) / 10)) * 100);
 		},
-		() => 360,
-		() => 50,
-		() => 80,
+		() => "AJAX",
+		() => "words",
+		() => "noPopularSogl",
+		() => "noPopularGlas",
+		() => "popularSogl",
+		() => "popularGlas",
+		() => 6,
+		() => 17,
+		() => "МеханикаБашен",
+		() => "peak",
+		p => {
+			const n0 = p._GetNode(0);
+			return () => (n0.ExpObject() - 150);
+		},
+		() => "player",
+		() => 180,
+		() => 110,
+		() => 200,
+		() => 40,
+		p => {
+			const n0 = p._GetNode(0);
+			return () => (n0.ExpObject() + 40);
+		},
+		p => {
+			const n0 = p._GetNode(0);
+			return () => (n0.ExpObject() - 15);
+		},
+		() => "enemy",
+		p => {
+			const n0 = p._GetNode(0);
+			return () => (n0.ExpObject() - 40);
+		},
+		() => 0.5,
 		() => "main",
 		() => "default",
 		() => 99,
